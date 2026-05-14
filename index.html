@@ -17,7 +17,14 @@
         .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
         .input-field { background-color: #1f2937; border: 1px solid #374151; color: white; padding: 10px; border-radius: 8px; width: 100%; font-size: 13px; }
         .input-field:focus { border-color: #dc2626; outline: none; }
+        
+        /* Container para campo com botão de mostrar senha */
+        .password-container { position: relative; width: 100%; }
+        .password-container .input-field { padding-right: 40px; }
+        .toggle-password-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 14px; user-select: none; }
+        
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 5px; }
+        .btn-action:active { transform: scale(0.98); }
         
         .form-cadastro { background-color: #1f2937; border: 1px solid #374151; padding: 14px; border-radius: 12px; margin-bottom: 20px; display: none; flex-direction: column; gap: 10px; }
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #374151; padding-bottom: 4px; margin-top: 10px; }
@@ -47,6 +54,8 @@
         .nav-btn.active { color: #dc2626; }
         .nav-icon { font-size: 18px; }
         .btn-novo { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; padding: 6px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
+        
+        .modal-senha { display: none; flex-direction: column; gap: 12px; background-color: #1f2937; border: 2px solid #dc2626; padding: 16px; border-radius: 12px; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -58,7 +67,7 @@
         </header>
 
         <main id="app-content">
-            <!-- TELA DE LOGIN CORRIGIDA -->
+            <!-- TELA DE LOGIN -->
             <div id="screen-login">
                 <div class="tab-title-container" style="justify-content: center; margin-top: 10px;">
                     <h2 class="tab-title" style="font-size: 13px; color: #ffffff;">Selecione seu Perfil de Acesso</h2>
@@ -72,12 +81,34 @@
                         <option value="atleta">Aluno Atleta</option>
                     </select>
                     
-                    <!-- Campo de Usuário visível apenas para os Alunos cadastrados -->
-                    <input type="text" id="login-user" class="input-field" placeholder="Nome Completo do Aluno" style="display: none;">
+                    <input type="text" id="login-user" class="input-field" placeholder="Nome Completo do Usuário" style="display: none;">
                     
-                    <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha de acesso">
+                    <!-- Campo de Senha com o Olho Opcional -->
+                    <div class="password-container">
+                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha de acesso">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
+                    </div>
+                    
                     <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
                 </div>
+            </div>
+
+            <!-- TELA INTERMEDIÁRIA PARA TROCA DE SENHA OBRIGATÓRIA -->
+            <div id="screen-force-password" class="modal-senha">
+                <h3 style="color:#ef4444; font-size:14px; text-transform:uppercase; text-align:center;">🔒 Primeiro Acesso Detectado</h3>
+                <p style="font-size:12px; color:#9ca3af; text-align:center; margin-bottom:5px;">Por motivos de segurança, você precisa alterar a sua senha inicial antes de prosseguir.</p>
+                
+                <div class="password-container">
+                    <input type="password" id="new-password-1" class="input-field" placeholder="Digite sua Nova Senha">
+                    <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('new-password-1', this)">👁️</button>
+                </div>
+                
+                <div class="password-container">
+                    <input type="password" id="new-password-2" class="input-field" placeholder="Confirme sua Nova Senha">
+                    <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('new-password-2', this)">👁️</button>
+                </div>
+                
+                <button onclick="processarTrocaSenhaOBR()" class="btn-action">Gravar Nova Senha</button>
             </div>
         </main>
 
@@ -91,20 +122,33 @@
     <script>
         let db = JSON.parse(localStorage.getItem('ogroteam_db')) || {
             alunos: [
-                { id: 1, nome: "Carlos Silva", perfil_tipo: "atleta", telefone: "5521999999999", vencimento: "2026-05-10", status: "Em dia", presencas: 12, foto: "", senha_acesso: "ogro123" }
+                { id: 1, nome: "Carlos Silva", perfil_tipo: "atleta", telefone: "5521999999999", vencimento: "2026-05-10", status: "Em dia", presencas: 12, foto: "", senha_acesso: "ogro123", primeiro_acesso: true }
             ]
         };
         
         let currentTab = 'alunos';
         let userRole = 'mestre';
         let base64FotoTemp = "";
+        let usuarioLogadoTemporario = null; 
 
         function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
+
+        // Função universal para mostrar/esconder senha
+        function togglePasswordVisibility(idInput, botao) {
+            const campo = document.getElementById(idInput);
+            if (campo.type === "password") {
+                campo.type = "text";
+                botao.textContent = "🙈";
+            } else {
+                campo.type = "password";
+                botao.textContent = "👁️";
+            }
+        }
 
         function ajustarCamposLogin() {
             const role = document.getElementById('login-role').value;
             const userInput = document.getElementById('login-user');
-            if (role === 'mestre' || role === 'admin') {
+            if (role === 'mestre') {
                 userInput.style.display = 'none';
             } else {
                 userInput.style.display = 'block';
@@ -113,31 +157,61 @@
 
         function autenticar() {
             const role = document.getElementById('login-role').value;
-            const pass = document.getElementById('login-pass').value;
-            const userNome = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value.trim();
+            const userNome = document.getElementById('login-user').value.trim();
 
-            // Validação de Senha Master para Administradores
-            if (role === 'mestre' || role === 'admin') {
-                if (pass !== 'OGROTEAM060207#') {
-                    alert("Senha administrativa incorreta!");
-                    return;
-                }
+            if (role === 'mestre') {
+                if (pass !== 'OGROTEAM060207#') { alert("Senha do mestre incorreta!"); return; }
                 userRole = role;
-            } else {
-                // Validação de Senha de Aluno cadastrado na base de dados
-                if(!userNome) { alert("Por favor, digite seu nome completo!"); return; }
-                const alunoEncontrado = db.alunos.find(a => a.nome.toLowerCase().trim() === userNome.toLowerCase().trim() && a.perfil_tipo === role);
-                
-                if (!alunoEncontrado || alunoEncontrado.senha_acesso !== pass) {
-                    alert("Usuário ou senha inicial não encontrados para este perfil!");
-                    return;
-                }
-                userRole = role;
+                entrarNoPainel();
+                return;
             }
 
+            if(!userNome) { alert("Por favor, digite o Nome Completo associado ao perfil!"); return; }
+            
+            // Busca o usuário limpando espaços extras
+            const usuarioEncontrado = db.alunos.find(a => a.nome.toLowerCase().trim() === userNome.toLowerCase() && a.perfil_tipo === role);
+            
+            if (!usuarioEncontrado || usuarioEncontrado.senha_acesso.trim() !== pass) {
+                alert("Usuário ou senha inválidos para este perfil!");
+                return;
+            }
+
+            usuarioLogadoTemporario = usuarioEncontrado;
+            userRole = role;
+
+            if (usuarioLogadoTemporario.primeiro_acesso === true) {
+                document.getElementById('screen-login').style.display = 'none';
+                document.getElementById('screen-force-password').style.display = 'flex';
+                return;
+            }
+
+            entrarNoPainel();
+        }
+
+        function processarTrocaSenhaOBR() {
+            const nova1 = document.getElementById('new-password-1').value.trim();
+            const nova2 = document.getElementById('new-password-2').value.trim();
+
+            if(!nova1 || !nova2) { alert("Preencha ambos os campos de senha!"); return; }
+            if(nova1 !== nova2) { alert("As senhas informadas não coincidem!"); return; }
+
+            const indice = db.alunos.findIndex(a => a.id === usuarioLogadoTemporario.id);
+            if(indice !== -1) {
+                db.alunos[indice].senha_acesso = nova1;
+                db.alunos[indice].primeiro_acesso = false; 
+                saveDB();
+            }
+
+            alert("🔒 Senha pessoal salva! Entrando no sistema...");
+            document.getElementById('screen-force-password').style.display = 'none';
+            entrarNoPainel();
+        }
+
+        function entrarNoPainel() {
+            document.getElementById('screen-login').style.display = 'none';
             document.getElementById('app-nav').style.display = 'flex';
             
-            // Controle de visualização por nível de acesso
             if (userRole === 'mestre' || userRole === 'admin') {
                 document.getElementById('nav-financeiro').style.display = 'flex';
                 switchTab('alunos');
@@ -157,7 +231,7 @@
         function handleFotoUpload(el) {
             const reader = new FileReader();
             reader.onload = function (e) { base64FotoTemp = e.target.result; };
-            if(el.files[0]) reader.readAsDataURL(el.files[0]);
+            if(el.files && el.files[0]) reader.readAsDataURL(el.files[0]);
         }
 
         function toggleFormCadastro() {
@@ -166,11 +240,11 @@
         }
 
         function salvarNovoCadastro() {
-            const nome = document.getElementById('in-nome').value;
-            const senhaInicial = document.getElementById('in-senha-inicial').value;
+            const nome = document.getElementById('in-nome').value.trim();
+            const senhaInicial = document.getElementById('in-senha-inicial').value.trim();
 
             if(!nome) { alert("O Nome Completo é obrigatório!"); return; }
-            if(!senhaInicial) { alert("Defina uma senha inicial de acesso para este cadastro!"); return; }
+            if(!senhaInicial) { alert("Defina uma senha inicial!"); return; }
 
             const novoAluno = {
                 id: Date.now(),
@@ -179,8 +253,8 @@
                 foto: base64FotoTemp,
                 perfil_tipo: document.getElementById('in-perfil').value,
                 senha_acesso: senhaInicial,
+                primeiro_acesso: true, 
                 
-                // Dados Pessoais
                 nome: nome,
                 cpf: document.getElementById('in-cpf').value,
                 rg: document.getElementById('in-rg').value,
@@ -192,7 +266,6 @@
                 cep: document.getElementById('in-cep').value,
                 vencimento: document.getElementById('in-venc').value || "2026-06-14",
 
-                // Dados Esportivos
                 modalidade: document.getElementById('in-mod').value,
                 categoria: document.getElementById('in-cat').value,
                 graduacao: document.getElementById('in-grad').value,
@@ -202,7 +275,6 @@
                 peso: document.getElementById('in-peso').value,
                 altura: document.getElementById('in-alt').value,
 
-                // Saúde
                 alergias: document.getElementById('in-alergia').value,
                 medicamentos: document.getElementById('in-med').value,
                 lesoes: document.getElementById('in-lesao').value,
@@ -210,13 +282,11 @@
                 sanguineo: document.getElementById('in-sangue').value,
                 plano: document.getElementById('in-plano').value,
 
-                // Responsáveis
                 respNome: document.getElementById('in-respnome').value,
                 respTel: document.getElementById('in-resptel').value,
                 respCpf: document.getElementById('in-respcpf').value,
                 parentesco: document.getElementById('in-parentesco').value,
 
-                // Internas
                 comportamento: document.getElementById('in-comp').value,
                 disciplina: document.getElementById('in-disc').value,
                 obsTecnicas: document.getElementById('in-obstec').value
@@ -227,13 +297,13 @@
             base64FotoTemp = "";
             toggleFormCadastro();
             render();
-            alert("🥋 Matrícula e senha inicial configuradas com sucesso!");
+            alert("🥋 Cadastro salvo com sucesso!");
         }
 
         function registrarPresenca(id) {
             const aluno = db.alunos.find(a => a.id === id);
             if (aluno.status === 'Inadimplente') {
-                alert("❌ BLOQUEADO: " + aluno.nome + " está inadimplente. Regularize com a administração.");
+                alert("❌ BLOQUEADO: " + aluno.nome + " está inadimplente.");
                 return;
             }
             aluno.presencas += 1;
@@ -251,14 +321,13 @@
 
         function enviarCobranca(id) {
             const aluno = db.alunos.find(a => a.id === id);
-            const msg = "Olá, " + aluno.nome + "! Consta uma pendência financeira em aberto na OGRO TEAM. Efetue a regularização para reativar seu check-in de treino. OSS!";
+            const msg = "Olá, " + aluno.nome + "! Consta uma pendência financeira em aberto na OGRO TEAM. OSS!";
             window.open("https://whatsapp.com" + aluno.telefone + "&text=" + encodeURIComponent(msg), '_blank');
         }
 
         function formatarData(dataStr) {
-            if(!dataStr) return "";
-            const partes = dataStr.split('-');
-            return partes[2] + '/' + partes[1] + '/' + partes[0];
+            if(!dataStr) return "Mensal";
+            return dataStr.split('-').reverse().join('/');
         }
 
         function render() {
@@ -275,11 +344,12 @@
                     <div class="form-cadastro" id="form-cad">
                         <span class="section-title">Credenciais de Acesso</span>
                         <select id="in-perfil" class="input-field">
+                            <option value="admin">Modalidade: Administrador</option>
                             <option value="comercial">Modalidade: Aluno Comercial</option>
                             <option value="instrutor">Modalidade: Aluno Instrutor</option>
                             <option value="atleta">Modalidade: Aluno Atleta</option>
                         </select>
-                        <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Inicial do Aluno">
+                        <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Provisória do Integrante">
 
                         <span class="section-title">Perfil e Mídia</span>
                         <input type="file" id="in-foto" class="input-field" accept="image/*" onchange="handleFotoUpload(this)">
@@ -338,7 +408,7 @@
                                     <img src="${a.foto || placeholder}" class="profile-thumb">
                                     <div>
                                         <h3 class="atleta-nome">${a.nome}</h3>
-                                        <p class="atleta-sub">${a.perfil_tipo.toUpperCase()} • 🔥 ${a.presencas} treinos</p>
+                                        <p class="atleta-sub">${a.perfil_tipo.toUpperCase()} • ${a.primeiro_acesso ? '🔑 Provisória' : '🔒 Pessoal'} • 🔥 ${a.presencas} treinos</p>
                                     </div>
                                 </div>
                                 <span class="status-badge ${a.status === 'Em dia' ? 'status-emdia' : 'status-atrasado'}">${a.status.toUpperCase()}</span>
@@ -354,7 +424,7 @@
                 content.innerHTML = `<div class="tab-title-container"><h2 class="tab-title">Módulo de Tesouraria</h2></div><div class="list-space">${db.alunos.map(a => `
                     <div class="card-financeiro">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">Senha: <span style="color:#f87171;font-family:monospace;">${a.senha_acesso}</span></p></div></div>
+                            <div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">Senha Atual: <span style="color:#f87171;font-family:monospace;">${a.senha_acesso}</span></p></div></div>
                             <span class="status-badge ${a.status === 'Em dia' ? 'status-emdia' : 'status-atrasado'}">${a.status}</span>
                         </div>
                         <div class="fin-actions">
