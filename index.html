@@ -19,11 +19,9 @@
         .input-field:focus { border-color: #dc2626; outline: none; }
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 5px; }
         
-        /* Formulário Mestre Seccionado */
         .form-cadastro { background-color: #1f2937; border: 1px solid #374151; padding: 14px; border-radius: 12px; margin-bottom: 20px; display: none; flex-direction: column; gap: 10px; }
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #374151; padding-bottom: 4px; margin-top: 10px; }
         
-        /* Cards */
         .tab-title-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .tab-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #9ca3af; }
         .badge-count { font-size: 10px; background-color: rgba(127, 29, 29, 0.5); border: 1px solid rgba(153, 27, 27, 0.4); padding: 2px 6px; border-radius: 4px; color: #f87171; }
@@ -47,6 +45,7 @@
         nav { background-color: #000000; border-top: 1px solid #1f2937; display: none; justify-content: space-around; padding: 10px; }
         .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; font-size: 10px; font-weight: 600; width: 33%; }
         .nav-btn.active { color: #dc2626; }
+        .nav-icon { font-size: 18px; }
         .btn-novo { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; padding: 6px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
@@ -59,22 +58,24 @@
         </header>
 
         <main id="app-content">
-            <!-- TELA DE LOGIN ATUALIZADA COM OS NOVOS PERFIS -->
+            <!-- TELA DE LOGIN CORRIGIDA -->
             <div id="screen-login">
                 <div class="tab-title-container" style="justify-content: center; margin-top: 10px;">
                     <h2 class="tab-title" style="font-size: 13px; color: #ffffff;">Selecione seu Perfil de Acesso</h2>
                 </div>
                 <div class="login-box">
-                    <select id="login-role" class="input-field">
+                    <select id="login-role" class="input-field" onchange="ajustarCamposLogin()">
                         <option value="mestre">Administrador / Mestre</option>
                         <option value="admin">Administrador</option>
                         <option value="comercial">Aluno Comercial</option>
                         <option value="instrutor">Aluno Instrutor</option>
-                        <option value="aluno">Aluno</option>
                         <option value="atleta">Aluno Atleta</option>
                     </select>
-                    <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha corporativa">
-                    <p style="text-align: center; font-size: 11px; color: #6b7280;">Dica da Equipe: Utilize a senha padrão "123" para testar.</p>
+                    
+                    <!-- Campo de Usuário visível apenas para os Alunos cadastrados -->
+                    <input type="text" id="login-user" class="input-field" placeholder="Nome Completo do Aluno" style="display: none;">
+                    
+                    <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha de acesso">
                     <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
                 </div>
             </div>
@@ -88,11 +89,9 @@
     </div>
 
     <script>
-        // Banco de Dados Limpo e Adaptável
         let db = JSON.parse(localStorage.getItem('ogroteam_db')) || {
             alunos: [
-                { id: 1, nome: "Carlos Silva", perfil_tipo: "aluno", telefone: "5521999999999", vencimento: "2026-05-10", status: "Em dia", presencas: 14, foto: "" },
-                { id: 2, nome: "Mestre Bruno Ramos", perfil_tipo: "mestre", telefone: "5521988888888", vencimento: "2026-05-01", status: "Em dia", presencas: 45, foto: "" }
+                { id: 1, nome: "Carlos Silva", perfil_tipo: "atleta", telefone: "5521999999999", vencimento: "2026-05-10", status: "Em dia", presencas: 12, foto: "", senha_acesso: "ogro123" }
             ]
         };
         
@@ -102,20 +101,49 @@
 
         function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
 
+        function ajustarCamposLogin() {
+            const role = document.getElementById('login-role').value;
+            const userInput = document.getElementById('login-user');
+            if (role === 'mestre' || role === 'admin') {
+                userInput.style.display = 'none';
+            } else {
+                userInput.style.display = 'block';
+            }
+        }
+
         function autenticar() {
+            const role = document.getElementById('login-role').value;
             const pass = document.getElementById('login-pass').value;
-            if (pass !== '123') { alert("Senha inválida!"); return; }
-            
-            userRole = document.getElementById('login-role').value;
+            const userNome = document.getElementById('login-user').value;
+
+            // Validação de Senha Master para Administradores
+            if (role === 'mestre' || role === 'admin') {
+                if (pass !== 'OGROTEAM060207#') {
+                    alert("Senha administrativa incorreta!");
+                    return;
+                }
+                userRole = role;
+            } else {
+                // Validação de Senha de Aluno cadastrado na base de dados
+                if(!userNome) { alert("Por favor, digite seu nome completo!"); return; }
+                const alunoEncontrado = db.alunos.find(a => a.nome.toLowerCase().trim() === userNome.toLowerCase().trim() && a.perfil_tipo === role);
+                
+                if (!alunoEncontrado || alunoEncontrado.senha_acesso !== pass) {
+                    alert("Usuário ou senha inicial não encontrados para este perfil!");
+                    return;
+                }
+                userRole = role;
+            }
+
             document.getElementById('app-nav').style.display = 'flex';
             
-            // Restrições de Perfil
-            if (userRole === 'aluno' || userRole === 'atleta') {
-                document.getElementById('nav-financeiro').style.display = 'none';
-                switchTab('chamada');
-            } else {
+            // Controle de visualização por nível de acesso
+            if (userRole === 'mestre' || userRole === 'admin') {
                 document.getElementById('nav-financeiro').style.display = 'flex';
                 switchTab('alunos');
+            } else {
+                document.getElementById('nav-financeiro').style.display = 'none';
+                switchTab('chamada');
             }
         }
 
@@ -139,7 +167,10 @@
 
         function salvarNovoCadastro() {
             const nome = document.getElementById('in-nome').value;
+            const senhaInicial = document.getElementById('in-senha-inicial').value;
+
             if(!nome) { alert("O Nome Completo é obrigatório!"); return; }
+            if(!senhaInicial) { alert("Defina uma senha inicial de acesso para este cadastro!"); return; }
 
             const novoAluno = {
                 id: Date.now(),
@@ -147,6 +178,7 @@
                 status: "Em dia",
                 foto: base64FotoTemp,
                 perfil_tipo: document.getElementById('in-perfil').value,
+                senha_acesso: senhaInicial,
                 
                 // Dados Pessoais
                 nome: nome,
@@ -195,13 +227,13 @@
             base64FotoTemp = "";
             toggleFormCadastro();
             render();
-            alert("🥋 Cadastro corporativo realizado com sucesso!");
+            alert("🥋 Matrícula e senha inicial configuradas com sucesso!");
         }
 
         function registrarPresenca(id) {
             const aluno = db.alunos.find(a => a.id === id);
             if (aluno.status === 'Inadimplente') {
-                alert("❌ BLOQUEADO: " + aluno.nome + " está inadimplente. Regularize na secretaria.");
+                alert("❌ BLOQUEADO: " + aluno.nome + " está inadimplente. Regularize com a administração.");
                 return;
             }
             aluno.presencas += 1;
@@ -219,8 +251,14 @@
 
         function enviarCobranca(id) {
             const aluno = db.alunos.find(a => a.id === id);
-            const msg = "Olá, " + aluno.nome + "! A mensalidade da sua matrícula técnica na OGRO TEAM consta pendente no sistema. Realize o pagamento para liberar seu check-in no tatame. OSS!";
+            const msg = "Olá, " + aluno.nome + "! Consta uma pendência financeira em aberto na OGRO TEAM. Efetue a regularização para reativar seu check-in de treino. OSS!";
             window.open("https://whatsapp.com" + aluno.telefone + "&text=" + encodeURIComponent(msg), '_blank');
+        }
+
+        function formatarData(dataStr) {
+            if(!dataStr) return "";
+            const partes = dataStr.split('-');
+            return partes[2] + '/' + partes[1] + '/' + partes[0];
         }
 
         function render() {
@@ -230,79 +268,77 @@
             if (currentTab === 'alunos') {
                 content.innerHTML = `
                     <div class="tab-title-container">
-                        <h2 class="tab-title">Atletas Registrados</h2>
-                        ${(userRole !== 'aluno' && userRole !== 'atleta') ? '<button class="btn-novo" onclick="toggleFormCadastro()">+ Novo Aluno</button>' : ''}
+                        <h2 class="tab-title">Integrantes Cadastrados</h2>
+                        ${(userRole === 'mestre' || userRole === 'admin') ? '<button class="btn-novo" onclick="toggleFormCadastro()">+ Adicionar</button>' : ''}
                     </div>
 
-                    <!-- FORMULÁRIO DE CADASTRO COM TODOS OS CAMPOS SOLICITADOS -->
                     <div class="form-cadastro" id="form-cad">
-                        <span class="section-title">Perfil e Mídia</span>
+                        <span class="section-title">Credenciais de Acesso</span>
                         <select id="in-perfil" class="input-field">
-                            <option value="mestre">Modalidade Perfil: Administrador / Mestre</option>
-                            <option value="admin">Modalidade Perfil: Administrador</option>
-                            <option value="comercial">Modalidade Perfil: Aluno Comercial</option>
-                            <option value="instrutor">Modalidade Perfil: Aluno Instrutor</option>
-                            <option value="aluno">Modalidade Perfil: Aluno</option>
-                            <option value="atleta">Modalidade Perfil: Aluno Atleta</option>
+                            <option value="comercial">Modalidade: Aluno Comercial</option>
+                            <option value="instrutor">Modalidade: Aluno Instrutor</option>
+                            <option value="atleta">Modalidade: Aluno Atleta</option>
                         </select>
-                        <span style="font-size:11px;color:#9ca3af;">Anexar Foto de Perfil:</span>
+                        <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Inicial do Aluno">
+
+                        <span class="section-title">Perfil e Mídia</span>
                         <input type="file" id="in-foto" class="input-field" accept="image/*" onchange="handleFotoUpload(this)">
 
                         <span class="section-title">Dados Pessoais</span>
                         <input type="text" id="in-nome" class="input-field" placeholder="Nome Completo">
                         <input type="text" id="in-cpf" class="input-field" placeholder="CPF">
                         <input type="text" id="in-rg" class="input-field" placeholder="RG">
-                        <input type="date" id="in-nasc" class="input-field" placeholder="Data de Nascimento">
+                        <input type="date" id="in-nasc" class="input-field">
                         <select id="in-sexo" class="input-field">
                             <option value="Masculino">Sexo: Masculino</option>
                             <option value="Feminino">Sexo: Feminino</option>
                         </select>
                         <input type="tel" id="in-tel" class="input-field" placeholder="WhatsApp (DDD + Número)">
                         <input type="email" id="in-email" class="input-field" placeholder="E-mail">
-                        <input type="text" id="in-end" class="input-field" placeholder="Endereço Completo">
+                        <input type="text" id="in-end" class="input-field" placeholder="Endereço">
                         <input type="text" id="in-cep" class="input-field" placeholder="CEP">
-                        <input type="date" id="in-venc" class="input-field" placeholder="Data de Próximo Vencimento">
+                        <input type="date" id="in-venc" class="input-field">
 
                         <span class="section-title">Dados Esportivos</span>
-                        <input type="text" id="in-mod" class="input-field" placeholder="Modalidade Principal (Ex: Jiu-Jitsu)">
-                        <input type="text" id="in-cat" class="input-field" placeholder="Categoria de Peso / Idade">
-                        <input type="text" id="in-grad" class="input-field" placeholder="Graduação / Faixa / Graus">
-                        <input type="text" id="in-prof" class="input-field" placeholder="Professor Responsável">
-                        <input type="date" id="in-ent" class="input-field" placeholder="Data de Entrada na Equipe">
-                        <input type="text" id="in-obj" class="input-field" placeholder="Objetivo (Competição, Saúde etc.)">
+                        <input type="text" id="in-mod" class="input-field" placeholder="Modalidade">
+                        <input type="text" id="in-cat" class="input-field" placeholder="Categoria">
+                        <input type="text" id="in-grad" class="input-field" placeholder="Graduação / Faixa">
+                        <input type="text" id="in-prof" class="input-field" placeholder="Professor">
+                        <input type="date" id="in-ent" class="input-field">
+                        <input type="text" id="in-obj" class="input-field" placeholder="Objetivo">
                         <input type="text" id="in-peso" class="input-field" placeholder="Peso Atual (Kg)">
-                        <input type="text" id="in-alt" class="input-field" placeholder="Altura (Ex: 1.75)">
+                        <input type="text" id="in-alt" class="input-field" placeholder="Altura">
 
-                        <span class="section-title">Prontuário de Saúde</span>
+                        <span class="section-title">Saúde</span>
                         <input type="text" id="in-alergia" class="input-field" placeholder="Alergias">
-                        <input type="text" id="in-med" class="input-field" placeholder="Medicamentos em Uso">
-                        <input type="text" id="in-lesao" class="input-field" placeholder="Lesões Históricas / Atuais">
+                        <input type="text" id="in-med" class="input-field" placeholder="Medicamentos">
+                        <input type="text" id="in-lesao" class="input-field" placeholder="Lesões">
                         <input type="text" id="in-rest" class="input-field" placeholder="Restrições Médicas">
                         <input type="text" id="in-sangue" class="input-field" placeholder="Tipo Sanguíneo">
-                        <input type="text" id="in-plano" class="input-field" placeholder="Plano de Saúde (Se possuir)">
+                        <input type="text" id="in-plano" class="input-field" placeholder="Plano de Saúde">
 
-                        <span class="section-title">Responsáveis (Menores de Idade)</span>
+                        <span class="section-title">Responsáveis</span>
                         <input type="text" id="in-respnome" class="input-field" placeholder="Nome do Responsável">
                         <input type="tel" id="in-resptel" class="input-field" placeholder="Telefone do Responsável">
                         <input type="text" id="in-respcpf" class="input-field" placeholder="CPF do Responsável">
-                        <input type="text" id="in-parentesco" class="input-field" placeholder="Grau de Parentesco">
+                        <input type="text" id="in-parentesco" class="input-field" placeholder="Parentesco">
 
                         <span class="section-title">Observações Internas</span>
-                        <input type="text" id="in-comp" class="input-field" placeholder="Avaliação de Comportamento">
-                        <input type="text" id="in-disc" class="input-field" placeholder="Histórico de Disciplina">
-                        <input type="text" id="in-obstec" class="input-field" placeholder="Observações Técnicas do Mestre">
+                        <input type="text" id="in-comp" class="input-field" placeholder="Comportamento">
+                        <input type="text" id="in-disc" class="input-field" placeholder="Disciplina">
+                        <input type="text" id="in-obstec" class="input-field" placeholder="Observações Técnicas">
 
-                        <button onclick="salvarNovoCadastro()" class="btn-action">Finalizar Matrícula</button>
+                        <button onclick="salvarNovoCadastro()" class="btn-action">Salvar Matrícula</button>
                     </div>
 
                     <div class="list-space">
                         ${db.alunos.map(a => `
                             <div class="card-atleta">
                                 <div class="atleta-info-group">
-                                    <img src="${a.foto || placeholder}" class="profile-thumb" alt="Foto Atleta">
+                                    <img src="${a.foto || placeholder}" class="profile-thumb">
                                     <div>
                                         <h3 class="atleta-nome">${a.nome}</h3>
-                                        <p class="atleta-sub">Regime: ${a.perfil_tipo.toUpperCase()} • 🔥 ${a.presencas} treinos</p>
+                                        <p class="atleta-sub">${a.perfil_tipo.toUpperCase()} • 🔥 ${a.presencas} treinos</p>
                                     </div>
                                 </div>
                                 <span class="status-badge ${a.status === 'Em dia' ? 'status-emdia' : 'status-atrasado'}">${a.status.toUpperCase()}</span>
@@ -312,13 +348,13 @@
                 `;
             }
             if (currentTab === 'chamada') {
-                content.innerHTML = `<div class="tab-title-container"><h2 class="tab-title">Controle de Entrada</h2></div><div class="list-space">${db.alunos.map(a => `<div class="card-atleta"><div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">${a.perfil_tipo}</p></div></div><button onclick="registrarPresenca(${a.id})" class="btn-checkin">OSSO!</button></div>`).join('')}</div>`;
+                content.innerHTML = `<div class="tab-title-container"><h2 class="tab-title">Controle de Entrada</h2></div><div class="list-space">${db.alunos.map(a => `<div class="card-atleta"><div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">${a.perfil_tipo.toUpperCase()}</p></div></div><button onclick="registrarPresenca(${a.id})" class="btn-checkin">OSSO!</button></div>`).join('')}</div>`;
             }
             if (currentTab === 'financeiro') {
                 content.innerHTML = `<div class="tab-title-container"><h2 class="tab-title">Módulo de Tesouraria</h2></div><div class="list-space">${db.alunos.map(a => `
                     <div class="card-financeiro">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">Venc: ${a.vencimento || 'Mensal'}</p></div></div>
+                            <div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">Senha: <span style="color:#f87171;font-family:monospace;">${a.senha_acesso}</span></p></div></div>
                             <span class="status-badge ${a.status === 'Em dia' ? 'status-emdia' : 'status-atrasado'}">${a.status}</span>
                         </div>
                         <div class="fin-actions">
@@ -332,4 +368,3 @@
     </script>
 </body>
 </html>
-            
