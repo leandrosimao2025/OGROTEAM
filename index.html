@@ -1,7 +1,111 @@
-  File "/home/repl144/main.py", line 65
-    alert(`❌ ACESSO NEGADO para ${aluno.nome}.\nMotivo: Mensalidade vencida em ${formatarData(aluno.vencimento)}. Regularize o caixa para treinar.`);
-           ^
-SyntaxError: invalid character '❌' (U+274C)
-
-
-** Process exited - Return Code: 1 **
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ogro Team - Sistema de Gestão</title>
+    <script src="https://tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cloudflare.com">
+</head>
+<body class="bg-gray-950 text-gray-100 font-sans min-h-screen flex justify-center">
+    <div class="w-full max-w-md bg-gray-900 shadow-2xl flex flex-col justify-between relative overflow-hidden border-x border-gray-800">
+        <header class="bg-black p-4 flex flex-col items-center border-b border-red-900/50">
+            <div class="w-28 h-28 mb-1 flex items-center justify-center">
+                <img src="logo.png" alt="Ogro Team Logo" class="max-w-full max-h-full object-contain">
+            </div>
+            <span class="text-xs font-black tracking-widest text-red-500 uppercase bg-red-950/40 px-3 py-1 rounded-full border border-red-800/30">
+                Escola de Campeões
+            </span>
+        </header>
+        <main class="flex-1 p-4 overflow-y-auto" id="app-content"></main>
+        <nav class="bg-black border-t border-gray-800 flex justify-around p-3 text-gray-500">
+            <button onclick="switchTab('alunos')" id="nav-alunos" class="flex flex-col items-center gap-1 text-red-500">
+                <i class="fa-solid fa-users text-lg"></i>
+                <span class="text-xs font-semibold">Alunos</span>
+            </button>
+            <button onclick="switchTab('chamada')" id="nav-chamada" class="flex flex-col items-center gap-1">
+                <i class="fa-solid fa-clipboard-user text-lg"></i>
+                <span class="text-xs font-semibold">Chamada</span>
+            </button>
+            <button onclick="switchTab('financeiro')" id="nav-financeiro" class="flex flex-col items-center gap-1">
+                <i class="fa-solid fa-wallet text-lg"></i>
+                <span class="text-xs font-semibold">Financeiro</span>
+            </button>
+        </nav>
+    </div>
+    <script>
+        let db = JSON.parse(localStorage.getItem('ogroteam_db')) || {
+            alunos: [
+                { id: 1, nome: "Carlos Silva", telefone: "5521999999999", vencimento: "2026-05-10", status: "Em dia", presencas: 12 },
+                { id: 2, nome: "Bruno Ramos", telefone: "5521988888888", vencimento: "2026-05-01", status: "Inadimplente", presencas: 8 },
+                { id: 3, nome: "Amanda Costa", telefone: "5521977777777", vencimento: "2026-05-20", status: "Em dia", presencas: 20 }
+            ]
+        };
+        let currentTab = 'alunos';
+        function verificarPrazos() {
+            const hoje = new Date();
+            db.alunos.forEach(aluno => {
+                const dataVenc = new Date(aluno.vencimento);
+                if (hoje > dataVenc && aluno.status !== 'Inadimplente') {
+                    aluno.status = 'Inadimplente';
+                }
+            });
+            saveDB();
+        }
+        function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('text-red-500'));
+            document.getElementById('nav-' + tab).classList.add('text-red-500');
+            render();
+        }
+        function registrarPresenca(id) {
+            const aluno = db.alunos.find(a => a.id === id);
+            if (aluno.status === 'Inadimplente') {
+                alert("ACESSO NEGADO para " + aluno.nome + ".\nMotivo: Mensalidade vencida. Regularize o caixa para treinar.");
+                return;
+            }
+            aluno.presencas += 1;
+            saveDB();
+            alert("CHECK-IN CONFIRMADO!\n" + aluno.nome + " está pronto para o combate. OSS!");
+            render();
+        }
+        function alternarStatusFinanceiro(id) {
+            const aluno = db.alunos.find(a => a.id === id);
+            if (aluno.status === 'Em dia') {
+                aluno.status = 'Inadimplente';
+            } else {
+                aluno.status = 'Em dia';
+                let data = new Date();
+                data.setMonth(data.getMonth() + 1);
+                aluno.vencimento = data.toISOString().split('T')[0]; 
+            }
+            saveDB();
+            render();
+        }
+        function enviarCobranca(id) {
+            const aluno = db.alunos.find(a => a.id === id);
+            const msg = "Olá, " + aluno.nome + "! Vimos que sua mensalidade da OGRO TEAM venceu e o check-in do tatame foi pausado automaticamente. Realize o pagamento para liberar seu acesso. Chave PIX: pix@ogroteam.com. OSS!";
+            window.open("https://whatsapp.com" + aluno.telefone + "&text=" + encodeURIComponent(msg), '_blank');
+        }
+        function formatarData(dataStr) {
+            const partes = dataStr.split('-');
+            return partes[2] + '/' + partes[1] + '/' + partes[0];
+        }
+        function render() {
+            const content = document.getElementById('app-content');
+            if (currentTab === 'alunos') {
+                content.innerHTML = '<div class="flex justify-between items-center mb-4"><h2 class="text-sm font-bold uppercase tracking-wider text-gray-400">Plantel Ogro Team</h2><span class="text-xs bg-red-950/60 border border-red-900/40 px-2 py-0.5 rounded text-red-400 font-mono">' + db.alunos.length + ' Atletas</span></div><div class="space-y-3">' + db.alunos.map(a => '<div class="bg-gray-900 border border-gray-800 p-3 rounded-xl flex justify-between items-center"><div><h3 class="font-bold text-gray-100">' + a.nome + '</h3><p class="text-xs text-gray-500 flex items-center gap-1 mt-1"><i class="fa-solid fa-fire text-red-500"></i> ' + a.presencas + ' treinos</p></div><span class="px-2 py-1 rounded-lg text-xs font-black tracking-wide ' + (a.status === 'Em dia' ? 'bg-green-950 text-green-400 border border-green-900' : 'bg-red-950 text-red-400 border border-red-900') + '">' + a.status.toUpperCase() + '</span></div>').join('') + '</div>';
+            }
+            if (currentTab === 'chamada') {
+                content.innerHTML = '<h2 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Frequência Diária</h2><div class="space-y-2">' + db.alunos.map(a => '<div class="bg-gray-900 border border-gray-800 p-3 rounded-xl flex justify-between items-center"><div><h3 class="font-bold text-gray-200">' + a.nome + '</h3><p class="text-xs ' + (a.status === 'Em dia' ? 'text-green-500' : 'text-red-500') + ' font-bold mt-0.5">' + a.status + '</p></div><button onclick="registrarPresenca(' + a.id + ')" class="bg-red-600 text-white text-xs font-black px-4 py-2 rounded-lg">OSSO!</button></div>').join('') + '</div>';
+            }
+            if (currentTab === 'financeiro') {
+                content.innerHTML = '<h2 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Controle de Caixa</h2><div class="space-y-3">' + db.alunos.map(a => '<div class="bg-gray-900 border border-gray-800 p-3 rounded-xl"><div class="flex justify-between items-start mb-2"><div><h3 class="font-bold text-gray-100">' + a.nome + '</h3><p class="text-xs text-gray-500 mt-1">Vencimento: <span class="font-mono text-gray-300">' + formatarData(a.vencimento) + '</span></p></div><span class="px-2 py-0.5 rounded text-xs font-bold ' + (a.status === 'Em dia' ? 'bg-green-950 text-green-400' : 'bg-red-950 text-red-400') + '">' + a.status + '</span></div><div class="flex gap-2 mt-3 pt-3 border-t border-gray-800"><button onclick="alternarStatusFinanceiro(' + a.id + ')" class="flex-1 bg-gray-800 text-xs py-2 rounded-lg font-bold text-gray-300">' + (a.status === 'Em dia' ? 'Marcar Atraso' : 'Confirmar Pgto') + '</button>' + (a.status === 'Inadimplente' ? '<button onclick="enviarCobranca(' + a.id + ')" class="bg-green-700 text-white text-xs px-3 py-2 rounded-lg font-black flex items-center gap-1"><i class="fa-brands fa-whatsapp text-sm"></i> Cobrar</button>' : '') + '</div></div>').join('') + '</div>';
+            }
+        }
+        verificarPrazos();
+        render();
+    </script>
+</body>
+</html>
