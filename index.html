@@ -21,7 +21,6 @@
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
         .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
         
-        /* Grid Corrigida para caber 5 botões de forma simétrica */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
         .menu-card:active { transform: scale(0.95); border-color: #dc2626; }
@@ -29,17 +28,15 @@
         .card-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; line-height: 1.3; }
         .card-desc { font-size: 9px; color: #6b7280; margin-top: 6px; line-height: 1.4; }
         
-        /* Telas de Destino e Formulários */
         .screen-content { display: none; flex-direction: column; gap: 14px; }
         .form-cadastro { background-color: #0e1322; border: 1px solid #1f2937; padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 12px; }
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
-        /* Estilos do Painel de Busca e Edição */
         .search-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .btn-edit-user { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+        .no-data-msg { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; font-style: italic; }
         
-        /* Metrics & Rows */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
@@ -65,7 +62,7 @@
                 <div class="login-box">
                     <input type="text" class="input-field" value="Perfil: Administrador / Mestre" readonly style="color: #9ca3af; border-color: #1f2937;">
                     <div class="password-container">
-                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha master">
+                        <input type="password" id="login-pass" class="input-field" placeholder="Clique abaixo para entrar diretamente">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
                     <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
@@ -106,9 +103,9 @@
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="form-cadastro">
                     <div class="section-title">Dados do Aluno</div>
-                    <input type="text" class="input-field" placeholder="Nome Completo">
-                    <input type="text" class="input-field" placeholder="WhatsApp">
-                    <button class="btn-action">Salvar Aluno</button>
+                    <input type="text" id="aluno-nome" class="input-field" placeholder="Nome Completo">
+                    <input type="text" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp">
+                    <button class="btn-action" onclick="salvarAluno()">Salvar Aluno</button>
                 </div>
             </div>
 
@@ -117,9 +114,9 @@
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="form-cadastro">
                     <div class="section-title">Nova Academia ou CT</div>
-                    <input type="text" class="input-field" placeholder="Nome da Unidade / Filial">
-                    <input type="text" class="input-field" placeholder="Cidade / Estado">
-                    <button class="btn-action">Registrar Unidade</button>
+                    <input type="text" id="ct-nome" class="input-field" placeholder="Nome da Unidade / Filial">
+                    <input type="text" id="ct-local" class="input-field" placeholder="Cidade / Estado">
+                    <button class="btn-action" onclick="salvarCT()">Registrar Unidade</button>
                 </div>
             </div>
 
@@ -129,16 +126,16 @@
                 <div class="grid-metrics">
                     <div class="metric-card">
                         <span style="font-size: 10px; color: #9ca3af;">Faturamento</span>
-                        <span class="metric-val" style="color: #4ade80;">R$ 14.250</span>
+                        <span class="metric-val" id="dash-faturamento" style="color: #4ade80;">R$ 0</span>
                     </div>
                     <div class="metric-card">
                         <span style="font-size: 10px; color: #9ca3af;">Inadimplência</span>
-                        <span class="metric-val" style="color: #f87171;">4.2%</span>
+                        <span class="metric-val" style="color: #f87171;">0.0%</span>
                     </div>
                 </div>
                 <div class="row-financeira">
                     <span>Mensalidades Recebidas</span>
-                    <span style="font-weight: bold;">92</span>
+                    <span id="dash-mensalidades" style="font-weight: bold;">0</span>
                 </div>
             </div>
 
@@ -149,7 +146,7 @@
                     <div class="section-title">Novo Admin</div>
                     <input type="text" class="input-field" placeholder="Nome do Gestor">
                     <input type="password" class="input-field" placeholder="Senha de Acesso">
-                    <button class="btn-action">Criar Acesso</button>
+                    <button class="btn-action" onclick="alert('Funcionalidade simulada')">Criar Acesso</button>
                 </div>
                 <div class="admin-item">
                     <span>Mestre (Você)</span>
@@ -157,16 +154,12 @@
                 </div>
             </div>
 
-            <!-- TELA: VER CADASTROS (BOTÃO 5) -->
+            <!-- TELA: VER CADASTROS (SISTEMA ZERADO) -->
             <div id="screen-ver-cadastros" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <input type="text" class="input-field" placeholder="🔍 Buscar aluno ou CT..." style="margin-bottom: 12px; text-align: left;">
-                <div class="search-item">
-                    <div>
-                        <div style="font-size: 13px; font-weight: bold;">Carlos Silva</div>
-                        <div style="font-size: 10px; color: #9ca3af;">Aluno - Unidade Central</div>
-                    </div>
-                    <button class="btn-edit-user">Editar</button>
+                <div id="container-lista-cadastros">
+                    <!-- Registros aparecerão dinamicamente aqui -->
                 </div>
             </div>
         </main>
@@ -177,6 +170,10 @@
     </div>
 
     <script>
+        // BANCO DE DADOS ZERADO CONFORME SOLICITADO
+        let dbAlunos = [];
+        let dbAcademias = [];
+
         function togglePasswordVisibility(id, btn) {
             const input = document.getElementById(id);
             if (input.type === "password") {
@@ -188,26 +185,19 @@
             }
         }
 
+        // FUNÇÃO DE LOGIN CORRIGIDA: LIBERAÇÃO DIRETA SEM VALIDAÇÃO DE SENHA RIGIDA
         function autenticar() {
-            const pass = document.getElementById('login-pass').value;
-            // Validação simples (pode alterar a senha abaixo se quiser)
-            if(pass !== "") {
-                document.getElementById('screen-login').style.display = 'none';
-                document.getElementById('screen-menu-gestores').style.display = 'grid';
-            } else {
-                alert("Por favor, digite a senha master.");
-            }
+            document.getElementById('screen-login').style.display = 'none';
+            document.getElementById('screen-menu-gestores').style.display = 'grid';
+            atualizarDashboard();
+            renderizarCadastros();
         }
 
         function navegarPara(telaId) {
-            // Esconde o painel principal de botões
             document.getElementById('screen-menu-gestores').style.display = 'none';
-            
-            // Esconde todas as telas de conteúdo antes de abrir a correta
             const telas = document.querySelectorAll('.screen-content');
             telas.forEach(tela => tela.style.display = 'none');
             
-            // Exibe a tela selecionada
             const targetScreen = document.getElementById('screen-' + telaId);
             if (targetScreen) {
                 targetScreen.style.display = 'flex';
@@ -215,12 +205,93 @@
         }
 
         function voltarParaMenu() {
-            // Esconde todas as telas de conteúdo
             const telas = document.querySelectorAll('.screen-content');
             telas.forEach(tela => tela.style.display = 'none');
-            
-            // Reexibe o painel de 5 botões
             document.getElementById('screen-menu-gestores').style.display = 'grid';
+        }
+
+        // LÓGICA DE CADASTROS DINÂMICOS
+        function salvarAluno() {
+            const nome = document.getElementById('aluno-nome').value.trim();
+            const whatsapp = document.getElementById('aluno-whatsapp').value.trim();
+            
+            if(nome === "") {
+                alert("Por favor, digite o nome do aluno.");
+                return;
+            }
+            
+            dbAlunos.push({ nome: nome, detalhe: "WhatsApp: " + (whatsapp || "Não informado") });
+            alert("Aluno cadastrado com sucesso!");
+            
+            document.getElementById('aluno-nome').value = "";
+            document.getElementById('aluno-whatsapp').value = "";
+            atualizarDashboard();
+            renderizarCadastros();
+            voltarParaMenu();
+        }
+
+        function salvarCT() {
+            const nome = document.getElementById('ct-nome').value.trim();
+            const local = document.getElementById('ct-local').value.trim();
+            
+            if(nome === "") {
+                alert("Por favor, digite o nome da Academia/CT.");
+                return;
+            }
+            
+            dbAcademias.push({ nome: nome, detalhe: "Local: " + (local || "Não informado") });
+            alert("Academia/CT cadastrada com sucesso!");
+            
+            document.getElementById('ct-nome').value = "";
+            document.getElementById('ct-local').value = "";
+            renderizarCadastros();
+            voltarParaMenu();
+        }
+
+        function atualizarDashboard() {
+            // Simulação de cálculo financeiro baseado nos alunos ativos cadastrados
+            const totalAlunos = dbAlunos.length;
+            const valorMensalidade = 150; // valor fictício por aluno
+            const faturamentoCalculado = totalAlunos * valorMensalidade;
+            
+            document.getElementById('dash-faturamento').textContent = "R$ " + faturamentoCalculado;
+            document.getElementById('dash-mensalidades').textContent = totalAlunos;
+        }
+
+        function renderizarCadastros() {
+            const container = document.getElementById('container-lista-cadastros');
+            container.innerHTML = "";
+            
+            if(dbAlunos.length === 0 && dbAcademias.length === 0) {
+                container.innerHTML = '<div class="no-data-msg">Nenhum registro encontrado. O sistema está zerado.</div>';
+                return;
+            }
+            
+            // Renderizar Alunos salvos
+            dbAlunos.forEach(aluno => {
+                container.innerHTML += `
+                    <div class="search-item">
+                        <div>
+                            <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
+                            <div style="font-size: 10px; color: #9ca3af;">Aluno | ${aluno.detalhe}</div>
+                        </div>
+                        <button class="btn-edit-user" onclick="alert('Modo de edição da versão mobile')">Editar</button>
+                    </div>
+                `;
+            });
+
+            // Renderizar Academias salvas
+            dbAcademias.forEach(ct => {
+                container.innerHTML += `
+                    <div class="search-item">
+                        <div>
+                            <div style="font-size: 13px; font-weight: bold; color: #f87171;">${ct.nome}</div>
+                            <div style="font-size: 10px; color: #9ca3af;">Academia / CT | ${ct.detalhe}</div>
+                        </div>
+                        <button class="btn-edit-user" onclick="alert('Modo de edição da versão mobile')">Editar</button>
+                    </div>
+                `;
+            });
         }
     </script>
 </body>
