@@ -3,89 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ogro Team - Sistema Corporativo</title>
+    <title>Ogro Team - Gestores</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #0b0f19; color: #f3f4f6; display: flex; justify-content: center; min-height: 100vh; }
-        .app-container { width: 100%; max-width: 412px; background-color: #111827; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid #1f2937; border-right: 1px solid #1f2937; min-height: 100vh; position: relative; }
-        header { background-color: #000000; padding: 14px; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid rgba(127, 29, 29, 0.4); }
-        .logo-box { width: 100px; height: 100px; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; }
-        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .slogan { font-size: 10px; font-weight: 900; letter-spacing: 0.15em; color: #ef4444; text-transform: uppercase; background-color: rgba(127, 29, 29, 0.3); padding: 4px 12px; border-radius: 9999px; border: 1px solid rgba(185, 28, 28, 0.3); }
-        main { flex: 1; padding: 16px; overflow-y: auto; padding-bottom: 40px; }
+        body { background-color: #060913; color: #f3f4f6; display: flex; justify-content: center; min-height: 100vh; }
         
-        .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
-        .input-field { background-color: #1f2937; border: 1px solid #374151; color: white; padding: 10px; border-radius: 8px; width: 100%; font-size: 13px; }
+        /* Container blindado na proporção exata da tela do celular */
+        .app-container { width: 100%; max-width: 412px; background-color: #060913; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid #1f2937; border-right: 1px solid #1f2937; min-height: 100vh; position: relative; }
+        
+        /* Topo do App */
+        header { background-color: #000000; padding: 24px 14px 16px 14px; display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
+        .logo-box { width: 130px; height: 130px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
+        .logo-box img { max-w: 100%; max-height: 100%; object-fit: contain; }
+        .sub-header-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.15em; margin-bottom: 4px; }
+        .slogan { font-size: 15px; font-weight: 900; letter-spacing: 0.05em; color: #ffffff; text-transform: uppercase; font-style: italic; text-align: center; }
+        .destaque-gestores { font-size: 20px; font-weight: 900; color: #dc2626; text-transform: uppercase; font-style: italic; margin-top: 2px; letter-spacing: 0.05em; }
+        
+        main { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; }
+        
+        /* Interface de Login */
+        .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
+        .input-field { background-color: #111827; border: 1px solid #374151; color: white; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
-        
-        /* Container para campo com botão de mostrar senha */
         .password-container { position: relative; width: 100%; }
-        .password-container .input-field { padding-right: 40px; }
-        .toggle-password-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 14px; user-select: none; }
-        
-        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 12px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 5px; }
+        .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 16px; }
+        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 13px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
         .btn-action:active { transform: scale(0.98); }
         
-        .form-cadastro { background-color: #1f2937; border: 1px solid #374151; padding: 14px; border-radius: 12px; margin-bottom: 20px; display: none; flex-direction: column; gap: 10px; }
-        .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #374151; padding-bottom: 4px; margin-top: 10px; }
+        /* Grade dos 4 Quadrados Grandes (Idêntica ao Design que você enviou) */
+        .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
+        .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
+        .menu-card:active { transform: scale(0.95); border-color: #dc2626; background: #0e1322; }
+        .card-icon { font-size: 32px; margin-bottom: 10px; }
+        .card-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; line-height: 1.3; }
+        .card-desc { font-size: 9px; color: #6b7280; margin-top: 6px; line-height: 1.4; padding: 0 2px; }
+        .card-arrow { position: absolute; right: 12px; bottom: 12px; color: #dc2626; font-size: 9px; font-weight: bold; }
         
-        .tab-title-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .tab-title { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #9ca3af; }
-        .badge-count { font-size: 10px; background-color: rgba(127, 29, 29, 0.5); border: 1px solid rgba(153, 27, 27, 0.4); padding: 2px 6px; border-radius: 4px; color: #f87171; }
-        .list-space { display: flex; flex-direction: column; gap: 12px; }
-        .card-atleta { background-color: #1f2937; border: 1px solid #374151; padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
-        
-        .profile-thumb { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #374151; object-fit: cover; background-color: #111827; }
-        .atleta-info-group { display: flex; align-items: center; gap: 12px; }
-        .atleta-nome { font-weight: 700; color: #ffffff; font-size: 14px; }
-        .atleta-sub { font-size: 11px; color: #9ca3af; margin-top: 2px; }
-        .status-badge { padding: 4px 6px; border-radius: 6px; font-size: 10px; font-weight: 900; text-align: center; }
-        .status-emdia { background-color: #064e3b; color: #34d399; border: 1px solid #047857; }
-        .status-atrasado { background-color: #7f1d1d; color: #f87171; border: 1px solid #b91c1c; }
-        
-        .btn-checkin { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 900; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
-        .card-financeiro { background-color: #1f2937; border: 1px solid #374151; padding: 12px; border-radius: 12px; }
-        .fin-actions { display: flex; gap: 8px; border-top: 1px solid #374151; padding-top: 10px; margin-top: 10px; }
-        .btn-toggle-fin { flex: 1; background-color: #374151; color: #e5e7eb; border: none; padding: 7px; border-radius: 6px; font-size: 11px; font-weight: 700; }
-        .btn-cobrar { background-color: #15803d; color: white; border: none; padding: 7px 12px; border-radius: 6px; font-size: 11px; font-weight: 900; }
-        
-        nav { background-color: #000000; border-top: 1px solid #1f2937; display: none; justify-content: space-around; padding: 10px; }
-        .nav-btn { background: none; border: none; color: #6b7280; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; font-size: 10px; font-weight: 600; width: 33%; }
-        .nav-btn.active { color: #dc2626; }
-        .nav-icon { font-size: 18px; }
-        .btn-novo { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; padding: 6px 10px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
-        
-        .modal-senha { display: none; flex-direction: column; gap: 12px; background-color: #1f2937; border: 2px solid #dc2626; padding: 16px; border-radius: 12px; margin-top: 20px; }
+        /* Formulários e Subtelas */
+        .form-cadastro { background-color: #0e1322; border: 1px solid #1f2937; padding: 16px; border-radius: 12px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; letter-spacing: 0.05em; }
+        .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
+
+        /* Rodapé de Lemas Corporativos da Base da Imagem */
+        footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: none; }
+        footer .marca-vermelha { color: #dc2626; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
+        <!-- Topo unificado -->
         <header>
             <div class="logo-box"><img src="logo.png" alt="Ogro Team Logo"></div>
-            <span class="slogan">Escola de Campeões</span>
+            <p class="sub-header-title" id="sub-titulo">Gestão Financeira</p>
+            <h1 class="slogan" id="main-slogan">Escola de Campeões</h1>
+            <div class="destaque-gestores" id="titulo-gestores" style="display: none;">Gestores</div>
         </header>
 
+        <!-- Espaço de exibição das telas do Celular -->
         <main id="app-content">
-            <!-- TELA DE LOGIN -->
+            
+            <!-- TELA DE LOGIN SECRETA -->
             <div id="screen-login">
-                <div class="tab-title-container" style="justify-content: center; margin-top: 10px;">
-                    <h2 class="tab-title" style="font-size: 13px; color: #ffffff;">Selecione seu Perfil de Acesso</h2>
-                </div>
                 <div class="login-box">
-                    <select id="login-role" class="input-field" onchange="ajustarCamposLogin()">
-                        <option value="mestre">Administrador / Mestre</option>
-                        <option value="admin">Administrador</option>
-                        <option value="comercial">Aluno Comercial</option>
-                        <option value="instrutor">Aluno Instrutor</option>
-                        <option value="atleta">Aluno Atleta</option>
-                    </select>
+                    <input type="text" class="input-field" value="Perfil: Administrador / Mestre" readonly style="color: #9ca3af; border-color: #1f2937;">
                     
-                    <input type="text" id="login-user" class="input-field" placeholder="Nome Completo do Usuário" style="display: none;">
-                    
-                    <!-- Campo de Senha com o Olho Opcional -->
                     <div class="password-container">
-                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha de acesso">
+                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha master">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
                     
@@ -93,47 +77,111 @@
                 </div>
             </div>
 
-            <!-- TELA INTERMEDIÁRIA PARA TROCA DE SENHA OBRIGATÓRIA -->
-            <div id="screen-force-password" class="modal-senha">
-                <h3 style="color:#ef4444; font-size:14px; text-transform:uppercase; text-align:center;">🔒 Primeiro Acesso Detectado</h3>
-                <p style="font-size:12px; color:#9ca3af; text-align:center; margin-bottom:5px;">Por motivos de segurança, você precisa alterar a sua senha inicial antes de prosseguir.</p>
-                
-                <div class="password-container">
-                    <input type="password" id="new-password-1" class="input-field" placeholder="Digite sua Nova Senha">
-                    <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('new-password-1', this)">👁️</button>
+            <!-- PAINEL CENTRAL DE 4 QUADRADOS (IGUAL AO SEU DESEJO) -->
+            <div id="screen-menu-gestores" class="gestores-grid">
+                <!-- Quadrado 1 -->
+                <div class="menu-card" onclick="navegarPara('incluir-aluno')">
+                    <div class="card-icon">👤</div>
+                    <h3 class="card-title">Incluir Aluno</h3>
+                    <p class="card-desc">Cadastre novos alunos na equipe.</p>
+                    <span class="card-arrow">▶</span>
                 </div>
-                
-                <div class="password-container">
-                    <input type="password" id="new-password-2" class="input-field" placeholder="Confirme sua Nova Senha">
-                    <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('new-password-2', this)">👁️</button>
+                <!-- Quadrado 2 -->
+                <div class="menu-card" onclick="navegarPara('incluir-ct')">
+                    <div class="card-icon">🏛️</div>
+                    <h3 class="card-title">Incluir Academias e CT</h3>
+                    <p class="card-desc">Cadastre academias e centros de treinamento.</p>
+                    <span class="card-arrow">▶</span>
                 </div>
-                
-                <button onclick="processarTrocaSenhaOBR()" class="btn-action">Gravar Nova Senha</button>
+                <!-- Quadrado 3 -->
+                <div class="menu-card" onclick="navegarPara('dashboard')">
+                    <div class="card-icon">📈</div>
+                    <h3 class="card-title">Dashboard Financeiro</h3>
+                    <p class="card-desc">Acompanhe receitas, despesas e resultados.</p>
+                    <span class="card-arrow">▶</span>
+                </div>
+                <!-- Quadrado 4 -->
+                <div class="menu-card" onclick="navegarPara('adicionar-admin')">
+                    <div class="card-icon">👥</div>
+                    <h3 class="card-title">Adicionar Administradores</h3>
+                    <p class="card-desc">Gerencie permissões e usuários do sistema.</p>
+                    <span class="card-arrow">▶</span>
+                </div>
             </div>
+
+            <!-- SUBPÁGINA: FORMULÁRIO DE CADASTRO COMPLETO -->
+            <div id="screen-form-cadastro" class="form-cadastro">
+                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
+                
+                <span class="section-title">Credenciais de Perfil</span>
+                <select id="in-perfil" class="input-field" style="text-align: left;">
+                    <option value="admin">Modalidade: Administrador</option>
+                    <option value="comercial">Modalidade: Aluno Comercial</option>
+                    <option value="instrutor">Modalidade: Aluno Instrutor</option>
+                    <option value="atleta">Modalidade: Aluno Atleta</option>
+                </select>
+                <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Provisória" style="text-align: left;">
+
+                <span class="section-title">Perfil e Mídia</span>
+                <input type="file" id="in-foto" class="input-field" accept="image/*">
+
+                <span class="section-title">Dados Pessoais</span>
+                <input type="text" id="in-nome" class="input-field" placeholder="Nome Completo" style="text-align: left;">
+                <input type="text" id="in-cpf" class="input-field" placeholder="CPF" style="text-align: left;">
+                <input type="text" id="in-rg" class="input-field" placeholder="RG" style="text-align: left;">
+                <span style="font-size:11px;color:#6b7280;margin-left:4px;">Data de Nascimento:</span>
+                <input type="date" id="in-nasc" class="input-field">
+                <select id="in-sexo" class="input-field" style="text-align: left;">
+                    <option value="Masculino">Sexo: Masculino</option>
+                    <option value="Feminino">Sexo: Feminino</option>
+                </select>
+                <input type="tel" id="in-tel" class="input-field" placeholder="WhatsApp (DDD + Número)" style="text-align: left;">
+                <input type="email" id="in-email" class="input-field" placeholder="E-mail" style="text-align: left;">
+                <input type="text" id="in-end" class="input-field" placeholder="Endereço" style="text-align: left;">
+                <input type="text" id="in-cep" class="input-field" placeholder="CEP" style="text-align: left;">
+
+                <span class="section-title">Dados Esportivos</span>
+                <input type="text" id="in-mod" class="input-field" placeholder="Modalidade" style="text-align: left;">
+                <input type="text" id="in-cat" class="input-field" placeholder="Categoria" style="text-align: left;">
+                <input type="text" id="in-grad" class="input-field" placeholder="Graduação / Faixa" style="text-align: left;">
+                <input type="text" id="in-prof" class="input-field" placeholder="Professor" style="text-align: left;">
+                <span style="font-size:11px;color:#6b7280;margin-left:4px;">Data de Entrada:</span>
+                <input type="date" id="in-ent" class="input-field">
+                <input type="text" id="in-obj" class="input-field" placeholder="Objetivo" style="text-align: left;">
+                <input type="text" id="in-peso" class="input-field" placeholder="Peso Atual (Kg)" style="text-align: left;">
+                <input type="text" id="in-alt" class="input-field" placeholder="Altura" style="text-align: left;">
+
+                <span class="section-title">Saúde</span>
+                <input type="text" id="in-alergia" class="input-field" placeholder="Alergias" style="text-align: left;">
+                <input type="text" id="in-med" class="input-field" placeholder="Medicamentos" style="text-align: left;">
+                <input type="text" id="in-lesao" class="input-field" placeholder="Lesões" style="text-align: left;">
+                <input type="text" id="in-rest" class="input-field" placeholder="Restrições Médicas" style="text-align: left;">
+                <input type="text" id="in-sangue" class="input-field" placeholder="Tipo Sanguíneo" style="text-align: left;">
+                <input type="text" id="in-plano" class="input-field" placeholder="Plano de Saúde" style="text-align: left;">
+
+                <span class="section-title">Responsáveis</span>
+                <input type="text" id="in-respnome" class="input-field" placeholder="Nome do Responsável" style="text-align: left;">
+                <input type="tel" id="in-resptel" class="input-field" placeholder="Telefone do Responsável" style="text-align: left;">
+                <input type="text" id="in-respcpf" class="input-field" placeholder="CPF do Responsável" style="text-align: left;">
+                <input type="text" id="in-parentesco" class="input-field" placeholder="Parentesco" style="text-align: left;">
+
+                <span class="section-title">Observações Internas</span>
+                <input type="text" id="in-comp" class="input-field" placeholder="Comportamento" style="text-align: left;">
+                <input type="text" id="in-disc" class="input-field" placeholder="Disciplina" style="text-align: left;">
+                <input type="text" id="in-obstec" class="input-field" placeholder="Observações Técnicas" style="text-align: left;">
+
+                <button onclick="salvarNovoCadastro()" class="btn-action">Gravar Matrícula</button>
+            </div>
+
         </main>
 
-        <nav id="app-nav">
-            <button onclick="switchTab('alunos')" id="nav-alunos" class="nav-btn active"><div>👤</div><span>Atletas</span></button>
-            <button onclick="switchTab('chamada')" id="nav-chamada" class="nav-btn"><div>📝</div><span>Chamada</span></button>
-            <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn"><div>💰</div><span>Caixa</span></button>
-        </nav>
+        <!-- Rodapé Corporativo de Valores Idêntico à Base da Imagem -->
+        <footer id="app-footer">
+            Disciplina • <span class="marca-vermelha">Foco</span> • Respeito • <span class="marca-vermelha">Evolução</span>
+        </footer>
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('ogroteam_db')) || {
-            alunos: [
-                { id: 1, nome: "Carlos Silva", perfil_tipo: "atleta", telefone: "5521999999999", vencimento: "2026-05-10", status: "Em dia", presencas: 12, foto: "", senha_acesso: "ogro123", primeiro_acesso: true }
-            ]
-        };
-        
-        let currentTab = 'alunos';
-        let userRole = 'mestre';
-        let base64FotoTemp = "";
-        let usuarioLogadoTemporario = null; 
-
-        function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
-
-        // Função universal para mostrar/esconder senha
         function togglePasswordVisibility(idInput, botao) {
             const campo = document.getElementById(idInput);
             if (campo.type === "password") {
@@ -145,295 +193,48 @@
             }
         }
 
-        function ajustarCamposLogin() {
-            const role = document.getElementById('login-role').value;
-            const userInput = document.getElementById('login-user');
-            if (role === 'mestre') {
-                userInput.style.display = 'none';
-            } else {
-                userInput.style.display = 'block';
-            }
-        }
-
         function autenticar() {
-            const role = document.getElementById('login-role').value;
             const pass = document.getElementById('login-pass').value.trim();
-            const userNome = document.getElementById('login-user').value.trim();
 
-            if (role === 'mestre') {
-                if (pass !== 'OGROTEAM060207#') { alert("Senha do mestre incorreta!"); return; }
-                userRole = role;
-                entrarNoPainel();
+            if (pass !== 'ogro06#') {
+                alert("Senha master do mestre inválida!");
                 return;
             }
 
-            if(!userNome) { alert("Por favor, digite o Nome Completo associado ao perfil!"); return; }
-            
-            // Busca o usuário limpando espaços extras
-            const usuarioEncontrado = db.alunos.find(a => a.nome.toLowerCase().trim() === userNome.toLowerCase() && a.perfil_tipo === role);
-            
-            if (!usuarioEncontrado || usuarioEncontrado.senha_acesso.trim() !== pass) {
-                alert("Usuário ou senha inválidos para este perfil!");
-                return;
-            }
-
-            usuarioLogadoTemporario = usuarioEncontrado;
-            userRole = role;
-
-            if (usuarioLogadoTemporario.primeiro_acesso === true) {
-                document.getElementById('screen-login').style.display = 'none';
-                document.getElementById('screen-force-password').style.display = 'flex';
-                return;
-            }
-
-            entrarNoPainel();
-        }
-
-        function processarTrocaSenhaOBR() {
-            const nova1 = document.getElementById('new-password-1').value.trim();
-            const nova2 = document.getElementById('new-password-2').value.trim();
-
-            if(!nova1 || !nova2) { alert("Preencha ambos os campos de senha!"); return; }
-            if(nova1 !== nova2) { alert("As senhas informadas não coincidem!"); return; }
-
-            const indice = db.alunos.findIndex(a => a.id === usuarioLogadoTemporario.id);
-            if(indice !== -1) {
-                db.alunos[indice].senha_acesso = nova1;
-                db.alunos[indice].primeiro_acesso = false; 
-                saveDB();
-            }
-
-            alert("🔒 Senha pessoal salva! Entrando no sistema...");
-            document.getElementById('screen-force-password').style.display = 'none';
-            entrarNoPainel();
-        }
-
-        function entrarNoPainel() {
+            // Ativa o layout de 4 botões e remove completamente abas antigas
             document.getElementById('screen-login').style.display = 'none';
-            document.getElementById('app-nav').style.display = 'flex';
+            document.getElementById('sub-header-title');
+            document.getElementById('sub-titulo').style.display = 'none';
+            document.getElementById('main-slogan').style.display = 'none';
             
-            if (userRole === 'mestre' || userRole === 'admin') {
-                document.getElementById('nav-financeiro').style.display = 'flex';
-                switchTab('alunos');
-            } else {
-                document.getElementById('nav-financeiro').style.display = 'none';
-                switchTab('chamada');
+            document.getElementById('titulo-gestores').style.display = 'block';
+            document.getElementById('screen-menu-gestores').style.display = 'grid';
+            document.getElementById('app-footer').style.display = 'block';
+        }
+
+        function navegarPara(destino) {
+            document.getElementById('screen-menu-gestores').style.display = 'none';
+            document.getElementById('screen-form-cadastro').style.display = 'none';
+
+            if (destino === 'menu') {
+                document.getElementById('screen-menu-gestores').style.display = 'grid';
+            } else if (destino === 'incluir-aluno') {
+                document.getElementById('screen-form-cadastro').style.display = 'flex';
+            } else if (destino === 'incluir-ct') {
+                alert("Módulo 'Incluir Academias e CT' selecionado. Criaremos esta página em seguida!");
+                document.getElementById('screen-menu-gestores').style.display = 'grid';
+            } else if (destino === 'dashboard') {
+                alert("Módulo 'Dashboard Financeiro' selecionado. Criaremos esta página em seguida!");
+                document.getElementById('screen-menu-gestores').style.display = 'grid';
+            } else if (destino === 'adicionar-admin') {
+                alert("Módulo 'Adicionar Administradores' selecionado. Criaremos esta página em seguida!");
+                document.getElementById('screen-menu-gestores').style.display = 'grid';
             }
-        }
-
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById('nav-' + tab).classList.add('active');
-            render();
-        }
-
-        function handleFotoUpload(el) {
-            const reader = new FileReader();
-            reader.onload = function (e) { base64FotoTemp = e.target.result; };
-            if(el.files && el.files[0]) reader.readAsDataURL(el.files[0]);
-        }
-
-        function toggleFormCadastro() {
-            const form = document.getElementById('form-cad');
-            form.style.display = (form.style.display === 'flex') ? 'none' : 'flex';
         }
 
         function salvarNovoCadastro() {
-            const nome = document.getElementById('in-nome').value.trim();
-            const senhaInicial = document.getElementById('in-senha-inicial').value.trim();
-
-            if(!nome) { alert("O Nome Completo é obrigatório!"); return; }
-            if(!senhaInicial) { alert("Defina uma senha inicial!"); return; }
-
-            const novoAluno = {
-                id: Date.now(),
-                presencas: 0,
-                status: "Em dia",
-                foto: base64FotoTemp,
-                perfil_tipo: document.getElementById('in-perfil').value,
-                senha_acesso: senhaInicial,
-                primeiro_acesso: true, 
-                
-                nome: nome,
-                cpf: document.getElementById('in-cpf').value,
-                rg: document.getElementById('in-rg').value,
-                nascimento: document.getElementById('in-nasc').value,
-                sexo: document.getElementById('in-sexo').value,
-                telefone: "55" + document.getElementById('in-tel').value.replace(/\D/g, ''),
-                email: document.getElementById('in-email').value,
-                endereco: document.getElementById('in-end').value,
-                cep: document.getElementById('in-cep').value,
-                vencimento: document.getElementById('in-venc').value || "2026-06-14",
-
-                modalidade: document.getElementById('in-mod').value,
-                categoria: document.getElementById('in-cat').value,
-                graduacao: document.getElementById('in-grad').value,
-                professor: document.getElementById('in-prof').value,
-                entrada: document.getElementById('in-ent').value,
-                objetivo: document.getElementById('in-obj').value,
-                peso: document.getElementById('in-peso').value,
-                altura: document.getElementById('in-alt').value,
-
-                alergias: document.getElementById('in-alergia').value,
-                medicamentos: document.getElementById('in-med').value,
-                lesoes: document.getElementById('in-lesao').value,
-                restricoes: document.getElementById('in-rest').value,
-                sanguineo: document.getElementById('in-sangue').value,
-                plano: document.getElementById('in-plano').value,
-
-                respNome: document.getElementById('in-respnome').value,
-                respTel: document.getElementById('in-resptel').value,
-                respCpf: document.getElementById('in-respcpf').value,
-                parentesco: document.getElementById('in-parentesco').value,
-
-                comportamento: document.getElementById('in-comp').value,
-                disciplina: document.getElementById('in-disc').value,
-                obsTecnicas: document.getElementById('in-obstec').value
-            };
-
-            db.alunos.push(novoAluno);
-            saveDB();
-            base64FotoTemp = "";
-            toggleFormCadastro();
-            render();
-            alert("🥋 Cadastro salvo com sucesso!");
-        }
-
-        function registrarPresenca(id) {
-            const aluno = db.alunos.find(a => a.id === id);
-            if (aluno.status === 'Inadimplente') {
-                alert("❌ BLOQUEADO: " + aluno.nome + " está inadimplente.");
-                return;
-            }
-            aluno.presencas += 1;
-            saveDB();
-            alert("🥋 Check-in aprovado para " + aluno.nome + ". OSS!");
-            render();
-        }
-
-        function alternarStatusFinanceiro(id) {
-            const aluno = db.alunos.find(a => a.id === id);
-            aluno.status = (aluno.status === 'Em dia') ? 'Inadimplente' : 'Em dia';
-            saveDB();
-            render();
-        }
-
-        function enviarCobranca(id) {
-            const aluno = db.alunos.find(a => a.id === id);
-            const msg = "Olá, " + aluno.nome + "! Consta uma pendência financeira em aberto na OGRO TEAM. OSS!";
-            window.open("https://whatsapp.com" + aluno.telefone + "&text=" + encodeURIComponent(msg), '_blank');
-        }
-
-        function formatarData(dataStr) {
-            if(!dataStr) return "Mensal";
-            return dataStr.split('-').reverse().join('/');
-        }
-
-        function render() {
-            const content = document.getElementById('app-content');
-            const placeholder = "data:image/svg+xml;utf8,<svg xmlns='http://w3.org' fill='%236b7280' viewBox='0 0 24 24'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>";
-
-            if (currentTab === 'alunos') {
-                content.innerHTML = `
-                    <div class="tab-title-container">
-                        <h2 class="tab-title">Integrantes Cadastrados</h2>
-                        ${(userRole === 'mestre' || userRole === 'admin') ? '<button class="btn-novo" onclick="toggleFormCadastro()">+ Adicionar</button>' : ''}
-                    </div>
-
-                    <div class="form-cadastro" id="form-cad">
-                        <span class="section-title">Credenciais de Acesso</span>
-                        <select id="in-perfil" class="input-field">
-                            <option value="admin">Modalidade: Administrador</option>
-                            <option value="comercial">Modalidade: Aluno Comercial</option>
-                            <option value="instrutor">Modalidade: Aluno Instrutor</option>
-                            <option value="atleta">Modalidade: Aluno Atleta</option>
-                        </select>
-                        <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Provisória do Integrante">
-
-                        <span class="section-title">Perfil e Mídia</span>
-                        <input type="file" id="in-foto" class="input-field" accept="image/*" onchange="handleFotoUpload(this)">
-
-                        <span class="section-title">Dados Pessoais</span>
-                        <input type="text" id="in-nome" class="input-field" placeholder="Nome Completo">
-                        <input type="text" id="in-cpf" class="input-field" placeholder="CPF">
-                        <input type="text" id="in-rg" class="input-field" placeholder="RG">
-                        <input type="date" id="in-nasc" class="input-field">
-                        <select id="in-sexo" class="input-field">
-                            <option value="Masculino">Sexo: Masculino</option>
-                            <option value="Feminino">Sexo: Feminino</option>
-                        </select>
-                        <input type="tel" id="in-tel" class="input-field" placeholder="WhatsApp (DDD + Número)">
-                        <input type="email" id="in-email" class="input-field" placeholder="E-mail">
-                        <input type="text" id="in-end" class="input-field" placeholder="Endereço">
-                        <input type="text" id="in-cep" class="input-field" placeholder="CEP">
-                        <input type="date" id="in-venc" class="input-field">
-
-                        <span class="section-title">Dados Esportivos</span>
-                        <input type="text" id="in-mod" class="input-field" placeholder="Modalidade">
-                        <input type="text" id="in-cat" class="input-field" placeholder="Categoria">
-                        <input type="text" id="in-grad" class="input-field" placeholder="Graduação / Faixa">
-                        <input type="text" id="in-prof" class="input-field" placeholder="Professor">
-                        <input type="date" id="in-ent" class="input-field">
-                        <input type="text" id="in-obj" class="input-field" placeholder="Objetivo">
-                        <input type="text" id="in-peso" class="input-field" placeholder="Peso Atual (Kg)">
-                        <input type="text" id="in-alt" class="input-field" placeholder="Altura">
-
-                        <span class="section-title">Saúde</span>
-                        <input type="text" id="in-alergia" class="input-field" placeholder="Alergias">
-                        <input type="text" id="in-med" class="input-field" placeholder="Medicamentos">
-                        <input type="text" id="in-lesao" class="input-field" placeholder="Lesões">
-                        <input type="text" id="in-rest" class="input-field" placeholder="Restrições Médicas">
-                        <input type="text" id="in-sangue" class="input-field" placeholder="Tipo Sanguíneo">
-                        <input type="text" id="in-plano" class="input-field" placeholder="Plano de Saúde">
-
-                        <span class="section-title">Responsáveis</span>
-                        <input type="text" id="in-respnome" class="input-field" placeholder="Nome do Responsável">
-                        <input type="tel" id="in-resptel" class="input-field" placeholder="Telefone do Responsável">
-                        <input type="text" id="in-respcpf" class="input-field" placeholder="CPF do Responsável">
-                        <input type="text" id="in-parentesco" class="input-field" placeholder="Parentesco">
-
-                        <span class="section-title">Observações Internas</span>
-                        <input type="text" id="in-comp" class="input-field" placeholder="Comportamento">
-                        <input type="text" id="in-disc" class="input-field" placeholder="Disciplina">
-                        <input type="text" id="in-obstec" class="input-field" placeholder="Observações Técnicas">
-
-                        <button onclick="salvarNovoCadastro()" class="btn-action">Salvar Matrícula</button>
-                    </div>
-
-                    <div class="list-space">
-                        ${db.alunos.map(a => `
-                            <div class="card-atleta">
-                                <div class="atleta-info-group">
-                                    <img src="${a.foto || placeholder}" class="profile-thumb">
-                                    <div>
-                                        <h3 class="atleta-nome">${a.nome}</h3>
-                                        <p class="atleta-sub">${a.perfil_tipo.toUpperCase()} • ${a.primeiro_acesso ? '🔑 Provisória' : '🔒 Pessoal'} • 🔥 ${a.presencas} treinos</p>
-                                    </div>
-                                </div>
-                                <span class="status-badge ${a.status === 'Em dia' ? 'status-emdia' : 'status-atrasado'}">${a.status.toUpperCase()}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-            if (currentTab === 'chamada') {
-                content.innerHTML = `<div class="tab-title-container"><h2 class="tab-title">Controle de Entrada</h2></div><div class="list-space">${db.alunos.map(a => `<div class="card-atleta"><div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">${a.perfil_tipo.toUpperCase()}</p></div></div><button onclick="registrarPresenca(${a.id})" class="btn-checkin">OSSO!</button></div>`).join('')}</div>`;
-            }
-            if (currentTab === 'financeiro') {
-                content.innerHTML = `<div class="tab-title-container"><h2 class="tab-title">Módulo de Tesouraria</h2></div><div class="list-space">${db.alunos.map(a => `
-                    <div class="card-financeiro">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div class="atleta-info-group"><img src="${a.foto || placeholder}" class="profile-thumb"><div><h3 class="atleta-nome">${a.nome}</h3><p class="atleta-sub">Senha Atual: <span style="color:#f87171;font-family:monospace;">${a.senha_acesso}</span></p></div></div>
-                            <span class="status-badge ${a.status === 'Em dia' ? 'status-emdia' : 'status-atrasado'}">${a.status}</span>
-                        </div>
-                        <div class="fin-actions">
-                            <button onclick="alternarStatusFinanceiro(${a.id})" class="btn-toggle-fin">${a.status === 'Em dia' ? 'Lançar Débito' : 'Quitar Débito'}</button>
-                            ${a.status === 'Inadimplente' ? `<button onclick="enviarCobranca(${a.id})" class="btn-cobrar">Cobrar</button>` : ''}
-                        </div>
-                    </div>
-                `).join('')}</div>`;
-            }
+            alert("🥋 Atleta registrado na memória local! Retornando ao menu...");
+            navegarPara('menu');
         }
     </script>
 </body>
