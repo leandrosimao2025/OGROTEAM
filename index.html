@@ -1,3 +1,6 @@
+O painel central de botões foi reestruturado de acordo com o design exato da imagem enviada. O código abaixo integra todas as mecânicas em sincronia, com comunicação entre o cadastro de dados avançados (incluindo foto de perfil), atualização de métricas do dashboard e listagem inteligente.
+Substitua todo o conteúdo do seu repositório no GitHub por este bloco:
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,25 +17,24 @@
         .destaque-gestores { font-size: 20px; font-weight: 900; color: #dc2626; text-transform: uppercase; font-style: italic; margin-top: 2px; letter-spacing: 0.05em; }
         main { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; }
         
-        /* Formulários e Inputs */
+        /* Login */
         .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
         .input-field { background-color: #111827; border: 1px solid #374151; color: #ffffff !important; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 18px; z-index: 10; padding: 5px; }
-        
-        /* Botões */
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 6px; letter-spacing: 0.05em; }
-        .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
-        .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 14px; letter-spacing: 0.05em; text-decoration: none; align-self: center; }
+        .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 14px; align-self: center; }
         
-        /* Grid Principal */
+        /* Grid idêntico à imagem enviada */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
-        .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
-        .menu-card:active { transform: scale(0.95); border-color: #dc2626; }
-        .card-icon { font-size: 32px; margin-bottom: 10px; }
-        .card-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; line-height: 1.3; }
-        .card-desc { font-size: 9px; color: #6b7280; margin-top: 6px; line-height: 1.4; }
+        .menu-card { background-color: #0b1120; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; min-height: 180px; justify-content: space-between; position: relative; }
+        .menu-card:active { transform: scale(0.97); border-color: #dc2626; }
+        .card-img-container { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+        .card-img-container img, .card-img-container span { max-width: 100%; max-height: 100%; font-size: 40px; }
+        .card-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; margin-bottom: 6px; }
+        .card-desc { font-size: 10px; color: #94a3b8; line-height: 1.4; }
+        .card-arrow { color: #dc2626; font-size: 12px; position: absolute; bottom: 12px; right: 16px; }
         
         /* Telas de Conteúdo */
         .screen-content { display: none; flex-direction: column; gap: 14px; }
@@ -40,12 +42,12 @@
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
-        /* Imagem de Perfil Premium */
+        /* Upload de Imagem */
         .photo-upload-box { width: 100px; height: 100px; background-color: #111827; border: 2px dashed #374151; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; align-self: center; margin-bottom: 8px; position: relative; }
         .photo-upload-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
         .photo-upload-box span { font-size: 10px; color: #6b7280; text-align: center; padding: 4px; }
 
-        /* Lista de Registros */
+        /* Listas e Itens */
         .search-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .item-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #1f2937; object-fit: cover; margin-right: 10px; }
         .action-buttons { display: flex; gap: 6px; }
@@ -72,7 +74,7 @@
         </header>
 
         <main id="app-content">
-            <!-- TELA DE LOGIN CORRIGIDA -->
+            <!-- TELA DE LOGIN -->
             <div id="screen-login">
                 <div class="login-box">
                     <input type="email" id="login-email" class="input-field" placeholder="E-mail">
@@ -95,32 +97,43 @@
                 </div>
             </div>
 
-            <!-- PAINEL PRINCIPAL -->
+            <!-- PAINEL CENTRAL (ESTILIZADO IGUAL À IMAGEM) -->
             <div id="screen-menu-gestores" class="gestores-grid">
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
-                    <div class="card-icon">👤</div>
+                    <div class="card-img-container"><span style="color:#3b82f6;">👤</span></div>
                     <h3 class="card-title">Incluir Aluno</h3>
-                    <p class="card-desc">Cadastro Premium.</p>
+                    <p class="card-desc">Cadastre novos alunos na equipe.</p>
+                    <span class="card-arrow">▶</span>
                 </div>
+                
                 <div class="menu-card" onclick="navegarPara('incluir-ct')">
-                    <div class="card-icon">🏛️</div>
+                    <div class="card-img-container"><span style="color:#cbd5e1;">🏛️</span></div>
                     <h3 class="card-title">Incluir Academias e CT</h3>
-                    <p class="card-desc">Gerencie filiais.</p>
+                    <p class="card-desc">Cadastre academias e centros de treinamento.</p>
+                    <span class="card-arrow">▶</span>
                 </div>
+                
                 <div class="menu-card" onclick="navegarPara('dashboard')">
-                    <div class="card-icon">📈</div>
+                    <div class="card-img-container"><span style="color:#ef4444;">📈</span></div>
                     <h3 class="card-title">Dashboard Financeiro</h3>
-                    <p class="card-desc">Resultados e metas.</p>
+                    <p class="card-desc">Acompanhe receitas, despesas e resultados.</p>
+                    <span class="card-arrow">▶</span>
                 </div>
+                
                 <div class="menu-card" onclick="navegarPara('adicionar-admin')">
-                    <div class="card-icon">👥</div>
+                    <div class="card-img-container"><span style="color:#3b82f6;">👥</span></div>
                     <h3 class="card-title">Adicionar Administradores</h3>
-                    <p class="card-desc">Controle de acessos.</p>
+                    <p class="card-desc">Gerencie permissões e usuários do sistema.</p>
+                    <span class="card-arrow">▶</span>
                 </div>
-                <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 110px; background: linear-gradient(135deg, #1e1b4b 0%, #05070f 100%);">
-                    <div class="card-icon" style="margin-bottom:4px;">🗂️</div>
-                    <h3 class="card-title">Cadastros Editáveis</h3>
-                    <p class="card-desc">Gerenciamento avançado.</p>
+
+                <!-- ATALHO RÁPIDO INTEGRADO DE GERENCIAMENTO -->
+                <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 80px; flex-direction: row; padding: 16px;">
+                    <div style="text-align: left;">
+                        <h3 class="card-title" style="margin-bottom: 2px;">Visualizar / Editar Todos os Registros</h3>
+                        <p class="card-desc">Acesse a listagem geral sincronizada.</p>
+                    </div>
+                    <span class="card-arrow" style="position: static;">▶</span>
                 </div>
             </div>
 
@@ -161,7 +174,7 @@
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="grid-metrics">
                     <div class="metric-card">
-                        <span style="font-size: 10px; color: #9ca3af;">Faturamento</span>
+                        <span style="font-size: 10px; color: #9ca3af;">Faturamento Real</span>
                         <span class="metric-val" id="dash-faturamento" style="color: #4ade80;">R$ 0</span>
                     </div>
                     <div class="metric-card">
@@ -170,20 +183,21 @@
                     </div>
                 </div>
                 <div class="row-financeira">
-                    <span>Mensalidades Recebidas</span>
+                    <span>Mensalidades Ativas Recebidas</span>
                     <span id="dash-mensalidades" style="font-weight: bold;">0</span>
                 </div>
+                <button class="btn-action" style="background-color: #1e293b;" onclick="navegarPara('ver-cadastros')">Ver Relatório de Cadastros</button>
             </div>
 
             <!-- TELA: ADICIONAR ADMINISTRADORES -->
             <div id="screen-adicionar-admin" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
-                <div class="form-cadastro" style="margin-bottom: 16px;">
+                <div class="form-cadastro">
                     <div class="section-title">Novo Administrador</div>
                     <input type="text" class="input-field" placeholder="Nome do Gestor">
                     <input type="email" class="input-field" placeholder="E-mail">
                     <input type="password" class="input-field" placeholder="Senha de Acesso">
-                    <button class="btn-action" onclick="alert('Funcionalidade simulada para ambiente de testes.')">Criar Acesso</button>
+                    <button class="btn-action" onclick="alert('Administrador secundário adicionado com sucesso simulado.')">Criar Acesso</button>
                 </div>
             </div>
 
@@ -458,3 +472,6 @@
     </script>
 </body>
 </html>
+
+Se desejar prosseguir com novas atualizações de layout ou regras de negócio para a Ogro Team, basta me informar.
+
