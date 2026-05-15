@@ -3,73 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ogro Team - Gestores Premium</title>
+    <title>Ogro Team - Gestores</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: #060913; color: #f3f4f6; display: flex; justify-content: center; min-height: 100vh; }
-        
         .app-container { width: 100%; max-width: 412px; background-color: #060913; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid #1f2937; border-right: 1px solid #1f2937; min-height: 100vh; position: relative; }
-        
         header { background-color: #000000; padding: 24px 14px 16px 14px; display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
-        .logo-box { width: 120px; height: 120px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #000; padding: 5px; }
+        .logo-box { width: 130px; height: 130px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
         .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .destaque-gestores { font-size: 20px; font-weight: 900; color: #dc2626; text-transform: uppercase; font-style: italic; margin-top: 2px; letter-spacing: 0.05em; }
-        
         main { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; }
         
         /* Formulários e Inputs */
-        .login-box, .form-cadastro { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
-        .input-field, .select-field, .textarea-field { background-color: #111827; border: 1px solid #374151; color: white; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: left; }
-        .input-field::placeholder, .textarea-field::placeholder { color: #6b7280; }
-        .input-field:focus, .select-field:focus, .textarea-field:focus { border-color: #dc2626; outline: none; }
-        .textarea-field { min-height: 80px; resize: vertical; }
-        .input-group-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+        .input-field { background-color: #111827; border: 1px solid #374151; color: white; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
+        .input-field:focus { border-color: #dc2626; outline: none; }
+        .input-field::placeholder { color: #4b5563; }
         
-        /* Containers de Senha */
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 18px; z-index: 10; padding: 5px; }
         
-        /* Botões */
-        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 6px; letter-spacing: 0.05em; text-align: center; }
+        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 6px; letter-spacing: 0.05em; }
         .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
-        .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 10px; letter-spacing: 0.05em; transition: 0.2s; text-decoration: none; align-self: center; }
-        .btn-link:active { color: #f87171; }
-        .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
+        .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 14px; letter-spacing: 0.05em; transition: 0.2s; align-self: center; }
         
-        /* Menu em Grid */
+        /* Grid de Funcionalidades */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
-        .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
+        .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
         .menu-card:active { transform: scale(0.95); border-color: #dc2626; }
         .card-icon { font-size: 32px; margin-bottom: 10px; }
         .card-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; line-height: 1.3; }
         .card-desc { font-size: 9px; color: #6b7280; margin-top: 6px; line-height: 1.4; }
         
-        /* Telas */
-        .screen-content { display: none; flex-direction: column; gap: 14px; }
-        .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; }
-        
         /* Upload de Foto Premium */
-        .foto-upload-container { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .avatar-preview { width: 100px; height: 100px; border-radius: 50%; background-color: #111827; border: 2px dashed #374151; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; cursor: pointer; }
-        .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-placeholder { font-size: 32px; color: #4b5563; }
-        .file-input { display: none; }
+        .foto-upload-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 10px 0; }
+        .avatar-preview { width: 90px; height: 90px; border-radius: 50%; background-color: #111827; border: 2px dashed #374151; display: flex; align-items: center; justify-content: center; font-size: 28px; overflow: hidden; object-fit: cover; }
         
-        /* Listagem de Cadastros */
+        .screen-content { display: none; flex-direction: column; gap: 14px; }
+        .form-cadastro { background-color: #0e1322; border: 1px solid #1f2937; padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 12px; }
+        .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 6px; }
+        .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
+        
+        /* Lista e Cards de Cadastros */
         .search-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .item-info-box { display: flex; align-items: center; gap: 12px; }
-        .list-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background-color: #1f2937; border: 1px solid #374151; }
+        .student-row-info { display: flex; align-items: center; gap: 10px; }
+        .mini-avatar { width: 36px; height: 36px; border-radius: 50%; background-color: #1f2937; object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 16px; }
         .action-buttons { display: flex; gap: 6px; }
         .btn-edit-user { background-color: #1f2937; border: 1px solid #374151; color: white; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .btn-delete-user { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .no-data-msg { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; font-style: italic; }
         
-        /* Painel de Métricas */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .row-financeira { display: flex; justify-content: space-between; align-items: center; background-color: #111827; padding: 10px; border-radius: 6px; border-left: 3px solid #dc2626; font-size: 13px; margin-bottom: 8px; }
-        .admin-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 
         footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: block; }
         footer .marca-vermelha { color: #dc2626; }
@@ -79,7 +66,7 @@
 
     <div class="app-container">
         <header>
-            <div class="logo-box"><img src="logo.png" alt="Ogro Team Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><span class="avatar-placeholder" style="display:none;">💀</span></div>
+            <div class="logo-box"><img src="logo.png" alt="Ogro Team Logo"></div>
             <div class="destaque-gestores" id="titulo-gestores">Gestores</div>
         </header>
 
@@ -87,24 +74,24 @@
             <!-- TELA DE LOGIN -->
             <div id="screen-login">
                 <div class="login-box">
-                    <input type="email" id="login-email" class="input-field" placeholder="E-mail do Administrador">
+                    <input type="email" id="login-email" class="input-field" placeholder="E-mail">
                     <div class="password-container">
                         <input type="password" id="login-pass" class="input-field" placeholder="Senha Master de Acesso">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
                     <button onclick="autenticar()" class="btn-action">Entrar</button>
-                    <button onclick="navegarPara('recuperar-senha-fluxo')" class="btn-link">Esqueceu a senha?</button>
+                    <button onclick="navegarPara('recuperar-senha')" class="btn-link">Esqueceu a senha?</button>
                 </div>
             </div>
 
-            <!-- TELA: FLUXO DE RECUPERAÇÃO DE SENHA -->
-            <div id="screen-recuperar-senha-fluxo" class="screen-content">
-                <button class="btn-voltar" onclick="irParaLogin()">← Login</button>
+            <!-- TELA DE RECUPERAÇÃO DE SENHA -->
+            <div id="screen-recuperar-senha" class="screen-content">
+                <button class="btn-voltar" onclick="navegarPara('login')">← Voltar para o Login</button>
                 <div class="form-cadastro">
-                    <div class="section-title">Recuperação de Senha</div>
-                    <p style="font-size: 12px; color: #9ca3af; line-height: 1.4; margin-bottom: 4px;">Insira o seu e-mail cadastrado. Se o endereço corresponder ao administrador mestre, enviaremos um link seguro para redefinição.</p>
-                    <input type="email" id="recovery-email-input" class="input-field" placeholder="Seu e-mail cadastrado">
-                    <button class="btn-action" onclick="processarRecuperacaoSenha()">Enviar Link de Redefinição</button>
+                    <div class="section-title">Resetar Senha Perdida</div>
+                    <p style="font-size: 12px; color: #9ca3af; text-align: center; margin-bottom: 6px;">Insira seu e-mail cadastrado para receber o link de redefinição.</p>
+                    <input type="email" id="reset-email" class="input-field" placeholder="E-mail Cadastrado">
+                    <button class="btn-action" onclick="enviarLinkReset()">Enviar Link de Redefinição</button>
                 </div>
             </div>
 
@@ -113,78 +100,60 @@
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-icon">👤</div>
                     <h3 class="card-title">Incluir Aluno</h3>
-                    <p class="card-desc">Cadastro completo premium.</p>
+                    <p class="card-desc">Cadastro premium completo.</p>
                 </div>
                 <div class="menu-card" onclick="navegarPara('incluir-ct')">
                     <div class="card-icon">🏛️</div>
                     <h3 class="card-title">Incluir Academias e CT</h3>
-                    <p class="card-desc">Gerenciar filiais e polos.</p>
+                    <p class="card-desc">Cadastre novas filiais.</p>
                 </div>
                 <div class="menu-card" onclick="navegarPara('dashboard')">
                     <div class="card-icon">📈</div>
-                    <h3 class="card-title">Dashboard</h3>
-                    <p class="card-desc">Resultados econômicos.</p>
+                    <h3 class="card-title">Dashboard Financeiro</h3>
+                    <p class="card-desc">Resultados e metas.</p>
                 </div>
                 <div class="menu-card" onclick="navegarPara('adicionar-admin')">
                     <div class="card-icon">👥</div>
-                    <h3 class="card-title">Moderar Admins</h3>
-                    <p class="card-desc">Controle de permissões.</p>
+                    <h3 class="card-title">Adicionar Administradores</h3>
+                    <p class="card-desc">Permissões de acesso.</p>
                 </div>
                 <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 110px; background: linear-gradient(135deg, #1e1b4b 0%, #05070f 100%);">
                     <div class="card-icon" style="margin-bottom:4px;">🗂️</div>
                     <h3 class="card-title">Cadastros Editáveis</h3>
-                    <p class="card-desc">Busca, edição avançada e exclusão.</p>
+                    <p class="card-desc">Gerencie os registros do sistema.</p>
                 </div>
             </div>
 
-            <!-- TELA: INCLUIR ALUNO (PREMIUM COM FOTO E WHATSAPP) -->
+            <!-- TELA: INCLUIR ALUNO (PREMIUM COM FOTO E CRIAÇÃO DE SENHA) -->
             <div id="screen-incluir-aluno" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="form-cadastro">
-                    <div class="section-title">Foto de Perfil</div>
+                    <div class="section-title">Foto do Aluno</div>
                     <div class="foto-upload-container">
-                        <div class="avatar-preview" onclick="document.getElementById('aluno-foto').click()">
-                            <span class="avatar-placeholder" id="placeholder-aluno-avatar">📸</span>
-                            <img id="img-aluno-preview" src="" style="display: none;">
-                        </div>
-                        <span style="font-size: 11px; color: #6b7280;">Toque na câmera para carregar</span>
-                        <input type="file" id="aluno-foto" class="file-input" accept="image/*" onchange="previewImagem(this, 'img-aluno-preview', 'placeholder-aluno-avatar')">
+                        <div id="avatar-container" class="avatar-preview">👤</div>
+                        <input type="file" id="aluno-foto" accept="image/*" style="display: none;" onchange="previewImage(this, 'avatar-container')">
+                        <button class="btn-edit-user" onclick="document.getElementById('aluno-foto').click()">Selecionar Foto</button>
                     </div>
 
-                    <div class="section-title">Identificação Pessoal</div>
+                    <div class="section-title">Dados Pessoais</div>
                     <input type="text" id="aluno-nome" class="input-field" placeholder="Nome Completo">
-                    <div class="input-group-row">
-                        <input type="text" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp (DDD + Número)">
-                        <input type="date" id="aluno-nascimento" class="input-field">
-                    </div>
-                    
-                    <div class="section-title">Matrícula & Plano</div>
-                    <div class="input-group-row">
-                        <select id="aluno-plano" class="select-field">
-                            <option value="Mensal">Plano Mensal - R$150</option>
-                            <option value="Trimestral">Plano Trimestral - R$400</option>
-                            <option value="Semestral">Plano Semestral - R$750</option>
-                            <option value="Anual">Plano Anual - R$1300</option>
-                        </select>
-                        <select id="aluno-ct" class="select-field">
-                            <option value="Unidade Central">Unidade Central</option>
-                        </select>
-                    </div>
+                    <input type="text" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp (DDD + Número)">
+                    <input type="text" id="aluno-cpf" class="input-field" placeholder="CPF">
 
-                    <div class="section-title">Ficha Biométrica & Anamnese</div>
-                    <div class="input-group-row">
-                        <input type="number" step="0.01" id="aluno-peso" class="input-field" placeholder="Peso (kg)">
-                        <input type="number" step="0.01" id="aluno-altura" class="input-field" placeholder="Altura (m)">
-                    </div>
-                    <textarea id="aluno-restricao" class="textarea-field" placeholder="Restrições médicas, lesões ou observações clínicas pertinentes..."></textarea>
+                    <div class="section-title">Matrícula e Plano</div>
+                    <input type="text" id="aluno-plano" class="input-field" placeholder="Ex: Mensal, Trimestral, Anual">
+                    <input type="number" id="aluno-valor" class="input-field" placeholder="Valor da Mensalidade (R$)">
 
-                    <div class="section-title">Segurança do Aluno</div>
+                    <div class="section-title">Ficha Médica / Saúde</div>
+                    <input type="text" id="aluno-restricoes" class="input-field" placeholder="Problema de saúde ou restrição?">
+
+                    <div class="section-title">Acesso do Aluno no Aplicativo</div>
                     <div class="password-container">
-                        <input type="password" id="aluno-pass-inicial" class="input-field" placeholder="Crie a senha inicial do aluno">
-                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('aluno-pass-inicial', this)">👁️</button>
+                        <input type="password" id="aluno-senha" class="input-field" placeholder="Definir Senha Inicial do Aluno">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('aluno-senha', this)">👁️</button>
                     </div>
 
-                    <button class="btn-action" style="margin-top: 10px;" onclick="salvarAluno()">Finalizar Matrícula & Notificar</button>
+                    <button class="btn-action" onclick="salvarAluno()">Salvar e Enviar Acesso via WhatsApp</button>
                 </div>
             </div>
 
@@ -204,16 +173,16 @@
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="grid-metrics">
                     <div class="metric-card">
-                        <span style="font-size: 10px; color: #9ca3af;">Faturamento Realizado</span>
+                        <span style="font-size: 10px; color: #9ca3af;">Faturamento</span>
                         <span class="metric-val" id="dash-faturamento" style="color: #4ade80;">R$ 0</span>
                     </div>
                     <div class="metric-card">
-                        <span style="font-size: 10px; color: #9ca3af;">Inadimplência Contábil</span>
+                        <span style="font-size: 10px; color: #9ca3af;">Inadimplência</span>
                         <span class="metric-val" style="color: #f87171;">0.0%</span>
                     </div>
                 </div>
                 <div class="row-financeira">
-                    <span>Mensalidades Ativas</span>
+                    <span>Mensalidades Recebidas</span>
                     <span id="dash-mensalidades" style="font-weight: bold;">0</span>
                 </div>
             </div>
@@ -222,66 +191,58 @@
             <div id="screen-adicionar-admin" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="form-cadastro" style="margin-bottom: 16px;">
-                    <div class="section-title">Novo Administrador</div>
+                    <div class="section-title">Novo Admin</div>
                     <input type="text" class="input-field" placeholder="Nome do Gestor">
-                    <input type="email" class="input-field" placeholder="E-mail Corporativo">
-                    <input type="password" class="input-field" placeholder="Senha Provisória">
-                    <button class="btn-action" onclick="alert('Funcionalidade de controle administrativo simulada')">Criar Acesso</button>
+                    <input type="password" class="input-field" placeholder="Senha de Acesso">
+                    <button class="btn-action" onclick="alert('Funcionalidade simulada')">Criar Acesso</button>
                 </div>
                 <div class="admin-item">
                     <span>direitosimao@gmail.com (Mestre)</span>
-                    <span style="font-size: 10px; color: #4ade80; font-weight: bold;">ATIVO</span>
+                    <button class="btn-edit-user">Admin</button>
                 </div>
             </div>
 
             <!-- TELA: VER CADASTROS -->
             <div id="screen-ver-cadastros" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
-                <input type="text" id="search-input" class="input-field" placeholder="🔍 Buscar por aluno, CT ou plano..." style="margin-bottom: 12px; text-align: left;" oninput="renderizarCadastros()">
-                <div id="container-lista-cadastros"></div>
+                <input type="text" id="search-input" class="input-field" placeholder="🔍 Buscar aluno ou CT..." style="margin-bottom: 12px; text-align: left;" oninput="renderizarCadastros()">
+                <div id="container-lista-cadastros">
+                    <!-- Registros dinâmicos -->
+                </div>
             </div>
 
             <!-- TELA: EDITAR REGISTRO -->
             <div id="screen-editar-registro" class="screen-content">
                 <button class="btn-voltar" onclick="navegarPara('ver-cadastros')">← Cancelar</button>
                 <div class="form-cadastro">
-                    <div class="section-title">Atualizar Informações</div>
+                    <div class="section-title" id="edit-screen-title">Editar Cadastro</div>
                     <input type="hidden" id="edit-index">
                     <input type="hidden" id="edit-tipo">
                     
-                    <div class="foto-upload-container">
-                        <div class="avatar-preview" onclick="document.getElementById('edit-foto-file').click()">
-                            <span class="avatar-placeholder" id="placeholder-edit-avatar" style="display:none;">📸</span>
-                            <img id="img-edit-preview" src="">
-                        </div>
-                        <input type="file" id="edit-foto-file" class="file-input" accept="image/*" onchange="previewImagem(this, 'img-edit-preview', 'placeholder-edit-avatar')">
+                    <div id="edit-photo-section" class="foto-upload-container" style="display:none;">
+                        <div id="edit-avatar-container" class="avatar-preview">👤</div>
+                        <input type="file" id="edit-aluno-foto" accept="image/*" style="display: none;" onchange="previewImage(this, 'edit-avatar-container')">
+                        <button type="button" class="btn-edit-user" onclick="document.getElementById('edit-aluno-foto').click()">Alterar Foto</button>
                     </div>
 
                     <input type="text" id="edit-nome" class="input-field" placeholder="Nome">
-                    <input type="text" id="edit-detalhe" class="input-field" placeholder="Detalhe Principal">
+                    <input type="text" id="edit-detalhe" class="input-field" placeholder="Detalhe">
                     <button class="btn-action" onclick="salvarEdicaoReal()">Salvar Alterações</button>
                 </div>
             </div>
         </main>
 
         <footer>
-            Ogro Team <span class="marca-vermelha">Gestores Premium</span>
+            Ogro Team <span class="marca-vermelha">Gestores</span>
         </footer>
     </div>
 
     <script>
         let dbAlunos = [];
         let dbAcademias = [];
+        let currentPhotoBase64 = "";
 
-        // Atualiza dinamicamente as opções de CT nos formulários de aluno
-        function atualizarSelectAcademias() {
-            const selectCtx = document.getElementById('aluno-ct');
-            selectCtx.innerHTML = '<option value="Unidade Central">Unidade Central</option>';
-            dbAcademias.forEach(ct => {
-                selectCtx.innerHTML += `<option value="${ct.nome}">${ct.nome}</option>`;
-            });
-        }
-
+        // FUNÇÃO DE VISUALIZAÇÃO E OCULTAÇÃO DE SENHA CORRIGIDA
         function togglePasswordVisibility(id, btn) {
             const input = document.getElementById(id);
             if (input.type === "password") {
@@ -293,47 +254,62 @@
             }
         }
 
-        // Fluxo de verificação restrita de credenciais
+        // AUTENTICAÇÃO ATUALIZADA EXCLUSIVA
         function autenticar() {
             const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-pass').value;
             
+            if(email === "") {
+                alert("Por favor, informe seu e-mail.");
+                return;
+            }
+
             if(email === "direitosimao@gmail.com" && pass === "ogro06#") {
                 document.getElementById('screen-login').style.display = 'none';
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
                 atualizarDashboard();
                 renderizarCadastros();
             } else {
-                alert("Acesso Negado! Verifique as credenciais do perfil Administrador/Mestre.");
+                alert("E-mail ou Senha master incorreta!");
             }
         }
 
-        function irParaLogin() {
-            const telas = document.querySelectorAll('.screen-content');
-            telas.forEach(t => t.style.display = 'none');
-            document.getElementById('screen-menu-gestores').style.display = 'none';
-            document.getElementById('screen-login').style.display = 'flex';
-        }
-
-        function processarRecuperacaoSenha() {
-            const email = document.getElementById('recovery-email-input').value.trim();
+        // RESET DE SENHA COM FORMULÁRIO DE ENVIO DE LINK
+        function enviarLinkReset() {
+            const email = document.getElementById('reset-email').value.trim();
             if(email === "") {
-                alert("Por favor, preencha o campo de e-mail.");
+                alert("Por favor, insira o seu e-mail.");
                 return;
             }
-            alert("O link seguro para redefinição de credenciais foi enviado com sucesso para: " + email);
-            irParaLogin();
+            alert("Sucesso! Um link de recuperação de senha foi enviado para: " + email);
+            document.getElementById('reset-email').value = "";
+            navegarPara('login');
+        }
+
+        // CARREGADOR DE FOTO DE PERFIL PREMIUM
+        function previewImage(input, containerId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentPhotoBase64 = e.target.result;
+                    document.getElementById(containerId).innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover;">`;
+                }
+                reader.readAsDataURL(file);
+            }
         }
 
         function navegarPara(telaId) {
-            document.getElementById('screen-menu-gestores').style.display = 'none';
             document.getElementById('screen-login').style.display = 'none';
+            document.getElementById('screen-menu-gestores').style.display = 'none';
             const telas = document.querySelectorAll('.screen-content');
             telas.forEach(tela => tela.style.display = 'none');
             
-            const targetScreen = document.getElementById('screen-' + telaId);
-            if (targetScreen) {
-                targetScreen.style.display = 'flex';
+            if(telaId === 'login') {
+                document.getElementById('screen-login').style.display = 'block';
+            } else {
+                const targetScreen = document.getElementById('screen-' + telaId);
+                if (targetScreen) targetScreen.style.display = 'flex';
             }
         }
 
@@ -343,58 +319,49 @@
             document.getElementById('screen-menu-gestores').style.display = 'grid';
         }
 
-        // Renderizador de Imagens (Base64) para persistência local simulada
-        function previewImagem(input, imgId, placeholderId) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imgElement = document.getElementById(imgId);
-                    imgElement.src = e.target.result;
-                    imgElement.style.display = 'block';
-                    if(placeholderId) document.getElementById(placeholderId).style.display = 'none';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
+        // CADASTRO PREMIUM DE ALUNOS COM COMPARTILHAMENTO DE WHATSAPP
         function salvarAluno() {
             const nome = document.getElementById('aluno-nome').value.trim();
             const whatsapp = document.getElementById('aluno-whatsapp').value.trim();
-            const plano = document.getElementById('aluno-plano').value;
-            const ct = document.getElementById('aluno-ct').value;
-            const pass = document.getElementById('aluno-pass-inicial').value;
-            const fotoSrc = document.getElementById('img-aluno-preview').src;
-
-            if(nome === "" || whatsapp === "" || pass === "") {
-                alert("Campos obrigatórios ausentes: Nome, WhatsApp e Senha Inicial são mandatórios.");
+            const cpf = document.getElementById('aluno-cpf').value.trim();
+            const plano = document.getElementById('aluno-plano').value.trim();
+            const valor = document.getElementById('aluno-valor').value.trim();
+            const restricoes = document.getElementById('aluno-restricoes').value.trim();
+            const senhaInicial = document.getElementById('aluno-senha').value;
+            
+            if(nome === "" || whatsapp === "" || senhaInicial === "") {
+                alert("Nome, WhatsApp e Senha Inicial são obrigatórios para o cadastro Premium.");
                 return;
             }
-
-            dbAlunos.push({
-                nome: nome,
-                whatsapp: whatsapp,
-                plano: plano,
-                ct: ct,
-                pass: pass,
-                foto: fotoSrc.startsWith('data:image') ? fotoSrc : ''
-            });
-
-            // Disparo de notificação via WhatsApp (Deep link)
-            const mensagemWhats = encodeURIComponent(`Olá, ${nome}! Seu acesso ao App Ogro Team Premium foi gerado.\n\nE-mail: Seu e-mail cadastrado\nSenha Inicial: ${pass}\nPlano: ${plano}\nUnidade: ${ct}`);
-            const linkWhats = `https://whatsapp.com{whatsapp.replace(/\D/g,'')}&text=${mensagemWhats}`;
             
-            alert("Aluno matriculado! Você será redirecionado para enviar a senha de acesso via WhatsApp.");
-            window.open(linkWhats, '_blank');
+            dbAlunos.push({ 
+                nome: nome, 
+                whatsapp: whatsapp,
+                cpf: cpf,
+                plano: plano,
+                valor: parseFloat(valor) || 0,
+                restricoes: restricoes,
+                foto: currentPhotoBase64 || "",
+                detalhe: "Plano: " + (plano || "Não informado") 
+            });
+            
+            alert("Aluno cadastrado com sucesso! Preparando envio dos dados para o WhatsApp...");
+            
+            // Texto formatado para envio direto via API do WhatsApp
+            const textoMensagem = encodeURIComponent(`Olá ${nome}! Seu acesso ao aplicativo premium Ogro Team foi gerado.\n\n📱 *Seu Login:* ${whatsapp}\n🔑 *Sua Senha:* ${senhaInicial}\n\nSeja bem-vindo! 💪`);
+            window.open(`https://whatsapp.com{whatsapp.replace(/\D/g, '')}&text=${textoMensagem}`, '_blank');
 
-            // Reset campos
+            // Limpa o formulário
             document.getElementById('aluno-nome').value = "";
             document.getElementById('aluno-whatsapp').value = "";
-            document.getElementById('aluno-pass-inicial').value = "";
-            document.getElementById('img-aluno-preview').style.display = 'none';
-            document.getElementById('img-aluno-preview').src = "";
-            document.getElementById('placeholder-aluno-avatar').style.display = 'block';
-            
+            document.getElementById('aluno-cpf').value = "";
+            document.getElementById('aluno-plano').value = "";
+            document.getElementById('aluno-valor').value = "";
+            document.getElementById('aluno-restricoes').value = "";
+            document.getElementById('aluno-senha').value = "";
+            document.getElementById('avatar-container').innerHTML = "👤";
+            currentPhotoBase64 = "";
+
             atualizarDashboard();
             renderizarCadastros();
             voltarParaMenu();
@@ -405,47 +372,45 @@
             const local = document.getElementById('ct-local').value.trim();
             
             if(nome === "") {
-                alert("Defina o nome da academia.");
+                alert("Por favor, digite o nome da Academia/CT.");
                 return;
             }
             
-            dbAcademias.push({ nome: nome, local: local });
-            alert("Polo registrado com sucesso!");
+            dbAcademias.push({ nome: nome, rawDetalhe: local, detalhe: "Local: " + (local || "Não informado") });
+            alert("Academia/CT cadastrada com sucesso!");
             
             document.getElementById('ct-nome').value = "";
             document.getElementById('ct-local').value = "";
-            
-            atualizarSelectAcademias();
             renderizarCadastros();
             voltarParaMenu();
         }
 
         function abrirEdicao(index, tipo) {
+            const target = tipo === 'aluno' ? dbAlunos[index] : dbAcademias[index];
+            
             document.getElementById('edit-index').value = index;
             document.getElementById('edit-tipo').value = tipo;
+            document.getElementById('edit-nome').value = target.nome;
             
             if(tipo === 'aluno') {
-                const aluno = dbAlunos[index];
-                document.getElementById('edit-nome').value = aluno.nome;
-                document.getElementById('edit-detalhe').value = aluno.whatsapp;
+                document.getElementById('edit-photo-section').style.display = 'flex';
+                document.getElementById('edit-detalhe').value = target.whatsapp;
+                document.getElementById('edit-screen-title').textContent = "Editar Aluno Premium";
                 document.getElementById('edit-detalhe').placeholder = "WhatsApp";
-                
-                if(aluno.foto) {
-                    document.getElementById('img-edit-preview').src = aluno.foto;
-                    document.getElementById('img-edit-preview').style.display = 'block';
-                    document.getElementById('placeholder-edit-avatar').style.display = 'none';
+                if(target.foto) {
+                    document.getElementById('edit-avatar-container').innerHTML = `<img src="${target.foto}" style="width:100%; height:100%; object-fit:cover;">`;
+                    currentPhotoBase64 = target.foto;
                 } else {
-                    document.getElementById('img-edit-preview').style.display = 'none';
-                    document.getElementById('placeholder-edit-avatar').style.display = 'block';
+                    document.getElementById('edit-avatar-container').innerHTML = "👤";
+                    currentPhotoBase64 = "";
                 }
             } else {
-                const ct = dbAcademias[index];
-                document.getElementById('edit-nome').value = ct.nome;
-                document.getElementById('edit-detalhe').value = ct.local;
+                document.getElementById('edit-photo-section').style.display = 'none';
+                document.getElementById('edit-detalhe').value = target.rawDetalhe || "";
+                document.getElementById('edit-screen-title').textContent = "Editar Academia / CT";
                 document.getElementById('edit-detalhe').placeholder = "Cidade / Estado";
-                document.getElementById('img-edit-preview').style.display = 'none';
-                document.getElementById('placeholder-edit-avatar').style.display = 'none';
             }
+            
             navegarPara('editar-registro');
         }
 
@@ -454,28 +419,31 @@
             const tipo = document.getElementById('edit-tipo').value;
             const novoNome = document.getElementById('edit-nome').value.trim();
             const novoDetalhe = document.getElementById('edit-detalhe').value.trim();
-            const novaFoto = document.getElementById('img-edit-preview').src;
-
-            if(novoNome === "") return alert("Identificador nominal não pode estar vazio.");
-
+            
+            if(novoNome === "") {
+                alert("O nome não pode ficar em branco.");
+                return;
+            }
+            
             if(tipo === 'aluno') {
                 dbAlunos[index].nome = novoNome;
                 dbAlunos[index].whatsapp = novoDetalhe;
-                if(novaFoto.startsWith('data:image')) dbAlunos[index].foto = novaFoto;
+                dbAlunos[index].foto = currentPhotoBase64;
             } else {
                 dbAcademias[index].nome = novoNome;
-                dbAcademias[index].local = novoDetalhe;
-                atualizarSelectAcademias();
+                dbAcademias[index].rawDetalhe = novoDetalhe;
+                dbAcademias[index].detalhe = "Local: " + (novoDetalhe || "Não informado");
             }
-
-            alert("Dados consolidados!");
+            
+            alert("Alterações salvas com sucesso!");
+            currentPhotoBase64 = "";
             atualizarDashboard();
             renderizarCadastros();
             navegarPara('ver-cadastros');
         }
 
         function excluirAluno(index) {
-            if(confirm("Confirmar desligamento definitivo do aluno?")) {
+            if(confirm("Tem certeza que deseja excluir este aluno?")) {
                 dbAlunos.splice(index, 1);
                 atualizarDashboard();
                 renderizarCadastros();
@@ -483,7 +451,41 @@
         }
 
         function excluirCT(index) {
-            if(confirm("Deseja encerrar os registros desta filial?")) {
+            if(confirm("Tem certeza que deseja excluir esta academia/CT?")) {
                 dbAcademias.splice(index, 1);
-                atualizarSelectAcademias();
-                renderizarCadastros
+                renderizarCadastros();
+            }
+        }
+
+        function atualizarDashboard() {
+            const totalAlunos = dbAlunos.length;
+            let faturamentoCalculado = 0;
+            dbAlunos.forEach(aluno => faturamentoCalculado += aluno.valor);
+            
+            document.getElementById('dash-faturamento').textContent = "R$ " + faturamentoCalculado.toFixed(2);
+            document.getElementById('dash-mensalidades').textContent = totalAlunos;
+        }
+
+        function renderizarCadastros() {
+            const container = document.getElementById('container-lista-cadastros');
+            const termoBusca = document.getElementById('search-input').value.toLowerCase().trim();
+            container.innerHTML = "";
+            
+            let itensRenderizados = 0;
+            
+            dbAlunos.forEach((aluno, index) => {
+                if(aluno.nome.toLowerCase().includes(termoBusca)) {
+                    itensRenderizados++;
+                    const avatarContent = aluno.foto ? `<img src="${aluno.foto}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : "👤";
+                    container.innerHTML += `
+                        <div class="search-item">
+                            <div class="student-row-info">
+                                <div class="mini-avatar">${avatarContent}</div>
+                                <div>
+                                    <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
+                                    <div style="font-size: 10px; color: #9ca3af;">Aluno | ${aluno.detalhe}</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-edit-user" onclick="abrirEdicao(${index}, 'aluno')">Editar</button>
+                                <button class="btn-delete-user" onclick="excluirAluno(${index})">
