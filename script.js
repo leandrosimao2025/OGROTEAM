@@ -188,3 +188,121 @@ function previewImagem(input, previewId, placeholderId) {
 window.onload = function() {
     atualizarComboGraduacao('aluno-modalidade', 'aluno-graduacao');
 };
+// PÁGINA 4: PROCESSAMENTO E GRAVAÇÃO DE ALUNO PREMIUM
+function salvarAluno() {
+    const nome = document.getElementById('aluno-nome').value.trim();
+    const whatsapp = document.getElementById('aluno-whatsapp').value.replace(/\D/g, '');
+    const plano = document.getElementById('aluno-plano').value;
+    const statusFin = document.getElementById('aluno-status-fin').value;
+    const perfil = document.getElementById('aluno-perfil').value;
+    const modalidade = document.getElementById('aluno-modalidade').value;
+    const graduacao = document.getElementById('aluno-graduacao').value;
+    const passInicial = document.getElementById('aluno-pass-inicial').value;
+    const fotoPreview = document.getElementById('aluno-photo-preview');
+    const fotoSrc = fotoPreview.style.display === 'block' ? fotoPreview.src : '';
+
+    if (!nome || !whatsapp || !passInicial) {
+        alert("Campos Nome, WhatsApp e Senha Inicial são obrigatórios.");
+        return;
+    }
+
+    dbAlunos.push({ nome, whatsapp, plano, statusFin, perfil, modalidade, graduacao, passInicial, foto: fotoSrc, presencas: [] });
+    registrarLog(currentUser.nome, "Cadastro Aluno", `Incluiu o aluno ${nome} (${perfil}) graduado em ${graduacao}.`);
+    
+    // Disparo da API Oficial estruturada do WhatsApp com credenciais temporárias
+    const textoWhats = encodeURIComponent(`Olá ${nome}! Seu acesso Premium na Ogro Team foi gerado.\n\nLink: https://${window.location.hostname}\nUsuário (WhatsApp): ${whatsapp}\nSenha de Entrada: ${passInicial}\nModalidade: ${modalidade}\nGraduação: ${graduacao}`);
+    window.open(`https://whatsapp.com{whatsapp}&text=${textoWhats}`, '_blank');
+
+    // Limpeza de formulário
+    document.getElementById('aluno-nome').value = "";
+    document.getElementById('aluno-whatsapp').value = "";
+    document.getElementById('aluno-pass-inicial').value = "";
+    fotoPreview.style.display = 'none';
+    document.getElementById('photo-placeholder').style.display = 'block';
+
+    atualizarDashboard();
+    renderizarCadastros();
+    voltarParaMenu();
+}
+
+// PÁGINA 5: GRAVAÇÃO E CADASTRO AVANÇADO DE UNIDADE (CT)
+function salvarCT() {
+    const nome = document.getElementById('ct-nome').value.trim();
+    const cnpj = document.getElementById('ct-cnpj').value.trim();
+    const responsavel = document.getElementById('ct-responsavel').value.trim();
+    const endereco = document.getElementById('ct-endereco').value.trim();
+    const local = document.getElementById('ct-local').value.trim();
+    const whatsapp = document.getElementById('ct-whatsapp').value.trim();
+    const capacidade = document.getElementById('ct-capacidade').value;
+    const mensalidade = parseFloat(document.getElementById('ct-mensalidade').value) || 0;
+
+    if (!nome || !local) return alert("Nome do CT e Cidade/Estado são obrigatórios.");
+
+    dbAcademias.push({ nome, cnpj, responsavel, endereco, local, whatsapp, capacidade, mensalidade });
+    registrarLog(currentUser.nome, "Cadastro CT", `Registrou a filial unificada: ${nome} em ${local}.`);
+
+    document.getElementById('ct-nome').value = "";
+    document.getElementById('ct-cnpj').value = "";
+    document.getElementById('ct-responsavel').value = "";
+    document.getElementById('ct-endereco').value = "";
+    document.getElementById('ct-local').value = "";
+    document.getElementById('ct-whatsapp').value = "";
+    document.getElementById('ct-capacidade').value = "";
+    document.getElementById('ct-mensalidade').value = "";
+
+    renderizarCadastros();
+    voltarParaMenu();
+}
+
+// PÁGINA 6: ENGENHARIA DE METAS E CALCULO DE INADIMPLÊNCIA DINÂMICA
+function atualizarDashboard() {
+    let faturamento = 0;
+    let inadimplentesCont = 0;
+
+    dbAlunos.forEach(aluno => {
+        const precoBase = dbPrecos[aluno.perfil] || 0;
+        if (aluno.statusFin === "Em dia") {
+            faturamento += precoBase;
+        } else {
+            inadimplentesCont++;
+        }
+    });
+
+    const totalAlunos = dbAlunos.length;
+    const percentInadimplencia = totalAlunos > 0 ? Math.round((inadimplentesCont / totalAlunos) * 100) : 0;
+
+    document.getElementById('dash-faturamento').textContent = "R$ " + faturamento;
+    document.getElementById('dash-inadimplencia').textContent = percentInadimplencia + "%";
+    document.getElementById('dash-mensalidades').textContent = (totalAlunos - inadimplentesCont);
+
+    // Renderiza Devedores (Ignorando alunos bolsistas por regra de negócio)
+    const container = document.getElementById('container-inadimplentes');
+    if(container) {
+        container.innerHTML = "";
+        const listaInad = dbAlunos.filter(a => a.statusFin === "Inadimplente" && a.perfil !== "Aluno Bolsista");
+        
+        if (listaInad.length === 0) {
+            container.innerHTML = '<div class="no-data-msg" style="color:#4ade80;">Nenhum devedor ativo na base.</div>';
+        } else {
+            listaInad.forEach(a => {
+                const valorDevido = dbPrecos[a.perfil] || 0;
+                container.innerHTML += `
+                    <div class="search-item" style="border-left: 3px solid #dc2626;">
+                        <div>
+                            <div style="font-size:13px; font-weight:bold;">${a.nome}</div>
+                            <div style="font-size:10px; color:#f87171;">${a.perfil} - Pendência: R$ ${valorDevido}</div>
+                        </div>
+                        <button class="btn-delete-user" onclick="window.open('https://whatsapp.com{a.whatsapp}&text=Prezado,%20identificamos%20uma%20pendencia%20financeira%20em%20seu%20plano%20Ogro%20Team.%20Por%20favor%20regularize%20seu%20acesso.', '_blank')">Cobrar</button>
+                    </div>`;
+            });
+        }
+    }
+}
+
+// SIMULADOR DE EXTRAÇÃO FINANCEIRA DIVERSA
+function gerarRelatorioRapido(tipo) {
+    if(tipo === 'fluxo') alert("Processando Fluxo de Caixa...\nReceita Bruta Estimada: " + document.getElementById('dash-faturamento').textContent + "\nDespesas Operacionais: R$ 1.200,00\nBalanço Líquido Consolidado.");
+    if(tipo === 'previsao') alert("Calculando Previsibilidade...\nMontante projetado para renovações automáticas de contratos ativos de planos nos próximos 30 dias baseado em contratos ativos.");
+    if(tipo === 'ct') alert("Balanço por CT...\nExibindo faturamento e inadimplência cruzados e rateados por filial ativa.");
+}
+
