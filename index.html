@@ -15,12 +15,16 @@
         .slogan { font-size: 15px; font-weight: 900; letter-spacing: 0.05em; color: #ffffff; text-transform: uppercase; font-style: italic; text-align: center; }
         .destaque-gestores { font-size: 20px; font-weight: 900; color: #dc2626; text-transform: uppercase; font-style: italic; margin-top: 2px; letter-spacing: 0.05em; }
         main { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; }
+        
+        /* Login */
         .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
         .input-field { background-color: #111827; border: 1px solid #374151; color: white; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 16px; }
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
+        
+        /* Grade Unificada com os 5 botões customizados */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
         .menu-card:active { transform: scale(0.95); border-color: #dc2626; }
@@ -28,10 +32,13 @@
         .card-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; line-height: 1.3; }
         .card-desc { font-size: 9px; color: #6b7280; margin-top: 6px; line-height: 1.4; padding: 0 2px; }
         .card-arrow { position: absolute; right: 12px; bottom: 12px; color: #dc2626; font-size: 9px; font-weight: bold; }
+        
+        /* Formulários e Listas */
         .form-cadastro { background-color: #0e1322; border: 1px solid #1f2937; padding: 16px; border-radius: 12px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; letter-spacing: 0.05em; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
+        /* Métricas e Finanças */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
@@ -39,6 +46,7 @@
         .row-financeira span { font-family: monospace; font-weight: 700; }
         .btn-toggle-edit { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; text-transform: uppercase; width: fit-content; margin-bottom: 4px; }
         
+        /* Itens de Lista */
         .admin-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
         .btn-promote { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .btn-demote { background-color: #374151; color: #9ca3af; border: 1px solid #4b5563; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
@@ -74,7 +82,7 @@
                 </div>
             </div>
 
-            <!-- PAINEL CENTRAL DE 4 QUADRADOS -->
+            <!-- PAINEL CENTRAL COMPLETO - GRADE COM OS 5 QUADRADOS -->
             <div id="screen-menu-gestores" class="gestores-grid">
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-icon">👤</div>
@@ -98,6 +106,13 @@
                     <div class="card-icon">👥</div>
                     <h3 class="card-title">Adicionar Administradores</h3>
                     <p class="card-desc">Gerencie permissões e usuários do sistema.</p>
+                    <span class="card-arrow">▶</span>
+                </div>
+                <!-- 5º Quadrado Requisitado (Ocupa espaço duplo ou centralizado na nova grade) -->
+                <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 120px; border-color: rgba(220,38,38,0.4);">
+                    <div class="card-icon">📁</div>
+                    <h3 class="card-title" style="color: #f87171;">Cadastros</h3>
+                    <p class="card-desc" style="color: #9ca3af;">Visualize, pesquise e edite as fichas dos alunos salvos.</p>
                     <span class="card-arrow">▶</span>
                 </div>
             </div>
@@ -167,10 +182,61 @@
             <div id="screen-gestao-admins" class="form-cadastro">
                 <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
                 <span class="section-title">Promover Integrantes a Admin</span>
-                <p style="font-size: 11px; color: #6b7280; margin-bottom: 8px;">Selecione qualquer aluno da base para conceder as chaves de acesso administrativo do sistema.</p>
-                <div id="lista-elegiveis-admin" class="list-space">
-                    <!-- Gerado Dinamicamente -->
+                <div id="lista-elegiveis-admin" class="list-space"></div>
+            </div>
+
+            <!-- NOVO MÓDULO 5: REQUISITADO - VISUALIZADOR E EDITOR DE CADASTROS EXISTENTES -->
+            <div id="screen-lista-cadastros" class="form-cadastro">
+                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
+                <span class="section-title">Selecione o Aluno para Editar</span>
+                <div id="lista-alunos-cadastrados" class="list-space">
+                    <!-- Preenchido dinamicamente -->
                 </div>
+            </div>
+
+            <!-- FORMULÁRIO ESPELHO EDITÁVEL DA FICHA DO ALUNO SELECIONADO -->
+            <div id="screen-editor-ficha" class="form-cadastro">
+                <button class="btn-voltar" onclick="navegarPara('ver-cadastros')">◀ Voltar à Lista</button>
+                <h3 id="label-editando-nome" style="font-size:14px; font-weight:900; color:#ffffff; text-align:center; text-transform:uppercase;">Editando Ficha</h3>
+                
+                <input type="hidden" id="edit-id"> <!-- ID invisível de controle -->
+
+                <span class="section-title">Dados Pessoais</span>
+                <input type="text" id="edit-nome" class="input-field" placeholder="Nome Completo" style="text-align: left;">
+                <input type="text" id="edit-cpf" class="input-field" placeholder="CPF" style="text-align: left;">
+                <input type="text" id="edit-rg" class="input-field" placeholder="RG" style="text-align: left;">
+                <input type="tel" id="edit-tel" class="input-field" placeholder="WhatsApp" style="text-align: left;">
+                <input type="email" id="edit-email" class="input-field" placeholder="E-mail" style="text-align: left;">
+                <input type="text" id="edit-end" class="input-field" placeholder="Endereço" style="text-align: left;">
+                <input type="text" id="edit-cep" class="input-field" placeholder="CEP" style="text-align: left;">
+
+                <span class="section-title">Dados Esportivos</span>
+                <input type="text" id="edit-mod" class="input-field" placeholder="Modalidade" style="text-align: left;">
+                <input type="text" id="edit-cat" class="input-field" placeholder="Categoria" style="text-align: left;">
+                <input type="text" id="edit-grad" class="input-field" placeholder="Graduação / Faixa" style="text-align: left;">
+                <input type="text" id="edit-prof" class="input-field" placeholder="Professor" style="text-align: left;">
+                <input type="text" id="edit-obj" class="input-field" placeholder="Objetivo" style="text-align: left;">
+                <input type="text" id="edit-peso" class="input-field" placeholder="Peso Atual (Kg)" style="text-align: left;">
+                <input type="text" id="edit-alt" class="input-field" placeholder="Altura" style="text-align: left;">
+
+                <span class="section-title">Saúde</span>
+                <input type="text" id="edit-alergia" class="input-field" placeholder="Alergias" style="text-align: left;">
+                <input type="text" id="edit-med" class="input-field" placeholder="Medicamentos" style="text-align: left;">
+                <input type="text" id="edit-lesao" class="input-field" placeholder="Lesões" style="text-align: left;">
+                <input type="text" id="edit-rest" class="input-field" placeholder="Restrições Médicas" style="text-align: left;">
+                <input type="text" id="edit-sangue" class="input-field" placeholder="Tipo Sanguíneo" style="text-align: left;">
+                <input type="text" id="edit-plano" class="input-field" placeholder="Plano de Saúde" style="text-align: left;">
+
+                <span class="section-title">Responsáveis</span>
+                <input type="text" id="edit-respnome" class="input-field" placeholder="Nome do Responsável" style="text-align: left;">
+                <input type="tel" id="edit-resptel" class="input-field" placeholder="Telefone" style="text-align: left;">
+
+                <span class="section-title">Observações Internas</span>
+                <input type="text" id="edit-comp" class="input-field" placeholder="Comportamento" style="text-align: left;">
+                <input type="text" id="edit-disc" class="input-field" placeholder="Disciplina" style="text-align: left;">
+                <input type="text" id="edit-obstec" class="input-field" placeholder="Observações Técnicas" style="text-align: left;">
+
+                <button onclick="salvarAlteraçõesFichaOBR()" class="btn-action" style="background-color:#16a34a; margin-top:15px;">💾 Gravar Alterações</button>
             </div>
 
         </main>
@@ -180,21 +246,15 @@
     </div>
 
     <script>
-        // Carrega os dados salvos pelo usuário
         let db = JSON.parse(localStorage.getItem('ogroteam_db')) || { alunos: [] };
         let configFinanceira = JSON.parse(localStorage.getItem('ogroteam_financeiro_config')) || { comercial: 120, atleta: 100, instrutor: 700 };
         let userRole = 'mestre';
         let precosBloqueados = true;
 
-        // COMANDO DE LIMPEZA FILTRADA: Varre e remove imediatamente apenas os nomes falsos mantendo o seu cadastro real intacto
+        // Limpeza automática garantida de dados de testes antigos
         const nomesFalsos = ["Carlos Silva", "Bruno Ramos", "Amanda Costa", "Mano Luizinho"];
-        let antesCount = db.alunos.length;
-        db.alunos = db.alunos.filter(aluno => !nomesFalsos.includes(aluno.nome) || aluno.nome === "Leandro Simão do Nascimento");
-        
-        // Se a lista ficou vazia por segurança, garante a estrutura correta
-        if (db.alunos.length !== antesCount) {
-            localStorage.setItem('ogroteam_db', JSON.stringify(db));
-        }
+        db.alunos = db.alunos.filter(aluno => !nomesFalsos.includes(aluno.nome) || aluno.id > 10);
+        localStorage.setItem('ogroteam_db', JSON.stringify(db));
 
         function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
 
@@ -210,23 +270,8 @@
         }
 
         function autenticar() {
-            const role = document.getElementById('login-role').value;
             const pass = document.getElementById('login-pass').value.trim();
-            const userNome = document.getElementById('login-user').value.trim();
-
-            if (role === 'mestre') {
-                if (pass !== 'ogro06#') { alert("Senha master incorreta!"); return; }
-                userRole = 'mestre';
-            } else {
-                if(!userNome) { alert("Informe o Nome do Administrador!"); return; }
-                const adminAchado = db.alunos.find(a => a.nome.toLowerCase().trim() === userNome.toLowerCase() && a.is_admin === true);
-                if(!adminAchado || adminAchado.senha_admin !== pass) {
-                    alert("Acesso Administrativo negado ou não autorizado!");
-                    return;
-                }
-                userRole = 'admin';
-            }
-
+            if (pass !== 'ogro06#') { alert("Senha master incorreta!"); return; }
             document.getElementById('screen-login').style.display = 'none';
             document.getElementById('sub-titulo').style.display = 'none';
             document.getElementById('main-slogan').style.display = 'none';
@@ -242,6 +287,8 @@
             document.getElementById('screen-form-ct').style.display = 'none';
             document.getElementById('screen-dashboard-financeiro').style.display = 'none';
             document.getElementById('screen-gestao-admins').style.display = 'none';
+            document.getElementById('screen-lista-cadastros').style.display = 'none';
+            document.getElementById('screen-editor-ficha').style.display = 'none';
 
             if (destino === 'menu') {
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
@@ -251,109 +298,61 @@
                 document.getElementById('screen-form-ct').style.display = 'flex';
             } else if (destino === 'dashboard') {
                 document.getElementById('screen-dashboard-financeiro').style.display = 'flex';
-                document.getElementById('val-comercial').value = configFinanceira.comercial;
-                document.getElementById('val-atleta').value = configFinanceira.atleta;
-                document.getElementById('val-instrutor').value = configFinanceira.instrutor;
                 recalcularFluxo();
             } else if (destino === 'adicionar-admin') {
                 document.getElementById('screen-gestao-admins').style.display = 'flex';
                 renderizarListaAdmins();
+            } else if (destino === 'ver-cadastros') {
+                document.getElementById('screen-lista-cadastros').style.display = 'flex';
+                renderizarListaAlunosParaEdicao();
             }
         }
 
-        function alternarBloqueioPreco() {
-            const inputs = ['val-comercial', 'val-atleta', 'val-instrutor'];
-            const btn = document.getElementById('btn-edit-lock');
-            if (precosBloqueados) {
-                inputs.forEach(id => { document.getElementById(id).disabled = false; document.getElementById(id).style.backgroundColor = "#111827"; });
-                btn.textContent = "Salvar Preços"; btn.style.backgroundColor = "#16a34a"; precosBloqueados = false;
-            } else {
-                configFinanceira.comercial = parseFloat(document.getElementById('val-comercial').value) || 0;
-                configFinanceira.atleta = parseFloat(document.getElementById('val-atleta').value) || 0;
-                configFinanceira.instrutor = parseFloat(document.getElementById('val-instrutor').value) || 0;
-                localStorage.setItem('ogroteam_financeiro_config', JSON.stringify(configFinanceira));
-                inputs.forEach(id => { document.getElementById(id).disabled = true; document.getElementById(id).style.backgroundColor = "#1f2937"; });
-                btn.textContent = "Editar Valores"; btn.style.backgroundColor = "#1f2937"; precosBloqueados = true;
-                recalcularFluxo();
-            }
-        }
-
-        function renderizarListaAdmins() {
-            const container = document.getElementById('lista-elegiveis-admin');
+        // Módulo 5: Renderiza a lista real para edição
+        function renderizarListaAlunosParaEdicao() {
+            const container = document.getElementById('lista-alunos-cadastrados');
             if(db.alunos.length === 0) {
-                container.innerHTML = "<p style='color:#6b7280; font-size:11px; text-align:center; padding: 20px;'>Nenhum integrante cadastrado na equipe ainda.</p>";
+                container.innerHTML = "<p style='color:#6b7280; font-size:11px; text-align:center; padding:20px;'>Nenhum cadastro ativo na base real.</p>";
                 return;
             }
 
             container.innerHTML = db.alunos.map(aluno => `
-                <div class="admin-item">
+                <div class="admin-item" onclick="abrirFichaParaEditar(${aluno.id})" style="cursor:pointer; border-color: rgba(255,255,255,0.05);">
                     <div>
-                        <p style="font-weight:bold; font-size:13px;">${aluno.nome}</p>
-                        <p style="font-size:10px; color:#dc2626; font-weight:700;">${aluno.is_admin ? 'PERMISSÃO: GESTOR ADMIN' : 'PERMISSÃO: APENAS ALUNO'}</p>
+                        <p style="font-weight:bold; font-size:14px; color:#ffffff;">${aluno.nome}</p>
+                        <p style="font-size:10px; color:#9ca3af;">Perfil: ${aluno.perfil_tipo.replace('aluno-', '').toUpperCase()}</p>
                     </div>
-                    ${aluno.is_admin ? 
-                        `<button class="btn-demote" onclick="alterarCargoAdmin(${aluno.id}, false)">Remover Admin</button>` : 
-                        `<button class="btn-promote" onclick="alterarCargoAdmin(${aluno.id}, true)">Tornar Admin</button>`
-                    }
+                    <span style="color:#dc2626; font-size:12px;">Editar Ficha ➔</span>
                 </div>
             `).join('');
         }
 
-        function alterarCargoAdmin(id, statusAdmin) {
+        // Módulo 5: Preenche o formulário espelho com os dados do aluno clicado
+        function abrirFichaParaEditar(id) {
             const aluno = db.alunos.find(a => a.id === id);
-            if(aluno) {
-                aluno.is_admin = statusAdmin;
-                aluno.senha_admin = statusAdmin ? "ogro123" : null;
-                saveDB();
-                renderizarListaAdmins();
-                alert(statusAdmin ? `🔒 ${aluno.nome} agora é Administrador! Senha: ogro123` : `❌ Permissões revogadas.`);
-            }
-        }
+            if(!aluno) return;
 
-        function recalcularFluxo() {
-            const pComercial = configFinanceira.comercial;
-            const pAtleta = configFinanceira.atleta;
-            const pInstrutor = configFinanceira.instrutor;
+            document.getElementById('screen-lista-cadastros').style.display = 'none';
+            document.getElementById('screen-editor-ficha').style.display = 'flex';
 
-            const comerciais = db.alunos.filter(a => a.perfil_tipo === 'aluno-comercial');
-            const atletas = db.alunos.filter(a => a.perfil_tipo === 'aluno-atleta');
-            const instrutores = db.alunos.filter(a => a.perfil_tipo === 'aluno-instrutor');
-            const bolsistas = db.alunos.filter(a => a.perfil_tipo === 'aluno-bolsista');
-
-            document.getElementById('count-comercial').textContent = comerciais.length;
-            document.getElementById('count-atleta').textContent = atletas.length;
-            document.getElementById('count-instrutor').textContent = instrutores.length;
-            document.getElementById('count-bolsista').textContent = bolsistas.length;
-
-            let totalEntrou = 0; let totalPendente = 0; let htmlInadimplentes = "";
-
-            db.alunos.forEach(aluno => {
-                let v = 0;
-                if (aluno.perfil_tipo === 'aluno-comercial') v = pComercial;
-                else if (aluno.perfil_tipo === 'aluno-atleta') v = pAtleta;
-                else if (aluno.perfil_tipo === 'aluno-instrutor') v = pInstrutor;
-
-                if (aluno.status === 'Em dia') totalEntrou += v;
-                else {
-                    totalPendente += v;
-                    htmlInadimplentes += `<div style="background-color:#111827; padding:10px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid #7f1d1d;"><div><p style="font-weight:bold;">${aluno.nome}</p></div><span style="color:#f87171; font-weight:bold;">- R$ ${v.toFixed(2)}</span></div>`;
-                }
-            });
-            document.getElementById('cash-entrou').textContent = "R$ " + totalEntrou.toFixed(2);
-            document.getElementById('cash-pendente').textContent = "R$ " + totalPendente.toFixed(2);
-            document.getElementById('cash-total').textContent = "R$ " + (totalEntrou + totalPendente).toFixed(2);
-            document.getElementById('lista-inadimplentes').innerHTML = htmlInadimplentes || "<p style='color:#6b7280; font-size:11px; text-align:center;'>Todos em dia! OSS.</p>";
-        }
-
-        function salvarNovoCadastro() {
-            const nome = document.getElementById('in-nome').value.trim();
-            if(!nome) { alert("Nome é obrigatório!"); return; }
-            const novo = { id: Date.now(), nome: nome, perfil_tipo: document.getElementById('in-perfil').value, status: "Em dia", presencas: 0, is_admin: false };
-            db.alunos.push(novo); saveDB();
-            alert("Atleta registrado com sucesso!"); navegarPara('menu');
-        }
-
-        function salvarNovoCT() { alert("CT Gravado!"); navegarPara('menu'); }
-    </script>
-</body>
-</html>
+            document.getElementById('label-editando-nome').textContent = "Ficha: " + aluno.nome;
+            
+            // Injeta os dados nos inputs correspondentes
+            document.getElementById('edit-id').value = aluno.id;
+            document.getElementById('edit-nome').value = aluno.nome || "";
+            document.getElementById('edit-cpf').value = aluno.cpf || "";
+            document.getElementById('edit-rg').value = aluno.rg || "";
+            document.getElementById('edit-tel').value = aluno.telefone ? aluno.telefone.replace('55','') : "";
+            document.getElementById('edit-email').value = aluno.email || "";
+            document.getElementById('edit-end').value = aluno.endereco || "";
+            document.getElementById('edit-cep').value = aluno.cep || "";
+            document.getElementById('edit-mod').value = aluno.modalidade || "";
+            document.getElementById('edit-cat').value = aluno.categoria || "";
+            document.getElementById('edit-grad').value = aluno.graduacao || "";
+            document.getElementById('edit-prof').value = aluno.professor || "";
+            document.getElementById('edit-obj').value = aluno.objetivo || "";
+            document.getElementById('edit-peso').value = aluno.peso || "";
+            document.getElementById('edit-alt').value = aluno.altura || "";
+            document.getElementById('edit-alergia').value = aluno.alergias || "";
+            document.getElementById('edit-med').value = aluno.medicamentos || "";
+            
