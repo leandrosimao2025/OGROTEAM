@@ -32,7 +32,6 @@
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; letter-spacing: 0.05em; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
-        /* Estilos do Dashboard */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
@@ -40,7 +39,6 @@
         .row-financeira span { font-family: monospace; font-weight: 700; }
         .btn-toggle-edit { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; text-transform: uppercase; width: fit-content; margin-bottom: 4px; }
         
-        /* Lista de Usuários Administrativos */
         .admin-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
         .btn-promote { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .btn-demote { background-color: #374151; color: #9ca3af; border: 1px solid #4b5563; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
@@ -69,7 +67,7 @@
                     </select>
                     <input type="text" id="login-user" class="input-field" placeholder="Nome Completo do Administrador" style="display: none; text-align: center;">
                     <div class="password-container">
-                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha de acesso">
+                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha master">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
                     <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
@@ -139,15 +137,15 @@
                 <div style="display:flex; flex-direction:column; gap:8px;">
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Comercial (R$):</label>
-                        <input type="number" id="val-comercial" class="input-field" value="150" disabled style="width:100px; padding:6px; background-color:#1f2937;">
+                        <input type="number" id="val-comercial" class="input-field" value="120" disabled style="width:100px; padding:6px; background-color:#1f2937;">
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Atleta (R$):</label>
-                        <input type="number" id="val-atleta" class="input-field" value="200" disabled style="width:100px; padding:6px; background-color:#1f2937;">
+                        <input type="number" id="val-atleta" class="input-field" value="100" disabled style="width:100px; padding:6px; background-color:#1f2937;">
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Instrutor (R$):</label>
-                        <input type="number" id="val-instrutor" class="input-field" value="80" disabled style="width:100px; padding:6px; background-color:#1f2937;">
+                        <input type="number" id="val-instrutor" class="input-field" value="700" disabled style="width:100px; padding:6px; background-color:#1f2937;">
                     </div>
                 </div>
                 <span class="section-title">Métricas de Alunos por Perfil</span>
@@ -165,7 +163,7 @@
                 <div id="lista-inadimplentes" class="list-space"></div>
             </div>
 
-            <!-- SUBPÁGINA 4: NOVA GESTÃO DE ADMINISTRADORES -->
+            <!-- SUBPÁGINA 4: GESTÃO DE ADMINISTRADORES -->
             <div id="screen-gestao-admins" class="form-cadastro">
                 <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
                 <span class="section-title">Promover Integrantes a Admin</span>
@@ -182,10 +180,21 @@
     </div>
 
     <script>
+        // Carrega os dados salvos pelo usuário
         let db = JSON.parse(localStorage.getItem('ogroteam_db')) || { alunos: [] };
         let configFinanceira = JSON.parse(localStorage.getItem('ogroteam_financeiro_config')) || { comercial: 120, atleta: 100, instrutor: 700 };
         let userRole = 'mestre';
         let precosBloqueados = true;
+
+        // COMANDO DE LIMPEZA FILTRADA: Varre e remove imediatamente apenas os nomes falsos mantendo o seu cadastro real intacto
+        const nomesFalsos = ["Carlos Silva", "Bruno Ramos", "Amanda Costa", "Mano Luizinho"];
+        let antesCount = db.alunos.length;
+        db.alunos = db.alunos.filter(aluno => !nomesFalsos.includes(aluno.nome) || aluno.nome === "Leandro Simão do Nascimento");
+        
+        // Se a lista ficou vazia por segurança, garante a estrutura correta
+        if (db.alunos.length !== antesCount) {
+            localStorage.setItem('ogroteam_db', JSON.stringify(db));
+        }
 
         function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
 
@@ -272,7 +281,7 @@
         function renderizarListaAdmins() {
             const container = document.getElementById('lista-elegiveis-admin');
             if(db.alunos.length === 0) {
-                container.innerHTML = "<p style='color:#6b7280; font-size:11px; text-align:center;'>Nenhum integrante cadastrado para promover.</p>";
+                container.innerHTML = "<p style='color:#6b7280; font-size:11px; text-align:center; padding: 20px;'>Nenhum integrante cadastrado na equipe ainda.</p>";
                 return;
             }
 
@@ -294,10 +303,10 @@
             const aluno = db.alunos.find(a => a.id === id);
             if(aluno) {
                 aluno.is_admin = statusAdmin;
-                aluno.senha_admin = statusAdmin ? "ogro123" : null; // Define senha corporativa se virar admin
+                aluno.senha_admin = statusAdmin ? "ogro123" : null;
                 saveDB();
                 renderizarListaAdmins();
-                alert(statusAdmin ? `🔒 ${aluno.nome} agora possui acesso master! Senha padrão: ogro123` : `❌ Permissões revogadas para ${aluno.nome}`);
+                alert(statusAdmin ? `🔒 ${aluno.nome} agora é Administrador! Senha: ogro123` : `❌ Permissões revogadas.`);
             }
         }
 
@@ -341,7 +350,7 @@
             if(!nome) { alert("Nome é obrigatório!"); return; }
             const novo = { id: Date.now(), nome: nome, perfil_tipo: document.getElementById('in-perfil').value, status: "Em dia", presencas: 0, is_admin: false };
             db.alunos.push(novo); saveDB();
-            alert("Atleta registrado!"); navegarPara('menu');
+            alert("Atleta registrado com sucesso!"); navegarPara('menu');
         }
 
         function salvarNovoCT() { alert("CT Gravado!"); navegarPara('menu'); }
