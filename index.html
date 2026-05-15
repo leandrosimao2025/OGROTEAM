@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <title>Ogro Team - Gestores</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: #060913; color: #f3f4f6; display: flex; justify-content: center; min-height: 100vh; }
+        body { background-color: #060913; color: #f3f4f6; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
         .app-container { width: 100%; max-width: 412px; background-color: #060913; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid #1f2937; border-right: 1px solid #1f2937; min-height: 100vh; position: relative; }
         header { background-color: #000000; padding: 24px 14px 16px 14px; display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
         .logo-box { width: 130px; height: 130px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
@@ -18,17 +18,20 @@
         .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
         .input-field { background-color: #111827; border: 1px solid #374151; color: #ffffff !important; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
+        .select-field { background-color: #111827; border: 1px solid #374151; color: #ffffff; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align-last: center; appearance: none; cursor: pointer; }
+        .select-field:focus { border-color: #dc2626; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 18px; z-index: 10; padding: 5px; }
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 6px; letter-spacing: 0.05em; }
+        .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
         .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 14px; align-self: center; }
         
-        /* Grid idêntico à imagem enviada */
+        /* Grid Principal */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .menu-card { background-color: #0b1120; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; min-height: 180px; justify-content: space-between; position: relative; }
         .menu-card:active { transform: scale(0.97); border-color: #dc2626; }
         .card-img-container { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-        .card-img-container img, .card-img-container span { max-width: 100%; max-height: 100%; font-size: 40px; }
+        .card-img-container span { font-size: 40px; }
         .card-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; margin-bottom: 6px; }
         .card-desc { font-size: 10px; color: #94a3b8; line-height: 1.4; }
         .card-arrow { color: #dc2626; font-size: 12px; position: absolute; bottom: 12px; right: 16px; }
@@ -52,6 +55,11 @@
         .btn-delete-user { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .no-data-msg { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; font-style: italic; }
         
+        /* Status Tags */
+        .status-badge { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; margin-top: 4px; display: inline-block; }
+        .status-pago { background-color: rgba(74, 222, 128, 0.2); color: #4ade80; }
+        .status-atraso { background-color: rgba(248, 113, 113, 0.2); color: #f87171; }
+
         /* Dashboard */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
@@ -94,7 +102,7 @@
                 </div>
             </div>
 
-            <!-- PAINEL CENTRAL (ESTILIZADO IGUAL À IMAGEM) -->
+            <!-- PAINEL CENTRAL (CONFORME IMAGEM) -->
             <div id="screen-menu-gestores" class="gestores-grid">
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-img-container"><span style="color:#3b82f6;">👤</span></div>
@@ -124,7 +132,6 @@
                     <span class="card-arrow">▶</span>
                 </div>
 
-                <!-- ATALHO RÁPIDO INTEGRADO DE GERENCIAMENTO -->
                 <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 80px; flex-direction: row; padding: 16px;">
                     <div style="text-align: left;">
                         <h3 class="card-title" style="margin-bottom: 2px;">Visualizar / Editar Todos os Registros</h3>
@@ -148,7 +155,13 @@
 
                     <input type="text" id="aluno-nome" class="input-field" placeholder="Nome Completo">
                     <input type="text" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp (Apenas números)">
-                    <input type="text" id="aluno-plano" class="input-field" placeholder="Plano (Mensal, Trimestral...)">
+                    <input type="text" id="aluno-plano" class="input-field" placeholder="Valor da Mensalidade (Ex: 150)">
+                    
+                    <select id="aluno-status-financeiro" class="select-field">
+                        <option value="pago">Status: Pago / Ativo</option>
+                        <option value="atraso">Status: Inadimplente / Atrasado</option>
+                    </select>
+
                     <input type="password" id="aluno-pass-inicial" class="input-field" placeholder="Criar Senha Inicial do Aluno">
                     
                     <button class="btn-action" onclick="salvarAluno()">Salvar e Enviar Acesso via WhatsApp</button>
@@ -176,7 +189,7 @@
                     </div>
                     <div class="metric-card">
                         <span style="font-size: 10px; color: #9ca3af;">Inadimplência</span>
-                        <span class="metric-val" style="color: #f87171;">0.0%</span>
+                        <span class="metric-val" id="dash-inadimplencia" style="color: #f87171;">0.0%</span>
                     </div>
                 </div>
                 <div class="row-financeira">
@@ -221,6 +234,12 @@
 
                     <input type="text" id="edit-nome" class="input-field" placeholder="Nome">
                     <input type="text" id="edit-detalhe" class="input-field" placeholder="Detalhe">
+                    
+                    <select id="edit-status" class="select-field" style="display: none; margin-bottom: 4px;">
+                        <option value="pago">Pago / Ativo</option>
+                        <option value="atraso">Inadimplente / Atrasado</option>
+                    </select>
+
                     <button class="btn-action" onclick="salvarEdicaoReal()">Salvar Alterações</button>
                 </div>
             </div>
@@ -271,7 +290,7 @@
         }
 
         function previewImagem(input, previewId, placeholderId) {
-            const file = input.files[0];
+            const file = input.files;
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -309,7 +328,8 @@
         function salvarAluno() {
             const nome = document.getElementById('aluno-nome').value.trim();
             const whatsapp = document.getElementById('aluno-whatsapp').value.replace(/\D/g, '');
-            const plano = document.getElementById('aluno-plano').value.trim();
+            const planoValor = parseFloat(document.getElementById('aluno-plano').value) || 150;
+            const status = document.getElementById('aluno-status-financeiro').value;
             const passInicial = document.getElementById('aluno-pass-inicial').value;
             const fotoPreview = document.getElementById('aluno-photo-preview');
             const fotoSrc = fotoPreview.style.display === 'block' ? fotoPreview.src : '';
@@ -319,7 +339,7 @@
                 return;
             }
             
-            dbAlunos.push({ nome, whatsapp, plano, passInicial, foto: fotoSrc });
+            dbAlunos.push({ nome, whatsapp, valor: planoValor, status, passInicial, foto: fotoSrc });
             
             const textoWhats = encodeURIComponent(`Olá ${nome}! Seu cadastro Premium na Ogro Team foi concluído.\n\nSeu acesso:\nLink: https://github.io\nUsuário: ${whatsapp}\nSenha Inicial: ${passInicial}`);
             window.open(`https://whatsapp.com{whatsapp}&text=${textoWhats}`, '_blank');
@@ -356,9 +376,13 @@
             document.getElementById('edit-tipo').value = tipo;
             document.getElementById('edit-nome').value = target.nome;
             
+            const selectStatus = document.getElementById('edit-status');
+
             if(tipo === 'aluno') {
                 document.getElementById('edit-detalhe').value = target.whatsapp;
                 document.getElementById('edit-photo-box').style.display = 'flex';
+                selectStatus.style.display = 'block';
+                selectStatus.value = target.status;
                 if(target.foto) {
                     document.getElementById('edit-photo-preview').src = target.foto;
                     document.getElementById('edit-photo-preview').style.display = 'block';
@@ -370,6 +394,7 @@
             } else {
                 document.getElementById('edit-detalhe').value = target.local;
                 document.getElementById('edit-photo-box').style.display = 'none';
+                selectStatus.style.display = 'none';
             }
             navegarPara('editar-registro');
         }
@@ -385,6 +410,7 @@
             if(tipo === 'aluno') {
                 dbAlunos[index].nome = nome;
                 dbAlunos[index].whatsapp = detalhe;
+                dbAlunos[index].status = document.getElementById('edit-status').value;
                 if(document.getElementById('edit-photo-preview').style.display === 'block') {
                     dbAlunos[index].foto = document.getElementById('edit-photo-preview').src;
                 }
@@ -397,6 +423,15 @@
             atualizarDashboard();
             renderizarCadastros();
             navegarPara('ver-cadastros');
+        }
+
+        function validarPresenca(index) {
+            const aluno = dbAlunos[index];
+            if(aluno.status === 'atraso') {
+                alert(`⚠️ IMPEDIDO: O aluno ${aluno.nome} possui pendências financeiras em aberto.`);
+            } else {
+                alert(`✅ PRESENÇA CONFIRMADA: Entrada liberada para ${aluno.nome}.`);
+            }
         }
 
         function excluirAluno(index) {
@@ -415,9 +450,25 @@
         }
 
         function atualizarDashboard() {
-            const total = dbAlunos.length;
-            document.getElementById('dash-faturamento').textContent = "R$ " + (total * 150);
-            document.getElementById('dash-mensalidades').textContent = total;
+            let faturamentoReal = 0;
+            let faturamentoAtrasado = 0;
+            let totalPagos = 0;
+
+            dbAlunos.forEach(aluno => {
+                if(aluno.status === 'pago') {
+                    faturamentoReal += aluno.valor;
+                    totalPagos++;
+                } else {
+                    faturamentoAtrasado += aluno.valor;
+                }
+            });
+
+            let totalProjetado = faturamentoReal + faturamentoAtrasado;
+            let taxaInadimplencia = totalProjetado > 0 ? ((faturamentoAtrasado / totalProjetado) * 100).toFixed(1) : "0.0";
+
+            document.getElementById('dash-faturamento').textContent = "R$ " + faturamentoReal;
+            document.getElementById('dash-inadimplencia').textContent = taxaInadimplencia + "%";
+            document.getElementById('dash-mensalidades').textContent = totalPagos;
         }
 
         function renderizarCadastros() {
@@ -429,46 +480,4 @@
             dbAlunos.forEach((aluno, idx) => {
                 if(aluno.nome.toLowerCase().includes(busca)) {
                     cont++;
-                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;border-radius:50%;width:40px;height:40px;">👤</div>`;
-                    container.innerHTML += `
-                        <div class="search-item">
-                            <div style="display:flex; align-items:center;">
-                                ${imgTag}
-                                <div style="margin-left: 10px;">
-                                    <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
-                                    <div style="font-size: 10px; color: #9ca3af;">Plano: ${aluno.plano || 'Padrão'}</div>
-                                </div>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn-edit-user" onclick="abrirEdicao(${idx}, 'aluno')">Editar</button>
-                                <button class="btn-delete-user" onclick="excluirAluno(${idx})">Excluir</button>
-                            </div>
-                        </div>`;
-                }
-            });
-
-            dbAcademias.forEach((ct, idx) => {
-                if(ct.nome.toLowerCase().includes(busca)) {
-                    cont++;
-                    container.innerHTML += `
-                        <div class="search-item">
-                            <div>
-                                <div style="font-size: 13px; font-weight: bold; color: #f87171;">${ct.nome}</div>
-                                <div style="font-size: 10px; color: #9ca3af;">Unidade | ${ct.local}</div>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn-edit-user" onclick="abrirEdicao(${idx}, 'ct')">Editar</button>
-                                <button class="btn-delete-user" onclick="excluirCT(${idx})">Excluir</button>
-                            </div>
-                        </div>`;
-                }
-            });
-
-            if(cont === 0) container.innerHTML = '<div class="no-data-msg">Nenhum registro ativo encontrado.</div>';
-        }
-    </script>
-</body>
-</html>
-
-Se desejar prosseguir com novas atualizações de layout ou regras de negócio para a Ogro Team, basta me informar.
-
+                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;border-radius:50%;width:40px;
