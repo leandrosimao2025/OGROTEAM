@@ -7,44 +7,30 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: #060913; color: #f3f4f6; display: flex; justify-content: center; min-height: 100vh; }
-        
-        /* Container blindado na proporção exata da tela do celular */
         .app-container { width: 100%; max-width: 412px; background-color: #060913; display: flex; flex-direction: column; justify-content: space-between; border-left: 1px solid #1f2937; border-right: 1px solid #1f2937; min-height: 100vh; position: relative; }
-        
-        /* Topo do App */
         header { background-color: #000000; padding: 24px 14px 16px 14px; display: flex; flex-direction: column; align-items: center; border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
         .logo-box { width: 130px; height: 130px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
-        .logo-box img { max-w: 100%; max-height: 100%; object-fit: contain; }
+        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .sub-header-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #9ca3af; letter-spacing: 0.15em; margin-bottom: 4px; }
         .slogan { font-size: 15px; font-weight: 900; letter-spacing: 0.05em; color: #ffffff; text-transform: uppercase; font-style: italic; text-align: center; }
         .destaque-gestores { font-size: 20px; font-weight: 900; color: #dc2626; text-transform: uppercase; font-style: italic; margin-top: 2px; letter-spacing: 0.05em; }
-        
         main { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; }
-        
-        /* Interface de Login */
         .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
         .input-field { background-color: #111827; border: 1px solid #374151; color: white; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 16px; }
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 13px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
-        .btn-action:active { transform: scale(0.98); }
-        
-        /* Grade dos 4 Quadrados Grandes (Idêntica ao Design que você enviou) */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
-        .menu-card:active { transform: scale(0.95); border-color: #dc2626; background: #0e1322; }
+        .menu-card:active { transform: scale(0.95); border-color: #dc2626; }
         .card-icon { font-size: 32px; margin-bottom: 10px; }
         .card-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; line-height: 1.3; }
         .card-desc { font-size: 9px; color: #6b7280; margin-top: 6px; line-height: 1.4; padding: 0 2px; }
         .card-arrow { position: absolute; right: 12px; bottom: 12px; color: #dc2626; font-size: 9px; font-weight: bold; }
-        
-        /* Formulários e Subtelas */
         .form-cadastro { background-color: #0e1322; border: 1px solid #1f2937; padding: 16px; border-radius: 12px; display: none; flex-direction: column; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; letter-spacing: 0.05em; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
-
-        /* Rodapé de Lemas Corporativos da Base da Imagem */
         footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: none; }
         footer .marca-vermelha { color: #dc2626; }
     </style>
@@ -52,7 +38,6 @@
 <body>
 
     <div class="app-container">
-        <!-- Topo unificado -->
         <header>
             <div class="logo-box"><img src="logo.png" alt="Ogro Team Logo"></div>
             <p class="sub-header-title" id="sub-titulo">Gestão Financeira</p>
@@ -60,47 +45,39 @@
             <div class="destaque-gestores" id="titulo-gestores" style="display: none;">Gestores</div>
         </header>
 
-        <!-- Espaço de exibição das telas do Celular -->
         <main id="app-content">
-            
-            <!-- TELA DE LOGIN SECRETA -->
+            <!-- TELA DE LOGIN -->
             <div id="screen-login">
                 <div class="login-box">
                     <input type="text" class="input-field" value="Perfil: Administrador / Mestre" readonly style="color: #9ca3af; border-color: #1f2937;">
-                    
                     <div class="password-container">
                         <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha master">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
-                    
                     <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
                 </div>
             </div>
 
-            <!-- PAINEL CENTRAL DE 4 QUADRADOS (IGUAL AO SEU DESEJO) -->
+            <!-- PAINEL CENTRAL DE 4 QUADRADOS -->
             <div id="screen-menu-gestores" class="gestores-grid">
-                <!-- Quadrado 1 -->
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-icon">👤</div>
                     <h3 class="card-title">Incluir Aluno</h3>
                     <p class="card-desc">Cadastre novos alunos na equipe.</p>
                     <span class="card-arrow">▶</span>
                 </div>
-                <!-- Quadrado 2 -->
                 <div class="menu-card" onclick="navegarPara('incluir-ct')">
                     <div class="card-icon">🏛️</div>
                     <h3 class="card-title">Incluir Academias e CT</h3>
                     <p class="card-desc">Cadastre academias e centros de treinamento.</p>
                     <span class="card-arrow">▶</span>
                 </div>
-                <!-- Quadrado 3 -->
                 <div class="menu-card" onclick="navegarPara('dashboard')">
                     <div class="card-icon">📈</div>
                     <h3 class="card-title">Dashboard Financeiro</h3>
                     <p class="card-desc">Acompanhe receitas, despesas e resultados.</p>
                     <span class="card-arrow">▶</span>
                 </div>
-                <!-- Quadrado 4 -->
                 <div class="menu-card" onclick="navegarPara('adicionar-admin')">
                     <div class="card-icon">👥</div>
                     <h3 class="card-title">Adicionar Administradores</h3>
@@ -109,10 +86,9 @@
                 </div>
             </div>
 
-            <!-- SUBPÁGINA: FORMULÁRIO DE CADASTRO COMPLETO -->
+            <!-- SUBPÁGINA 1: FORMULÁRIO DE CADASTRO DE ALUNO -->
             <div id="screen-form-cadastro" class="form-cadastro">
                 <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
-                
                 <span class="section-title">Credenciais de Perfil</span>
                 <select id="in-perfil" class="input-field" style="text-align: left;">
                     <option value="admin">Modalidade: Administrador</option>
@@ -121,10 +97,8 @@
                     <option value="atleta">Modalidade: Aluno Atleta</option>
                 </select>
                 <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Provisória" style="text-align: left;">
-
                 <span class="section-title">Perfil e Mídia</span>
                 <input type="file" id="in-foto" class="input-field" accept="image/*">
-
                 <span class="section-title">Dados Pessoais</span>
                 <input type="text" id="in-nome" class="input-field" placeholder="Nome Completo" style="text-align: left;">
                 <input type="text" id="in-cpf" class="input-field" placeholder="CPF" style="text-align: left;">
@@ -135,11 +109,10 @@
                     <option value="Masculino">Sexo: Masculino</option>
                     <option value="Feminino">Sexo: Feminino</option>
                 </select>
-                <input type="tel" id="in-tel" class="input-field" placeholder="WhatsApp (DDD + Número)" style="text-align: left;">
+                <input type="tel" id="in-tel" class="input-field" placeholder="WhatsApp" style="text-align: left;">
                 <input type="email" id="in-email" class="input-field" placeholder="E-mail" style="text-align: left;">
                 <input type="text" id="in-end" class="input-field" placeholder="Endereço" style="text-align: left;">
                 <input type="text" id="in-cep" class="input-field" placeholder="CEP" style="text-align: left;">
-
                 <span class="section-title">Dados Esportivos</span>
                 <input type="text" id="in-mod" class="input-field" placeholder="Modalidade" style="text-align: left;">
                 <input type="text" id="in-cat" class="input-field" placeholder="Categoria" style="text-align: left;">
@@ -150,7 +123,6 @@
                 <input type="text" id="in-obj" class="input-field" placeholder="Objetivo" style="text-align: left;">
                 <input type="text" id="in-peso" class="input-field" placeholder="Peso Atual (Kg)" style="text-align: left;">
                 <input type="text" id="in-alt" class="input-field" placeholder="Altura" style="text-align: left;">
-
                 <span class="section-title">Saúde</span>
                 <input type="text" id="in-alergia" class="input-field" placeholder="Alergias" style="text-align: left;">
                 <input type="text" id="in-med" class="input-field" placeholder="Medicamentos" style="text-align: left;">
@@ -158,24 +130,81 @@
                 <input type="text" id="in-rest" class="input-field" placeholder="Restrições Médicas" style="text-align: left;">
                 <input type="text" id="in-sangue" class="input-field" placeholder="Tipo Sanguíneo" style="text-align: left;">
                 <input type="text" id="in-plano" class="input-field" placeholder="Plano de Saúde" style="text-align: left;">
-
                 <span class="section-title">Responsáveis</span>
                 <input type="text" id="in-respnome" class="input-field" placeholder="Nome do Responsável" style="text-align: left;">
-                <input type="tel" id="in-resptel" class="input-field" placeholder="Telefone do Responsável" style="text-align: left;">
+                <input type="tel" id="in-resptel" class="input-field" placeholder="Telefone" style="text-align: left;">
                 <input type="text" id="in-respcpf" class="input-field" placeholder="CPF do Responsável" style="text-align: left;">
                 <input type="text" id="in-parentesco" class="input-field" placeholder="Parentesco" style="text-align: left;">
-
                 <span class="section-title">Observações Internas</span>
                 <input type="text" id="in-comp" class="input-field" placeholder="Comportamento" style="text-align: left;">
                 <input type="text" id="in-disc" class="input-field" placeholder="Disciplina" style="text-align: left;">
                 <input type="text" id="in-obstec" class="input-field" placeholder="Observações Técnicas" style="text-align: left;">
-
                 <button onclick="salvarNovoCadastro()" class="btn-action">Gravar Matrícula</button>
             </div>
 
+            <!-- SUBPÁGINA 2: NOVO FORMULÁRIO COMPLETO DE ACADEMIAS E CT -->
+            <div id="screen-form-ct" class="form-cadastro">
+                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
+                
+                <span class="section-title">Identificação Comercial</span>
+                <input type="text" id="ct-fantasia" class="input-field" placeholder="Nome Fantasia da Unidade" style="text-align: left;">
+                <input type="text" id="ct-social" class="input-field" placeholder="Razão Social" style="text-align: left;">
+                <input type="text" id="ct-cnpj" class="input-field" placeholder="CNPJ" style="text-align: left;">
+                <input type="text" id="ct-insc" class="input-field" placeholder="Inscrição Municipal" style="text-align: left;">
+                <span style="font-size:11px;color:#6b7280;margin-left:4px;">Data de Fundação/Afiliação:</span>
+                <input type="date" id="ct-fundacao" class="input-field">
+                
+                <span class="section-title">Fachada e Mídia</span>
+                <span style="font-size:11px;color:#6b7280;margin-left:4px;">Anexar Foto da Unidade/Alvará:</span>
+                <input type="file" id="ct-foto" class="input-field" accept="image/*">
+
+                <span class="section-title">Localização e Contato</span>
+                <input type="text" id="ct-cep" class="input-field" placeholder="CEP" style="text-align: left;">
+                <input type="text" id="ct-end" class="input-field" placeholder="Endereço Completo (Rua, Av.)" style="text-align: left;">
+                <input type="text" id="ct-num" class="input-field" placeholder="Número" style="text-align: left;">
+                <input type="text" id="ct-comp" class="input-field" placeholder="Complemento" style="text-align: left;">
+                <input type="text" id="ct-bairro" class="input-field" placeholder="Bairro" style="text-align: left;">
+                <input type="text" id="ct-cidade" class="input-field" placeholder="Cidade" style="text-align: left;">
+                <input type="text" id="ct-estado" class="input-field" placeholder="Estado (UF)" style="text-align: left;">
+                <input type="tel" id="ct-tel" class="input-field" placeholder="Telefone Fixo da Unidade" style="text-align: left;">
+                <input type="tel" id="ct-whatsapp" class="input-field" placeholder="WhatsApp Comercial" style="text-align: left;">
+                <input type="email" id="ct-email" class="input-field" placeholder="E-mail da Filial" style="text-align: left;">
+
+                <span class="section-title">Estrutura e Infraestrutura</span>
+                <input type="text" id="ct-tatame-m2" class="input-field" placeholder="Área Total do Tatame (m²)" style="text-align: left;">
+                <input type="text" id="ct-tatame-tipo" class="input-field" placeholder="Tipo de Tatame (Ex: EVA 40mm)" style="text-align: left;">
+                <input type="number" id="ct-capacidade" class="input-field" placeholder="Capacidade Máxima de Alunos" style="text-align: left;">
+                <input type="text" id="ct-vestiarios" class="input-field" placeholder="Vestiários/Banheiros (Qtd)" style="text-align: left;">
+                <select id="ct-musculacao" class="input-field" style="text-align: left;">
+                    <option value="Nao">Área de Musculação: Não possui</option>
+                    <option value="Sim">Área de Musculação: Possui</option>
+                </select>
+                <input type="text" id="ct-seguranca" class="input-field" placeholder="Equipamentos de Segurança Ativos" style="text-align: left;">
+
+                <span class="section-title">Corpo Técnico e Gestão</span>
+                <input type="text" id="ct-prof-resp" class="input-field" placeholder="Professor Responsável Técnico" style="text-align: left;">
+                <input type="text" id="ct-registro-fed" class="input-field" placeholder="Registro em Federação do Professor" style="text-align: left;">
+                <input type="text" id="ct-gerente" class="input-field" placeholder="Gestor Comercial/Gerente" style="text-align: left;">
+                <input type="tel" id="ct-gerente-tel" class="input-field" placeholder="WhatsApp do Gestor" style="text-align: left;">
+
+                <span class="section-title">Dados Operacionais e Contratuais</span>
+                <input type="text" id="ct-modalidades" class="input-field" placeholder="Modalidades Ofertadas na Grade" style="text-align: left;">
+                <input type="text" id="ct-horarios" class="input-field" placeholder="Horários de Funcionamento" style="text-align: left;">
+                <input type="text" id="ct-taxa" class="input-field" placeholder="Taxa Franquia / Repasse à Matriz" style="text-align: left;">
+                <input type="text" id="ct-pix" class="input-field" placeholder="Chave PIX para Repasses" style="text-align: left;">
+
+                <span class="section-title">Status e Vistoria</span>
+                <select id="ct-status" class="input-field" style="text-align: left;">
+                    <option value="Ativa">Status da Unidade: Ativa</option>
+                    <option value="Reforma">Status da Unidade: Em Reforma</option>
+                    <option value="Suspensa">Status da Unidade: Suspensa</option>
+                </select>
+                <input type="text" id="ct-obs" class="input-field" placeholder="Observações Técnicas da Diretoria" style="text-align: left;">
+
+                <button onclick="salvarNovoCT()" class="btn-action">Gravar Centro de Treinamento</button>
+            </div>
         </main>
 
-        <!-- Rodapé Corporativo de Valores Idêntico à Base da Imagem -->
         <footer id="app-footer">
             Disciplina • <span class="marca-vermelha">Foco</span> • Respeito • <span class="marca-vermelha">Evolução</span>
         </footer>
@@ -184,29 +213,16 @@
     <script>
         function togglePasswordVisibility(idInput, botao) {
             const campo = document.getElementById(idInput);
-            if (campo.type === "password") {
-                campo.type = "text";
-                botao.textContent = "🙈";
-            } else {
-                campo.type = "password";
-                botao.textContent = "👁️";
-            }
+            campo.type = (campo.type === "password") ? "text" : "password";
+            botao.textContent = (campo.type === "text") ? "🙈" : "👁️";
         }
 
         function autenticar() {
             const pass = document.getElementById('login-pass').value.trim();
-
-            if (pass !== 'ogro06#') {
-                alert("Senha master do mestre inválida!");
-                return;
-            }
-
-            // Ativa o layout de 4 botões e remove completamente abas antigas
+            if (pass !== 'ogro06#') { alert("Senha master do mestre inválida!"); return; }
             document.getElementById('screen-login').style.display = 'none';
-            document.getElementById('sub-header-title');
             document.getElementById('sub-titulo').style.display = 'none';
             document.getElementById('main-slogan').style.display = 'none';
-            
             document.getElementById('titulo-gestores').style.display = 'block';
             document.getElementById('screen-menu-gestores').style.display = 'grid';
             document.getElementById('app-footer').style.display = 'block';
@@ -215,14 +231,14 @@
         function navegarPara(destino) {
             document.getElementById('screen-menu-gestores').style.display = 'none';
             document.getElementById('screen-form-cadastro').style.display = 'none';
+            document.getElementById('screen-form-ct').style.display = 'none';
 
             if (destino === 'menu') {
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
             } else if (destino === 'incluir-aluno') {
                 document.getElementById('screen-form-cadastro').style.display = 'flex';
             } else if (destino === 'incluir-ct') {
-                alert("Módulo 'Incluir Academias e CT' selecionado. Criaremos esta página em seguida!");
-                document.getElementById('screen-menu-gestores').style.display = 'grid';
+                document.getElementById('screen-form-ct').style.display = 'flex';
             } else if (destino === 'dashboard') {
                 alert("Módulo 'Dashboard Financeiro' selecionado. Criaremos esta página em seguida!");
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
@@ -234,6 +250,16 @@
 
         function salvarNovoCadastro() {
             alert("🥋 Atleta registrado na memória local! Retornando ao menu...");
+            navegarPara('menu');
+        }
+
+        function salvarNovoCT() {
+            const fantasia = document.getElementById('ct-fantasia').value.trim();
+            if(!fantasia) { alert("O Nome Fantasia da Unidade é obrigatório!"); return; }
+            alert("🏛️ Academia / CT '" + fantasia + "' cadastrado com sucesso na rede Ogro Team!");
+            
+            // Limpa o campo após salvar
+            document.getElementById('ct-fantasia').value = '';
             navegarPara('menu');
         }
     </script>
