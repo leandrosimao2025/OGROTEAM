@@ -13,13 +13,17 @@
         .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
         .destaque-gestores { font-size: 20px; font-weight: 900; color: #dc2626; text-transform: uppercase; font-style: italic; margin-top: 2px; letter-spacing: 0.05em; }
         main { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; }
-        .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 30px; }
+        
+        .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
         .input-field { background-color: #111827; border: 1px solid #374151; color: white; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
+        .select-field { background-color: #111827; border: 1px solid #374151; color: #9ca3af; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; text-align-last: center; appearance: none; cursor: pointer; }
+        .select-field:focus { border-color: #dc2626; color: white; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 18px; z-index: 10; padding: 5px; }
-        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
+        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 6px; letter-spacing: 0.05em; }
         .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
+        .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 10px; letter-spacing: 0.05em; transition: 0.2s; text-decoration: none; align-self: center; }
         
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
@@ -33,16 +37,24 @@
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
+        /* Layout de Foto Premium */
+        .photo-upload-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .photo-preview { width: 90px; height: 90px; border-radius: 50%; background-color: #111827; border: 2px dashed #374151; display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: pointer; position: relative; }
+        .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-label { font-size: 11px; color: #9ca3af; font-weight: bold; text-transform: uppercase; }
+
         .search-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .btn-edit-user { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+        .search-item-info { display: flex; align-items: center; gap: 12px; }
+        .list-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background-color: #1f2937; border: 1px solid #374151; }
+        .action-buttons { display: flex; gap: 6px; }
+        .btn-edit-user { background-color: #1f2937; border: 1px solid #374151; color: white; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+        .btn-delete-user { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .no-data-msg { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; font-style: italic; }
         
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .row-financeira { display: flex; justify-content: space-between; align-items: center; background-color: #111827; padding: 10px; border-radius: 6px; border-left: 3px solid #dc2626; font-size: 13px; margin-bottom: 8px; }
-        .btn-toggle-edit { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-        .admin-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 
         footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: block; }
         footer .marca-vermelha { color: #dc2626; }
@@ -60,12 +72,13 @@
             <!-- TELA DE LOGIN -->
             <div id="screen-login">
                 <div class="login-box">
-                    <input type="text" class="input-field" value="Perfil: Administrador / Mestre" readonly style="color: #9ca3af; border-color: #1f2937;">
+                    <input type="email" id="login-email" class="input-field" placeholder="Digite seu e-mail">
                     <div class="password-container">
-                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha master">
+                        <input type="password" id="login-pass" class="input-field" placeholder="Digite sua senha master">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
-                    <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
+                    <button onclick="autenticar()" class="btn-action">Entrar</button>
+                    <button onclick="recuperarSenha()" class="btn-link">Recuperar senha</button>
                 </div>
             </div>
 
@@ -98,14 +111,40 @@
                 </div>
             </div>
 
-            <!-- TELA: INCLUIR ALUNO -->
+            <!-- TELA: INCLUIR ALUNO PREMIUM -->
             <div id="screen-incluir-aluno" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="form-cadastro">
-                    <div class="section-title">Dados do Aluno</div>
+                    
+                    <div class="photo-upload-container">
+                        <div class="photo-preview" onclick="document.getElementById('aluno-foto').click()">
+                            <span id="photo-placeholder" style="font-size: 24px; color: #4b5563;">📸</span>
+                            <img id="photo-img" style="display: none;">
+                        </div>
+                        <span class="photo-label">Foto do Aluno</span>
+                        <input type="file" id="aluno-foto" accept="image/*" style="display: none;" onchange="previewImagem(this, 'photo-img', 'photo-placeholder')">
+                    </div>
+
+                    <div class="section-title">Dados Pessoais</div>
                     <input type="text" id="aluno-nome" class="input-field" placeholder="Nome Completo">
-                    <input type="text" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp">
-                    <button class="btn-action" onclick="salvarAluno()">Salvar Aluno</button>
+                    <input type="text" id="aluno-cpf" class="input-field" placeholder="CPF">
+                    <input type="text" id="aluno-nascimento" class="input-field" placeholder="Data de Nascimento (DD/MM/AAAA)" onfocus="(this.type='date')" onblur="(this.type='text')">
+                    <select id="aluno-sexo" class="select-field">
+                        <option value="" disabled selected>Selecione o Gênero</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+
+                    <div class="section-title">Contato e Acesso App</div>
+                    <input type="email" id="aluno-email" class="input-field" placeholder="E-mail de Acesso">
+                    <input type="tel" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp (com DDD)">
+                    <div class="password-container">
+                        <input type="password" id="aluno-senha-inicial" class="input-field" placeholder="Criar Senha Inicial">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('aluno-senha-inicial', this)">👁️</button>
+                    </div>
+
+                    <button class="btn-action" onclick="salvarAluno()" style="margin-top: 10px; background-color: #22c55e;">Salvar e Enviar Acesso</button>
                 </div>
             </div>
 
@@ -148,18 +187,37 @@
                     <input type="password" class="input-field" placeholder="Senha de Acesso">
                     <button class="btn-action" onclick="alert('Funcionalidade simulada')">Criar Acesso</button>
                 </div>
-                <div class="admin-item">
-                    <span>Mestre (Você)</span>
-                    <button class="btn-toggle-edit">Editar</button>
+            </div>
+
+            <!-- TELA: VER CADASTROS -->
+            <div id="screen-ver-cadastros" class="screen-content">
+                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
+                <input type="text" id="search-input" class="input-field" placeholder="🔍 Buscar aluno ou CT..." style="margin-bottom: 12px; text-align: left;" oninput="renderizarCadastros()">
+                <div id="container-lista-cadastros">
+                    <!-- Registros dinâmicos -->
                 </div>
             </div>
 
-            <!-- TELA: VER CADASTROS (SISTEMA ZERADO) -->
-            <div id="screen-ver-cadastros" class="screen-content">
-                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
-                <input type="text" class="input-field" placeholder="🔍 Buscar aluno ou CT..." style="margin-bottom: 12px; text-align: left;">
-                <div id="container-lista-cadastros">
-                    <!-- Registros aparecerão dinamicamente aqui -->
+            <!-- TELA: EDITAR REGISTRO -->
+            <div id="screen-editar-registro" class="screen-content">
+                <button class="btn-voltar" onclick="navegarPara('ver-cadastros')">← Cancelar</button>
+                <div class="form-cadastro">
+                    <div class="section-title" id="edit-screen-title">Editar Cadastro</div>
+                    <input type="hidden" id="edit-index">
+                    <input type="hidden" id="edit-tipo">
+                    
+                    <div id="edit-photo-section" class="photo-upload-container" style="display: none;">
+                        <div class="photo-preview" onclick="document.getElementById('edit-aluno-foto').click()">
+                            <span id="edit-photo-placeholder" style="font-size: 24px; color: #4b5563; display:none;">📸</span>
+                            <img id="edit-photo-img">
+                        </div>
+                        <span class="photo-label">Alterar Foto</span>
+                        <input type="file" id="edit-aluno-foto" accept="image/*" style="display: none;" onchange="previewImagem(this, 'edit-photo-img', 'edit-photo-placeholder')">
+                    </div>
+
+                    <input type="text" id="edit-nome" class="input-field" placeholder="Nome">
+                    <input type="text" id="edit-detalhe" class="input-field" placeholder="Detalhe">
+                    <button class="btn-action" onclick="salvarEdicaoReal()">Salvar Alterações</button>
                 </div>
             </div>
         </main>
@@ -170,7 +228,6 @@
     </div>
 
     <script>
-        // BANCO DE DADOS INICIALMENTE ZERADO
         let dbAlunos = [];
         let dbAcademias = [];
 
@@ -185,28 +242,44 @@
             }
         }
 
-        // VALIDAÇÃO EXCLUSIVA COM A SENHA SOLICITADA
+        // PRÉ-VISUALIZAÇÃO DE FOTOS CARREGADAS
+        function previewImagem(input, imgId, placeholderId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(imgId).src = e.target.result;
+                    document.getElementById(imgId).style.display = 'block';
+                    document.getElementById(placeholderId).style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
         function autenticar() {
+            const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-pass').value;
+            if(email === "") { alert("Por favor, informe seu e-mail."); return; }
             if(pass === "ogro06#") {
                 document.getElementById('screen-login').style.display = 'none';
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
                 atualizarDashboard();
                 renderizarCadastros();
-            } else {
-                alert("Senha master incorreta!");
-            }
+            } else { alert("Senha master incorreta!"); }
+        }
+
+        function recuperarSenha() {
+            const email = document.getElementById('login-email').value.trim();
+            if(email === "") { alert("Por favor, digite seu e-mail."); } 
+            else { alert("Instruções enviadas para: " + email); }
         }
 
         function navegarPara(telaId) {
             document.getElementById('screen-menu-gestores').style.display = 'none';
             const telas = document.querySelectorAll('.screen-content');
             telas.forEach(tela => tela.style.display = 'none');
-            
             const targetScreen = document.getElementById('screen-' + telaId);
-            if (targetScreen) {
-                targetScreen.style.display = 'flex';
-            }
+            if (targetScreen) targetScreen.style.display = 'flex';
         }
 
         function voltarParaMenu() {
@@ -215,85 +288,168 @@
             document.getElementById('screen-menu-gestores').style.display = 'grid';
         }
 
+        // SALVAR ALUNO COM GERAÇÃO E DISPARO DE LINK DO WHATSAPP
         function salvarAluno() {
             const nome = document.getElementById('aluno-nome').value.trim();
+            const email = document.getElementById('aluno-email').value.trim();
             const whatsapp = document.getElementById('aluno-whatsapp').value.trim();
-            
-            if(nome === "") {
-                alert("Por favor, digite o nome do aluno.");
+            const senha = document.getElementById('aluno-senha-inicial').value;
+            const fotoSrc = document.getElementById('photo-img').src || '';
+
+            if(nome === "" || email === "" || whatsapp === "" || senha === "") {
+                alert("Por favor, preencha todos os campos obrigatórios (Nome, E-mail, WhatsApp e Senha Inicial).");
                 return;
             }
-            
-            dbAlunos.push({ nome: nome, detalhe: "WhatsApp: " + (whatsapp || "Não informado") });
-            alert("Aluno cadastrado com sucesso!");
-            
+
+            dbAlunos.push({
+                nome: nome,
+                email: email,
+                whatsapp: whatsapp,
+                senha: senha,
+                foto: fotoSrc,
+                detalhe: "WhatsApp: " + whatsapp
+            });
+
+            alert("Aluno cadastrado com sucesso! Preparando envio de credenciais...");
+
+            // Construção da mensagem automática para o WhatsApp
+            const textoMensagem = `Olá, *${nome}*! Seja muito bem-vindo à *Ogro Team*! 💪🔥\n\nSeu acesso Premium ao nosso aplicativo já está liberado!\n\n📱 *Dados de Acesso:*\n📧 *E-mail:* ${email}\n🔑 *Senha Inicial:* ${senha}\n\nBaixe o app e insira seus dados para começar!`;
+            const numeroLimpo = whatsapp.replace(/\D/g, ""); // Remove parênteses e traços
+            const linkWhatsapp = `https://whatsapp.com{numeroLimpo}&text=${encodeURIComponent(textoMensagem)}`;
+
+            // Reseta campos do formulário
             document.getElementById('aluno-nome').value = "";
+            document.getElementById('aluno-cpf').value = "";
+            document.getElementById('aluno-nascimento').value = "";
+            document.getElementById('aluno-sexo').value = "";
+            document.getElementById('aluno-email').value = "";
             document.getElementById('aluno-whatsapp').value = "";
+            document.getElementById('aluno-senha-inicial').value = "";
+            document.getElementById('photo-img').style.display = 'none';
+            document.getElementById('photo-placeholder').style.display = 'block';
+
             atualizarDashboard();
             renderizarCadastros();
+            
+            // Abre o WhatsApp em uma nova aba para enviar os dados imediatamente
+            window.open(linkWhatsapp, '_blank');
             voltarParaMenu();
         }
 
         function salvarCT() {
             const nome = document.getElementById('ct-nome').value.trim();
             const local = document.getElementById('ct-local').value.trim();
-            
-            if(nome === "") {
-                alert("Por favor, digite o nome da Academia/CT.");
-                return;
-            }
-            
-            dbAcademias.push({ nome: nome, detalhe: "Local: " + (local || "Não informado") });
+            if(nome === "") { alert("Por favor, digite o nome da Academia/CT."); return; }
+            dbAcademias.push({ nome: nome, rawDetalhe: local, detalhe: "Local: " + (local || "Não informado") });
             alert("Academia/CT cadastrada com sucesso!");
-            
             document.getElementById('ct-nome').value = "";
             document.getElementById('ct-local').value = "";
             renderizarCadastros();
             voltarParaMenu();
         }
 
+        function abrirEdicao(index, tipo) {
+            document.getElementById('edit-index').value = index;
+            document.getElementById('edit-tipo').value = tipo;
+            
+            if (tipo === 'aluno') {
+                const aluno = dbAlunos[index];
+                document.getElementById('edit-nome').value = aluno.nome;
+                document.getElementById('edit-detalhe').value = aluno.whatsapp;
+                document.getElementById('edit-photo-section').style.display = 'flex';
+                if(aluno.foto) {
+                    document.getElementById('edit-photo-img').src = aluno.foto;
+                    document.getElementById('edit-photo-img').style.display = 'block';
+                    document.getElementById('edit-photo-placeholder').style.display = 'none';
+                } else {
+                    document.getElementById('edit-photo-img').style.display = 'none';
+                    document.getElementById('edit-photo-placeholder').style.display = 'block';
+                }
+            } else {
+                const ct = dbAcademias[index];
+                document.getElementById('edit-nome').value = ct.nome;
+                document.getElementById('edit-detalhe').value = ct.rawDetalhe || "";
+                document.getElementById('edit-photo-section').style.display = 'none';
+            }
+            navegarPara('editar-registro');
+        }
+
+        function salvarEdicaoReal() {
+            const index = parseInt(document.getElementById('edit-index').value);
+            const tipo = document.getElementById('edit-tipo').value;
+            const novoNome = document.getElementById('edit-nome').value.trim();
+            const novoDetalhe = document.getElementById('edit-detalhe').value.trim();
+            
+            if(novoNome === "") { alert("O nome não pode ficar em branco."); return; }
+            
+            if(tipo === 'aluno') {
+                dbAlunos[index].nome = novoNome;
+                dbAlunos[index].whatsapp = novoDetalhe;
+                dbAlunos[index].detalhe = "WhatsApp: " + novoDetalhe;
+                dbAlunos[index].foto = document.getElementById('edit-photo-img').src;
+            } else {
+                dbAcademias[index].nome = novoNome;
+                dbAcademias[index].rawDetalhe = novoDetalhe;
+                dbAcademias[index].detalhe = "Local: " + (novoDetalhe || "Não informado");
+            }
+            alert("Alterações salvas!");
+            atualizarDashboard();
+            renderizarCadastros();
+            navegarPara('ver-cadastros');
+        }
+
+        function excluirAluno(index) { if(confirm("Deseja excluir este aluno?")) { dbAlunos.splice(index, 1); atualizarDashboard(); renderizarCadastros(); } }
+        function excluirCT(index) { if(confirm("Deseja excluir esta academia/CT?")) { dbAcademias.splice(index, 1); renderizarCadastros(); } }
+
         function atualizarDashboard() {
             const totalAlunos = dbAlunos.length;
-            const valorMensalidade = 150; 
-            const faturamentoCalculado = totalAlunos * valorMensalidade;
-            
-            document.getElementById('dash-faturamento').textContent = "R$ " + faturamentoCalculado;
+            document.getElementById('dash-faturamento').textContent = "R$ " + (totalAlunos * 150);
             document.getElementById('dash-mensalidades').textContent = totalAlunos;
         }
 
         function renderizarCadastros() {
             const container = document.getElementById('container-lista-cadastros');
+            const termoBusca = document.getElementById('search-input').value.toLowerCase().trim();
             container.innerHTML = "";
+            let itensRenderizados = 0;
             
-            if(dbAlunos.length === 0 && dbAcademias.length === 0) {
-                container.innerHTML = '<div class="no-data-msg">Nenhum registro encontrado. O sistema está zerado.</div>';
-                return;
-            }
-            
-            dbAlunos.forEach(aluno => {
-                container.innerHTML += `
-                    <div class="search-item">
-                        <div>
-                            <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
-                            <div style="font-size: 10px; color: #9ca3af;">Aluno | ${aluno.detalhe}</div>
+            dbAlunos.forEach((aluno, index) => {
+                if(aluno.nome.toLowerCase().includes(termoBusca)) {
+                    itensRenderizados++;
+                    const avatarHtml = aluno.foto ? `<img src="${aluno.foto}" class="list-avatar">` : `<div class="list-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;">👤</div>`;
+                    container.innerHTML += `
+                        <div class="search-item">
+                            <div class="search-item-info">
+                                ${avatarHtml}
+                                <div>
+                                    <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
+                                    <div style="font-size: 10px; color: #9ca3af;">Aluno | ${aluno.detalhe}</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-edit-user" onclick="abrirEdicao(${index}, 'aluno')">Editar</button>
+                                <button class="btn-delete-user" onclick="excluirAluno(${index})">Excluir</button>
+                            </div>
                         </div>
-                        <button class="btn-edit-user" onclick="alert('Modo de edição')">Editar</button>
-                    </div>
-                `;
+                    `;
+                }
             });
 
-            dbAcademias.forEach(ct => {
-                container.innerHTML += `
-                    <div class="search-item">
-                        <div>
-                            <div style="font-size: 13px; font-weight: bold; color: #f87171;">${ct.nome}</div>
-                            <div style="font-size: 10px; color: #9ca3af;">Academia / CT | ${ct.detalhe}</div>
+            dbAcademias.forEach((ct, index) => {
+                if(ct.nome.toLowerCase().includes(termoBusca)) {
+                    itensRenderizados++;
+                    container.innerHTML += `
+                        <div class="search-item">
+                            <div class="search-item-info">
+                                <div class="list-avatar" style="display:flex;align-items:center;justify-content:center;font-size:18px;color:#f87171;">🏛️</div>
+                                <div>
+                                    <div style="font-size: 13px; font-weight: bold; color: #f87171;">${ct.nome}</div>
+                                    <div style="font-size: 10px; color: #9ca3af;">Academia / CT | ${ct.detalhe}</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-edit-user" onclick="abrirEdicao(${index}, 'ct')">Editar</button>
+                                <button class="btn-delete-user" onclick="excluirCT(${index})">Excluir</button>
+                            </div>
                         </div>
-                        <button class="btn-edit-user" onclick="alert('Modo de edição')">Editar</button>
-                    </div>
-                `;
-            });
-        }
-    </script>
-</body>
-</html>
+                    
