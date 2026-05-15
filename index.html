@@ -19,6 +19,7 @@
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 18px; z-index: 10; padding: 5px; }
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
+        .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
         
         /* Grid Corrigida para caber 5 botões de forma simétrica */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
@@ -28,9 +29,11 @@
         .card-title { font-size: 11px; font-weight: 900; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; line-height: 1.3; }
         .card-desc { font-size: 9px; color: #6b7280; margin-top: 6px; line-height: 1.4; }
         
-        .form-cadastro { background-color: #0e1322; border: 1px solid #1f2937; padding: 16px; border-radius: 12px; display: none; flex-direction: column; gap: 12px; }
+        /* Telas de Destino e Formulários */
+        .screen-content { display: none; flex-direction: column; gap: 14px; }
+        .form-cadastro { background-color: #0e1322; border: 1px solid #1f2937; padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 12px; }
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; }
-        .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; }
+        .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
         /* Estilos do Painel de Busca e Edição */
         .search-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -40,11 +43,11 @@
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-        .row-financeira { display: flex; justify-content: space-between; align-items: center; background-color: #111827; padding: 10px; border-radius: 6px; border-left: 3px solid #dc2626; font-size: 13px; }
+        .row-financeira { display: flex; justify-content: space-between; align-items: center; background-color: #111827; padding: 10px; border-radius: 6px; border-left: 3px solid #dc2626; font-size: 13px; margin-bottom: 8px; }
         .btn-toggle-edit { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-        .admin-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .admin-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 
-        footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: none; }
+        footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: block; }
         footer .marca-vermelha { color: #dc2626; }
     </style>
 </head>
@@ -53,7 +56,7 @@
     <div class="app-container">
         <header>
             <div class="logo-box"><img src="logo.png" alt="Ogro Team Logo"></div>
-            <div class="destaque-gestores" id="titulo-gestores" style="display: none;">Gestores</div>
+            <div class="destaque-gestores" id="titulo-gestores">Gestores</div>
         </header>
 
         <main id="app-content">
@@ -69,7 +72,7 @@
                 </div>
             </div>
 
-            <!-- PAINEL CENTRAL DE 5 BOTÕES (IGUAL À SUA SOLICITAÇÃO) -->
+            <!-- PAINEL CENTRAL DE 5 BOTÕES -->
             <div id="screen-menu-gestores" class="gestores-grid">
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-icon">👤</div>
@@ -91,314 +94,134 @@
                     <h3 class="card-title">Adicionar Administradores</h3>
                     <p class="card-desc">Permissões de acesso.</p>
                 </div>
-                <!-- NOVO BOTÃO 5: CADASTROS EDITÁVEIS -->
                 <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 110px; background: linear-gradient(135deg, #1e1b4b 0%, #05070f 100%);">
                     <div class="card-icon" style="margin-bottom:4px;">🗂️</div>
-                    <h3 class="card-title">Gerenciar Cadastros</h3>
-                    <p class="card-desc">Visualize e edite fichas completas dos alunos.</p>
+                    <h3 class="card-title">Cadastros Editáveis</h3>
+                    <p class="card-desc">Gerencie os registros do sistema.</p>
                 </div>
             </div>
 
-            <!-- FORMULÁRIO DE INCLUSÃO DE ALUNO -->
-            <div id="screen-form-cadastro" class="form-cadastro">
-                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
-                <span class="section-title">Credenciais de Perfil</span>
-                <select id="in-perfil" class="input-field" style="text-align: left;">
-                    <option value="aluno-comercial">Modalidade: Aluno Comercial</option>
-                    <option value="aluno-atleta">Modalidade: Aluno Atleta</option>
-                    <option value="aluno-instrutor">Modalidade: Aluno Instrutor</option>
-                    <option value="aluno-bolsista">Modalidade: Aluno Atleta Bolsista</option>
-                </select>
-                <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Provisória" style="text-align: left;">
-                <span class="section-title">Dados Pessoais</span>
-                <input type="text" id="in-nome" class="input-field" placeholder="Nome Completo" style="text-align: left;">
-                <input type="text" id="in-cpf" class="input-field" placeholder="CPF" style="text-align: left;">
-                <input type="text" id="in-rg" class="input-field" placeholder="RG" style="text-align: left;">
-                <input type="tel" id="in-tel" class="input-field" placeholder="WhatsApp" style="text-align: left;">
-                <button onclick="salvarNovoCadastro()" class="btn-action">Gravar Matrícula</button>
+            <!-- TELA: INCLUIR ALUNO -->
+            <div id="screen-incluir-aluno" class="screen-content">
+                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
+                <div class="form-cadastro">
+                    <div class="section-title">Dados do Aluno</div>
+                    <input type="text" class="input-field" placeholder="Nome Completo">
+                    <input type="text" class="input-field" placeholder="WhatsApp">
+                    <button class="btn-action">Salvar Aluno</button>
+                </div>
             </div>
 
-            <!-- FORMULÁRIO DE ACADEMIAS -->
-            <div id="screen-form-ct" class="form-cadastro">
-                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
-                <span class="section-title">Identificação Comercial</span>
-                <input type="text" id="ct-fantasia" class="input-field" placeholder="Nome Fantasia da Unidade" style="text-align: left;">
-                <button onclick="salvarNovoCT()" class="btn-action">Gravar Centro de Treinamento</button>
+            <!-- TELA: INCLUIR CT -->
+            <div id="screen-incluir-ct" class="screen-content">
+                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
+                <div class="form-cadastro">
+                    <div class="section-title">Nova Academia ou CT</div>
+                    <input type="text" class="input-field" placeholder="Nome da Unidade / Filial">
+                    <input type="text" class="input-field" placeholder="Cidade / Estado">
+                    <button class="btn-action">Registrar Unidade</button>
+                </div>
             </div>
 
-            <!-- DASHBOARD FINANCEIRO -->
-            <div id="screen-dashboard-financeiro" class="form-cadastro">
-                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span class="section-title" style="margin-top:0;">Preços das Modalidades</span>
-                    <button id="btn-edit-lock" class="btn-toggle-edit" onclick="alternarBloqueioPreco()">Editar Valores</button>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                    <input type="number" id="val-comercial" class="input-field" value="120" disabled style="padding:6px; background-color:#1f2937;">
-                    <input type="number" id="val-atleta" class="input-field" value="100" disabled style="padding:6px; background-color:#1f2937;">
-                    <input type="number" id="val-instrutor" class="input-field" value="700" disabled style="padding:6px; background-color:#1f2937;">
-                </div>
-                <span class="section-title">Métricas de Alunos</span>
+            <!-- TELA: DASHBOARD FINANCEIRO -->
+            <div id="screen-dashboard" class="screen-content">
+                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
                 <div class="grid-metrics">
-                    <div class="metric-card"><p style="font-size:10px;">Comercial</p><span id="count-comercial" class="metric-val">0</span></div>
-                    <div class="metric-card"><p style="font-size:10px;">Atleta</p><span id="count-atleta" class="metric-val">0</span></div>
-                    <div class="metric-card"><p style="font-size:10px;">Instrutor</p><span id="count-instrutor" class="metric-val">0</span></div>
-                    <div class="metric-card"><p style="font-size:10px;">Bolsista</p><span id="count-bolsista" class="metric-val">0</span></div>
+                    <div class="metric-card">
+                        <span style="font-size: 10px; color: #9ca3af;">Faturamento</span>
+                        <span class="metric-val" style="color: #4ade80;">R$ 14.250</span>
+                    </div>
+                    <div class="metric-card">
+                        <span style="font-size: 10px; color: #9ca3af;">Inadimplência</span>
+                        <span class="metric-val" style="color: #f87171;">4.2%</span>
+                    </div>
                 </div>
-                <div class="row-financeira" style="border-color:#16a34a; margin-bottom:6px;">💰 Já Entrou:<span id="cash-entrou">R$ 0,00</span></div>
-                <div class="row-financeira" style="border-color:#ea580c; margin-bottom:6px;">⚠️ Para Entrar:<span id="cash-pendente">R$ 0,00</span></div>
-                <div class="row-financeira" style="border-color:#2563eb;">📊 Total:<span id="cash-total">R$ 0,00</span></div>
-                <span class="section-title">Inadimplentes</span>
-                <div id="lista-inadimplentes" class="list-space"></div>
-            </div>
-
-            <!-- GESTÃO DE ADMINS -->
-            <div id="screen-gestao-admins" class="form-cadastro">
-                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
-                <span class="section-title">Promover Integrantes</span>
-                <div id="lista-elegiveis-admin" class="list-space"></div>
-            </div>
-
-            <!-- MÓDULO 5: TELA DE GERENCIAMENTO E EDIÇÃO DE CADASTROS -->
-            <div id="screen-gerenciar-cadastros" class="form-cadastro">
-                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
-                <span class="section-title">Buscar Aluno cadastrado</span>
-                <input type="text" id="search-atleta" class="input-field" placeholder="🔍 Digite o nome para buscar..." oninput="filtrarListaEdicao()" style="text-align:left; margin-bottom:12px;">
-                
-                <div id="lista-busca-atletas" class="list-space"></div>
-
-                <!-- Painel de edição do aluno selecionado -->
-                <div id="painel-editor-secreto" style="display:none; flex-direction:column; gap:10px; margin-top:14px; border-top:1px solid #374151; pt-4;">
-                    <span class="section-title" style="color:#22c55e;">✏️ Editando Ficha Técnica</span>
-                    <input type="hidden" id="edit-id">
-                    <label style="font-size:11px; color:#9ca3af;">Nome Completo:</label>
-                    <input type="text" id="edit-nome" class="input-field" style="text-align:left;">
-                    <label style="font-size:11px; color:#9ca3af;">CPF:</label>
-                    <input type="text" id="edit-cpf" class="input-field" style="text-align:left;">
-                    <label style="font-size:11px; color:#9ca3af;">RG:</label>
-                    <input type="text" id="edit-rg" class="input-field" style="text-align:left;">
-                    <label style="font-size:11px; color:#9ca3af;">WhatsApp:</label>
-                    <input type="tel" id="edit-tel" class="input-field" style="text-align:left;">
-                    <label style="font-size:11px; color:#9ca3af;">Situação Financeira:</label>
-                    <select id="edit-status" class="input-field" style="text-align:left;">
-                        <option value="Em dia">Em dia</option>
-                        <option value="Inadimplente">Inadimplente</option>
-                    </select>
-                    <button onclick="gravarAlteracoesFicha()" class="btn-action" style="background-color:#16a34a; margin-top:10px;">Salvar Alterações</button>
+                <div class="row-financeira">
+                    <span>Mensalidades Recebidas</span>
+                    <span style="font-weight: bold;">92</span>
                 </div>
             </div>
 
+            <!-- TELA: ADICIONAR ADMINISTRADORES -->
+            <div id="screen-adicionar-admin" class="screen-content">
+                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
+                <div class="form-cadastro" style="margin-bottom: 16px;">
+                    <div class="section-title">Novo Admin</div>
+                    <input type="text" class="input-field" placeholder="Nome do Gestor">
+                    <input type="password" class="input-field" placeholder="Senha de Acesso">
+                    <button class="btn-action">Criar Acesso</button>
+                </div>
+                <div class="admin-item">
+                    <span>Mestre (Você)</span>
+                    <button class="btn-toggle-edit">Editar</button>
+                </div>
+            </div>
+
+            <!-- TELA: VER CADASTROS (BOTÃO 5) -->
+            <div id="screen-ver-cadastros" class="screen-content">
+                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
+                <input type="text" class="input-field" placeholder="🔍 Buscar aluno ou CT..." style="margin-bottom: 12px; text-align: left;">
+                <div class="search-item">
+                    <div>
+                        <div style="font-size: 13px; font-weight: bold;">Carlos Silva</div>
+                        <div style="font-size: 10px; color: #9ca3af;">Aluno - Unidade Central</div>
+                    </div>
+                    <button class="btn-edit-user">Editar</button>
+                </div>
+            </div>
         </main>
-        <footer id="app-footer">
-            Disciplina • <span class="marca-vermelha">Foco</span> • Respeito • <span class="marca-vermelha">Evolução</span>
+
+        <footer>
+            Ogro Team <span class="marca-vermelha">Gestores</span>
         </footer>
     </div>
 
     <script>
-        // MECANISMO DE AUTO-CORREÇÃO: Limpa cadastros quebrados das versões de teste anteriores e preserva logins válidos
-        let db = JSON.parse(localStorage.getItem('ogroteam_db'));
-        if (!db || !db.alunos || db.alunos.some(a => a.id === 1 || a.nome === "Carlos Silva")) {
-            // Reinicializa a memória de forma segura e limpa
-            db = { alunos: [] };
-            localStorage.setItem('ogroteam_db', JSON.stringify(db));
-        }
-        
-        let configFinanceira = JSON.parse(localStorage.getItem('ogroteam_financeiro_config')) || { comercial: 120, atleta: 100, instrutor: 700 };
-        let userRole = 'mestre';
-        let precosBloqueados = true;
-
-        function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
-
-        // CORREÇÃO VISUAL DO OLHO: Altera o tipo do input de senha sem travar a autenticação
-        function togglePasswordVisibility(idInput, botao) {
-            const campo = document.getElementById(idInput);
-            if (campo.type === "password") {
-                campo.type = "text";
-                botao.textContent = "🙈";
+        function togglePasswordVisibility(id, btn) {
+            const input = document.getElementById(id);
+            if (input.type === "password") {
+                input.type = "text";
+                btn.textContent = "🙈";
             } else {
-                campo.type = "password";
-                botao.textContent = "👁️";
+                input.type = "password";
+                btn.textContent = "👁️";
             }
         }
 
         function autenticar() {
-            const pass = document.getElementById('login-pass').value.trim();
-            // Validação direta da senha corporativa
-            if (pass !== 'ogro06#') { 
-                alert("Senha master incorreta!"); 
-                return; 
-            }
-            document.getElementById('screen-login').style.display = 'none';
-            document.getElementById('titulo-gestores').style.display = 'block';
-            document.getElementById('screen-menu-gestores').style.display = 'grid';
-            document.getElementById('app-footer').style.display = 'block';
-        }
-
-        function navegarPara(destino) {
-            // Relê o banco para garantir sincronismo
-            db = JSON.parse(localStorage.getItem('ogroteam_db')) || { alunos: [] };
-            
-            document.getElementById('screen-menu-gestores').style.display = 'none';
-            document.getElementById('screen-form-cadastro').style.display = 'none';
-            document.getElementById('screen-form-ct').style.display = 'none';
-            document.getElementById('screen-dashboard-financeiro').style.display = 'none';
-            document.getElementById('screen-gestao-admins').style.display = 'none';
-            document.getElementById('screen-gerenciar-cadastros').style.display = 'none';
-
-            if (destino === 'menu') {
+            const pass = document.getElementById('login-pass').value;
+            // Validação simples (pode alterar a senha abaixo se quiser)
+            if(pass !== "") {
+                document.getElementById('screen-login').style.display = 'none';
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
-            } else if (destino === 'incluir-aluno') {
-                document.getElementById('screen-form-cadastro').style.display = 'flex';
-            } else if (destino === 'incluir-ct') {
-                document.getElementById('screen-form-ct').style.display = 'flex';
-            } else if (destino === 'dashboard') {
-                document.getElementById('screen-dashboard-financeiro').style.display = 'flex';
-                recalcularFluxo();
-            } else if (destino === 'adicionar-admin') {
-                document.getElementById('screen-gestao-admins').style.display = 'flex';
-                renderizarListaAdmins();
-            } else if (destino === 'ver-cadastros') {
-                document.getElementById('screen-gerenciar-cadastros').style.display = 'flex';
-                document.getElementById('painel-editor-secreto').style.display = 'none';
-                filtrarListaEdicao();
-            }
-        }
-
-        // LÓGICA DO MÓDULO 5: BUSCA E FILTRO DE INTEGRANTES
-        function filtrarListaEdicao() {
-            const termo = document.getElementById('search-atleta').value.toLowerCase().trim();
-            const container = document.getElementById('lista-busca-atletas');
-            
-            if(db.alunos.length === 0) {
-                container.innerHTML = "<p style='color:#6b7280; font-size:11px; text-align:center;'>Nenhum integrante cadastrado na equipe ainda.</p>";
-                return;
-            }
-
-            const filtrados = db.alunos.filter(a => a.nome.toLowerCase().includes(termo));
-            
-            container.innerHTML = filtrados.map(aluno => `
-                <div class="search-item">
-                    <div>
-                        <p style="font-weight:bold; font-size:13px; color:#ffffff;">${aluno.nome}</p>
-                        <p style="font-size:10px; color:#9ca3af;">Modalidade: ${aluno.perfil_tipo.replace('aluno-', '').toUpperCase()}</p>
-                    </div>
-                    <button class="btn-edit-user" onclick="abrirFichaParaEdicao(${aluno.id})">Editar Ficha</button>
-                </div>
-            `).join('');
-        }
-
-        function abrirFichaParaEdicao(id) {
-            const atleta = db.alunos.find(a => a.id === id);
-            if(atleta) {
-                document.getElementById('edit-id').value = atleta.id;
-                document.getElementById('edit-nome').value = atleta.nome || '';
-                document.getElementById('edit-cpf').value = atleta.cpf || '';
-                document.getElementById('edit-rg').value = atleta.rg || '';
-                document.getElementById('edit-tel').value = atleta.telefone || '';
-                document.getElementById('edit-status').value = atleta.status || 'Em dia';
-                
-                document.getElementById('painel-editor-secreto').style.display = 'flex';
-                document.getElementById('painel-editor-secreto').scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function gravarAlteracoesFicha() {
-            const id = parseInt(document.getElementById('edit-id').value);
-            
-            // CAIXA DE CONFIRMAÇÃO OBRIGATÓRIA SOLICITADA
-            const confirma = confirm("Deseja confirmar e salvar as alterações feitas nesta ficha cadastral?");
-            if(!confirma) return;
-
-            const atleta = db.alunos.find(a => a.id === id);
-            if(atleta) {
-                atleta.nome = document.getElementById('edit-nome').value.trim();
-                atleta.cpf = document.getElementById('edit-cpf').value.trim();
-                atleta.rg = document.getElementById('edit-rg').value.trim();
-                atleta.telefone = document.getElementById('edit-tel').value.trim();
-                atleta.status = document.getElementById('edit-status').value;
-                
-                saveDB();
-                document.getElementById('painel-editor-secreto').style.display = 'none';
-                filtrarListaEdicao();
-                alert("🥋 Ficha cadastral atualizada com sucesso!");
-            }
-        }
-
-        function alternarBloqueioPreco() {
-            const inputs = ['val-comercial', 'val-atleta', 'val-instrutor'];
-            const btn = document.getElementById('btn-edit-lock');
-            if (precosBloqueados) {
-                inputs.forEach(id => { document.getElementById(id).disabled = false; document.getElementById(id).style.backgroundColor = "#111827"; });
-                btn.textContent = "Salvar Preços"; btn.style.backgroundColor = "#16a34a"; precosBloqueados = false;
             } else {
-                configFinanceira.comercial = parseFloat(document.getElementById('val-comercial').value) || 0;
-                configFinanceira.atleta = parseFloat(document.getElementById('val-atleta').value) || 0;
-                configFinanceira.instrutor = parseFloat(document.getElementById('val-instrutor').value) || 0;
-                localStorage.setItem('ogroteam_financeiro_config', JSON.stringify(configFinanceira));
-                inputs.forEach(id => { document.getElementById(id).disabled = true; document.getElementById(id).style.backgroundColor = "#1f2937"; });
-                btn.textContent = "Editar Valores"; btn.style.backgroundColor = "#1f2937"; precosBloqueados = true;
-                recalcularFluxo();
+                alert("Por favor, digite a senha master.");
             }
         }
 
-        function renderizarListaAdmins() {
-            const container = document.getElementById('lista-elegiveis-admin');
-            if(db.alunos.length === 0) {
-                container.innerHTML = "<p style='color:#6b7280; font-size:11px; text-align:center; padding: 20px;'>Nenhum integrante cadastrado na equipe ainda.</p>";
-                return;
+        function navegarPara(telaId) {
+            // Esconde o painel principal de botões
+            document.getElementById('screen-menu-gestores').style.display = 'none';
+            
+            // Esconde todas as telas de conteúdo antes de abrir a correta
+            const telas = document.querySelectorAll('.screen-content');
+            telas.forEach(tela => tela.style.display = 'none');
+            
+            // Exibe a tela selecionada
+            const targetScreen = document.getElementById('screen-' + telaId);
+            if (targetScreen) {
+                targetScreen.style.display = 'flex';
             }
-            container.innerHTML = db.alunos.map(aluno => `
-                <div class="admin-item">
-                    <div><p style="font-weight:bold; font-size:13px;">${aluno.nome}</p></div>
-                    ${aluno.is_admin ? `<button class="btn-demote" onclick="alterarCargoAdmin(${aluno.id}, false)">Remover Admin</button>` : `<button class="btn-promote" onclick="alterarCargoAdmin(${aluno.id}, true)">Tornar Admin</button>`}
-                </div>
-            `).join('');
         }
 
-        function alterarCargoAdmin(id, statusAdmin) {
-            const aluno = db.alunos.find(a => a.id === id);
-            if(aluno) { aluno.is_admin = statusAdmin; saveDB(); renderizarListaAdmins(); }
+        function voltarParaMenu() {
+            // Esconde todas as telas de conteúdo
+            const telas = document.querySelectorAll('.screen-content');
+            telas.forEach(tela => tela.style.display = 'none');
+            
+            // Reexibe o painel de 5 botões
+            document.getElementById('screen-menu-gestores').style.display = 'grid';
         }
-
-        function recalcularFluxo() {
-            const pComercial = configFinanceira.comercial;
-            const pAtleta = configFinanceira.atleta;
-            const pInstrutor = configFinanceira.instrutor;
-
-            document.getElementById('count-comercial').textContent = db.alunos.filter(a => a.perfil_tipo === 'aluno-comercial').length;
-            document.getElementById('count-atleta').textContent = db.alunos.filter(a => a.perfil_tipo === 'aluno-atleta').length;
-            document.getElementById('count-instrutor').textContent = db.alunos.filter(a => a.perfil_tipo === 'aluno-instrutor').length;
-            document.getElementById('count-bolsista').textContent = db.alunos.filter(a => a.perfil_tipo === 'aluno-bolsista').length;
-
-            let totalEntrou = 0; let totalPendente = 0; let htmlInadimplentes = "";
-
-            db.alunos.forEach(aluno => {
-                let v = 0;
-                if (aluno.perfil_tipo === 'aluno-comercial') v = pComercial;
-                else if (aluno.perfil_tipo === 'aluno-atleta') v = pAtleta;
-                else if (aluno.perfil_tipo === 'aluno-instrutor') v = pInstrutor;
-
-                if (aluno.status === 'Em dia') totalEntrou += v;
-                else {
-                    totalPendente += v;
-                    htmlInadimplentes += `<div style="background-color:#111827; padding:10px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid #7f1d1d;"><div><p style="font-weight:bold;">${aluno.nome}</p></div><span style="color:#f87171; font-weight:bold;">- R$ ${v.toFixed(2)}</span></div>`;
-                }
-            });
-            document.getElementById('cash-entrou').textContent = "R$ " + totalEntrou.toFixed(2);
-            document.getElementById('cash-pendente').textContent = "R$ " + totalPendente.toFixed(2);
-            document.getElementById('cash-total').textContent = "R$ " + (totalEntrou + totalPendente).toFixed(2);
-            document.getElementById('lista-inadimplentes').innerHTML = htmlInadimplentes || "<p style='color:#6b7280; font-size:11px; text-align:center;'>Todos em dia! OSS.</p>";
-        }
-
-        function salvarNovoCadastro() {
-            const nome = document.getElementById('in-nome').value.trim();
-            if(!nome) { alert("Nome é obrigatório!"); return; }
-            const novo = { 
-                id: Date.now(), 
-                nome: nome, 
-                perfil_tipo: document.getElementById('in-perfil').value, 
-                status: "Em dia", 
-                presencas: 0, 
-                is_admin: false,
-                cpf: document.getElementById('in-cpf').value.trim(),
-                rg: document.getElementById('in-
+    </script>
+</body>
+</html>
