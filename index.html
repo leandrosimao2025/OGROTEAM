@@ -24,15 +24,15 @@
         .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
         .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 14px; align-self: center; }
         
-        /* Grid Principal */
+        /* Grid Principal Atualizado */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
-        .menu-card { background-color: #0b1120; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; min-height: 180px; justify-content: space-between; position: relative; }
+        .menu-card { background-color: #0b1120; border: 1px solid #1e293b; border-radius: 16px; padding: 20px 14px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; min-height: 170px; justify-content: space-between; position: relative; }
         .menu-card:active { transform: scale(0.97); border-color: #dc2626; }
-        .card-img-container { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
-        .card-img-container span { font-size: 40px; }
-        .card-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; margin-bottom: 6px; }
-        .card-desc { font-size: 10px; color: #94a3b8; line-height: 1.4; }
-        .card-arrow { color: #dc2626; font-size: 12px; position: absolute; bottom: 12px; right: 16px; }
+        .card-img-container { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; }
+        .card-img-container span { font-size: 36px; }
+        .card-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .card-desc { font-size: 9px; color: #94a3b8; line-height: 1.3; }
+        .card-arrow { color: #dc2626; font-size: 11px; position: absolute; bottom: 10px; right: 14px; }
         
         /* Telas de Conteúdo */
         .screen-content { display: none; flex-direction: column; gap: 14px; }
@@ -40,6 +40,11 @@
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
+        /* Scanner de Presença */
+        .scanner-mock { width: 100%; height: 160px; background-color: #020617; border: 2px solid #3b82f6; border-radius: 12px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+        .scanner-laser { width: 100%; height: 3px; background-color: #ef4444; position: absolute; top: 0; left: 0; animation: scanAnimation 2s linear infinite; box-shadow: 0 0 10px #ef4444; }
+        @keyframes scanAnimation { 0% { top: 0%; } 50% { top: 100%; } 100% { top: 0%; } }
+
         /* Upload de Imagem */
         .photo-upload-box { width: 100px; height: 100px; background-color: #111827; border: 2px dashed #374151; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; align-self: center; margin-bottom: 8px; position: relative; }
         .photo-upload-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
@@ -95,42 +100,71 @@
                 </div>
             </div>
 
-            <!-- PAINEL CENTRAL -->
+            <!-- PAINEL CENTRAL (AGORA COM BOTÃO DE PRESENÇA) -->
             <div id="screen-menu-gestores" class="gestores-grid">
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-img-container"><span style="color:#3b82f6;">👤</span></div>
                     <h3 class="card-title">Incluir Aluno</h3>
-                    <p class="card-desc">Cadastre novos alunos na equipe.</p>
+                    <p class="card-desc">Cadastre novos alunos.</p>
                     <span class="card-arrow">▶</span>
                 </div>
                 
                 <div class="menu-card" onclick="navegarPara('incluir-ct')">
                     <div class="card-img-container"><span style="color:#cbd5e1;">🏛️</span></div>
-                    <h3 class="card-title">Incluir Academias e CT</h3>
-                    <p class="card-desc">Cadastre academias e centros de treinamento.</p>
+                    <h3 class="card-title">Incluir Academias</h3>
+                    <p class="card-desc">Gerencie suas filiais.</p>
+                    <span class="card-arrow">▶</span>
+                </div>
+                
+                <div class="menu-card" onclick="abrirPresenca()">
+                    <div class="card-img-container"><span style="color:#22c55e;">✅</span></div>
+                    <h3 class="card-title">Registrar Presença</h3>
+                    <p class="card-desc">Controle de check-in e treinos.</p>
                     <span class="card-arrow">▶</span>
                 </div>
                 
                 <div class="menu-card" onclick="navegarPara('dashboard')">
                     <div class="card-img-container"><span style="color:#ef4444;">📈</span></div>
-                    <h3 class="card-title">Dashboard Financeiro</h3>
-                    <p class="card-desc">Acompanhe receitas, despesas e resultados.</p>
-                    <span class="card-arrow">▶</span>
-                </div>
-                
-                <div class="menu-card" onclick="navegarPara('adicionar-admin')">
-                    <div class="card-img-container"><span style="color:#3b82f6;">👥</span></div>
-                    <h3 class="card-title">Adicionar Administradores</h3>
-                    <p class="card-desc">Gerencie permissões e usuários do sistema.</p>
+                    <h3 class="card-title">Dashboard</h3>
+                    <p class="card-desc">Acompanhe seus resultados.</p>
                     <span class="card-arrow">▶</span>
                 </div>
 
-                <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 80px; flex-direction: row; padding: 16px;">
+                <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 70px; flex-direction: row; padding: 14px;">
                     <div style="text-align: left;">
                         <h3 class="card-title" style="margin-bottom: 2px;">Visualizar / Editar Todos os Registros</h3>
-                        <p class="card-desc">Acesse a listagem geral sincronizada.</p>
+                        <p class="card-desc">Listagem geral e exclusões rápidas.</p>
                     </div>
                     <span class="card-arrow" style="position: static;">▶</span>
+                </div>
+            </div>
+
+            <!-- TELA NOVA: REGISTRAR PRESENÇA (FUNCIONAL) -->
+            <div id="screen-presenca" class="screen-content">
+                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
+                
+                <div class="form-cadastro">
+                    <div class="section-title">Leitor de Check-in</div>
+                    <div class="scanner-mock">
+                        <div class="scanner-laser"></div>
+                        <span style="font-size: 24px; margin-bottom:6px;">📱</span>
+                        <span style="font-size: 11px; color:#64748b; font-weight:700;">Aproxime a carteirinha ou QR Code</span>
+                    </div>
+                </div>
+
+                <div class="form-cadastro">
+                    <div class="section-title">Check-in Manual Rápido</div>
+                    <select id="select-presenca-aluno" class="input-field" style="text-align-last: center;">
+                        <option value="">Selecione o Aluno...</option>
+                    </select>
+                    <button class="btn-action" style="background-color: #22c55e;" onclick="computarPresencaManual()">Confirmar Entrada</button>
+                </div>
+
+                <div class="form-cadastro">
+                    <div class="section-title">Últimos Treinos de Hoje</div>
+                    <div id="container-historico-presenca">
+                        <!-- Check-ins dinâmicos -->
+                    </div>
                 </div>
             </div>
 
@@ -186,18 +220,6 @@
                 <button class="btn-action" style="background-color: #1e293b;" onclick="navegarPara('ver-cadastros')">Ver Relatório de Cadastros</button>
             </div>
 
-            <!-- TELA: ADICIONAR ADMINISTRADORES -->
-            <div id="screen-adicionar-admin" class="screen-content">
-                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
-                <div class="form-cadastro">
-                    <div class="section-title">Novo Administrador</div>
-                    <input type="text" class="input-field" placeholder="Nome do Gestor">
-                    <input type="email" class="input-field" placeholder="E-mail">
-                    <input type="password" class="input-field" placeholder="Senha de Acesso">
-                    <button class="btn-action" onclick="alert('Administrador secundário adicionado com sucesso simulado.')">Criar Acesso</button>
-                </div>
-            </div>
-
             <!-- TELA: VER CADASTROS -->
             <div id="screen-ver-cadastros" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
@@ -232,13 +254,14 @@
     </div>
 
     <script>
-        // Carrega dados simulados do SessionStorage para persistência básica entre abas
         let dbAlunos = JSON.parse(sessionStorage.getItem('dbAlunos')) || [];
         let dbAcademias = JSON.parse(sessionStorage.getItem('dbAcademias')) || [];
+        let dbPresencas = JSON.parse(sessionStorage.getItem('dbPresencas')) || [];
 
         function saveStorage() {
             sessionStorage.setItem('dbAlunos', JSON.stringify(dbAlunos));
             sessionStorage.setItem('dbAcademias', JSON.stringify(dbAcademias));
+            sessionStorage.setItem('dbPresencas', JSON.stringify(dbPresencas));
         }
 
         function togglePasswordVisibility(id, btn) {
@@ -252,11 +275,9 @@
             }
         }
 
-        // Validação consertada estruturalmente contra travamento mobile
         function autenticar() {
             const emailInput = document.getElementById('login-email');
             const passInput = document.getElementById('login-pass');
-            
             if (!emailInput || !passInput) return;
 
             const email = emailInput.value.trim().toLowerCase();
@@ -274,24 +295,19 @@
 
         function enviarLinkRecuperacao() {
             const email = document.getElementById('recovery-email').value.trim();
-            if(email === "") {
-                alert("Por favor, informe seu e-mail.");
-                return;
-            }
+            if(email === "") return alert("Por favor, informe seu e-mail.");
             alert("Link para redefinir a senha enviado com sucesso para: " + email);
             navegarPara('login');
         }
 
         function previewImagem(input, previewId, placeholderId) {
-            const file = input.files[0];
+            const file = input.files;
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById(previewId).src = e.target.result;
                     document.getElementById(previewId).style.display = 'block';
-                    if(document.getElementById(placeholderId)) {
-                        document.getElementById(placeholderId).style.display = 'none';
-                    }
+                    if(document.getElementById(placeholderId)) document.getElementById(placeholderId).style.display = 'none';
                 }
                 reader.readAsDataURL(file);
             }
@@ -300,7 +316,6 @@
         function navegarPara(telaId) {
             document.getElementById('screen-login').style.display = 'none';
             document.getElementById('screen-menu-gestores').style.display = 'none';
-            
             const telas = document.querySelectorAll('.screen-content');
             telas.forEach(tela => tela.style.display = 'none');
             
@@ -318,6 +333,65 @@
             document.getElementById('screen-menu-gestores').style.display = 'grid';
         }
 
+        /* MECÂNICA DE PRESENÇA SINCRONIZADA */
+        function abrirPresenca() {
+            const select = document.getElementById('select-presenca-aluno');
+            select.innerHTML = '<option value="">Selecione o Aluno...</option>';
+            
+            dbAlunos.forEach((aluno, index) => {
+                select.innerHTML += `<option value="${index}">${aluno.nome}</option>`;
+            });
+
+            renderizarHistoricoPresenca();
+            navegarPara('presenca');
+        }
+
+        function computarPresencaManual() {
+            const select = document.getElementById('select-presenca-aluno');
+            const index = select.value;
+            
+            if(index === "") return alert("Por favor, escolha um aluno da lista.");
+            
+            const aluno = dbAlunos[index];
+            const agora = new Date();
+            const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            
+            dbPresencas.unshift({
+                nome: aluno.nome,
+                foto: aluno.foto,
+                hora: horaFormatada
+            });
+
+            saveStorage();
+            renderizarHistoricoPresenca();
+            select.value = "";
+            alert(`Check-in concluído para ${aluno.nome}!`);
+        }
+
+        function renderizarHistoricoPresenca() {
+            const container = document.getElementById('container-lista-cadastros');
+            const histContainer = document.getElementById('container-historico-presenca');
+            histContainer.innerHTML = "";
+
+            if(dbPresencas.length === 0) {
+                histContainer.innerHTML = '<div class="no-data-msg" style="padding:10px;">Nenhum check-in realizado hoje.</div>';
+                return;
+            }
+
+            dbPresencas.forEach(p => {
+                const avatar = p.foto ? `<img src="${p.foto}" class="item-avatar" style="width:32px; height:32px;">` : `<div class="item-avatar" style="width:32px; height:32px; text-align:center; line-height:32px; background-color:#1f2937; border-radius:50%; font-size:12px;">👤</div>`;
+                histContainer.innerHTML += `
+                    <div style="display:flex; align-items:center; justify-content:between; background-color:#111827; padding:8px 12px; border-radius:6px; margin-bottom:6px; border-left:3px solid #22c55e;">
+                        <div style="display:flex; align-items:center; flex:1;">
+                            ${avatar}
+                            <span style="font-size:12px; font-weight:bold; margin-left:8px;">${p.nome}</span>
+                        </div>
+                        <span style="font-size:11px; color:#22c55e; font-weight:bold; font-family:monospace;">${p.hora}</span>
+                    </div>
+                `;
+            });
+        }
+
         function salvarAluno() {
             const nome = document.getElementById('aluno-nome').value.trim();
             const whatsapp = document.getElementById('aluno-whatsapp').value.replace(/\D/g, '');
@@ -326,11 +400,7 @@
             const fotoPreview = document.getElementById('aluno-photo-preview');
             const fotoSrc = fotoPreview.style.display === 'block' ? fotoPreview.src : '';
             
-            // Regra de Negócio: Campos Obrigatórios mínimos
-            if(!nome || !whatsapp || !passInicial) {
-                alert("Nome Completo, WhatsApp e Senha Inicial são obrigatórios para emissão do plano.");
-                return;
-            }
+            if(!nome || !whatsapp || !passInicial) return alert("Nome, WhatsApp e Senha são obrigatórios.");
             
             dbAlunos.push({ nome, whatsapp, plano, passInicial, foto: fotoSrc });
             saveStorage();
@@ -353,11 +423,10 @@
         function salvarCT() {
             const nome = document.getElementById('ct-nome').value.trim();
             const local = document.getElementById('ct-local').value.trim();
-            if(!nome) return alert("Insira o nome da Filial ou Centro de Treinamento.");
+            if(!nome) return alert("Insira o nome do CT.");
             
             dbAcademias.push({ nome, local });
             saveStorage();
-            alert("Unidade registrada com sucesso e sincronizada.");
             
             document.getElementById('ct-nome').value = "";
             document.getElementById('ct-local').value = "";
@@ -398,93 +467,4 @@
             if(!nome) return alert("O nome não pode ficar vazio.");
             
             if(tipo === 'aluno') {
-                dbAlunos[index].nome = nome;
-                dbAlunos[index].whatsapp = detalhe;
-                if(document.getElementById('edit-photo-preview').style.display === 'block') {
-                    dbAlunos[index].foto = document.getElementById('edit-photo-preview').src;
-                }
-            } else {
-                dbAcademias[index].nome = nome;
-                dbAcademias[index].local = detalhe;
-            }
-            
-            saveStorage();
-            alert("Cadastro atualizado com sucesso.");
-            atualizarDashboard();
-            renderizarCadastros();
-            navegarPara('ver-cadastros');
-        }
-
-        function excluirAluno(index) {
-            if(confirm("Excluir definitivamente este registro?")) {
-                dbAlunos.splice(index, 1);
-                saveStorage();
-                atualizarDashboard();
-                renderizarCadastros();
-            }
-        }
-
-        function excluirCT(index) {
-            if(confirm("Excluir definitivamente este CT?")) {
-                dbAcademias.splice(index, 1);
-                saveStorage();
-                renderizarCadastros();
-            }
-        }
-
-        function atualizarDashboard() {
-            const total = dbAlunos.length;
-            // Regra: Cálculo de ticket médio estimado automático por mensalidade ativa
-            document.getElementById('dash-faturamento').textContent = "R$ " + (total * 150);
-            document.getElementById('dash-mensalidades').textContent = total;
-        }
-
-        function renderizarCadastros() {
-            const container = document.getElementById('container-lista-cadastros');
-            const busca = document.getElementById('search-input').value.toLowerCase().trim();
-            container.innerHTML = "";
-            let cont = 0;
-            
-            dbAlunos.forEach((aluno, idx) => {
-                if(aluno.nome.toLowerCase().includes(busca)) {
-                    cont++;
-                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;border-radius:50%;width:40px;height:40px;">👤</div>`;
-                    container.innerHTML += `
-                        <div class="search-item">
-                            <div style="display:flex; align-items:center;">
-                                ${imgTag}
-                                <div style="margin-left: 10px;">
-                                    <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
-                                    <div style="font-size: 10px; color: #9ca3af;">Plano: ${aluno.plano || 'Padrão'}</div>
-                                </div>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn-edit-user" onclick="abrirEdicao(${idx}, 'aluno')">Editar</button>
-                                <button class="btn-delete-user" onclick="excluirAluno(${idx})">Excluir</button>
-                            </div>
-                        </div>`;
-                }
-            });
-
-            dbAcademias.forEach((ct, idx) => {
-                if(ct.nome.toLowerCase().includes(busca)) {
-                    cont++;
-                    container.innerHTML += `
-                        <div class="search-item">
-                            <div>
-                                <div style="font-size: 13px; font-weight: bold; color: #f87171;">${ct.nome}</div>
-                                <div style="font-size: 10px; color: #9ca3af;">Unidade | ${ct.local}</div>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn-edit-user" onclick="abrirEdicao(${idx}, 'ct')">Editar</button>
-                                <button class="btn-delete-user" onclick="excluirCT(${idx})">Excluir</button>
-                            </div>
-                        </div>`;
-                }
-            });
-
-            if(cont === 0) container.innerHTML = '<div class="no-data-msg">Nenhum registro ativo encontrado.</div>';
-        }
-    </script>
-</body>
-</html>
+                dbAlunos[index
