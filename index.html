@@ -20,7 +20,7 @@
         .input-field:focus { border-color: #dc2626; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 16px; }
-        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 13px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
+        .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 10px; letter-spacing: 0.05em; }
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
         .menu-card { background: linear-gradient(135deg, #0e1322 0%, #05070f 100%); border: 1px solid rgba(220, 38, 38, 0.25); border-radius: 12px; padding: 22px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; position: relative; transition: 0.2s; min-height: 145px; justify-content: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); }
         .menu-card:active { transform: scale(0.95); border-color: #dc2626; }
@@ -32,12 +32,13 @@
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; letter-spacing: 0.05em; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
-        /* Estilos Exclusivos do Dashboard Financeiro */
+        /* Dashboard Financeiro */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .row-financeira { display: flex; justify-content: space-between; align-items: center; background-color: #111827; padding: 10px; border-radius: 6px; border-left: 3px solid #dc2626; font-size: 13px; }
         .row-financeira span { font-family: monospace; font-weight: 700; }
+        .btn-toggle-edit { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; text-transform: uppercase; width: fit-content; margin-bottom: 4px; }
         
         footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: none; }
         footer .marca-vermelha { color: #dc2626; }
@@ -99,10 +100,10 @@
                 <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
                 <span class="section-title">Credenciais de Perfil</span>
                 <select id="in-perfil" class="input-field" style="text-align: left;">
-                    <option value="comercial">Modalidade: Aluno Comercial</option>
-                    <option value="atleta">Modalidade: Aluno Atleta</option>
-                    <option value="instrutor">Modalidade: Aluno Instrutor</option>
-                    <option value="bolsista">Modalidade: Aluno Atleta Bolsista</option>
+                    <option value="aluno-comercial">Modalidade: Aluno Comercial</option>
+                    <option value="aluno-atleta">Modalidade: Aluno Atleta</option>
+                    <option value="aluno-instrutor">Modalidade: Aluno Instrutor</option>
+                    <option value="aluno-bolsista">Modalidade: Aluno Atleta Bolsista</option>
                 </select>
                 <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Provisória" style="text-align: left;">
                 <span class="section-title">Perfil e Mídia</span>
@@ -144,27 +145,31 @@
                 <button onclick="salvarNovoCT()" class="btn-action">Gravar Centro de Treinamento</button>
             </div>
 
-            <!-- SUBPÁGINA 3: NOVO DASHBOARD FINANCEIRO PROFISSIONAL -->
+            <!-- SUBPÁGINA 3: DASHBOARD FINANCEIRO CORRIGIDO -->
             <div id="screen-dashboard-financeiro" class="form-cadastro">
                 <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
                 
-                <span class="section-title">Configurar Valores de Mensalidade</span>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="section-title" style="margin-top:0;">Preços das Modalidades</span>
+                    <button id="btn-edit-lock" class="btn-toggle-edit" onclick="alternarBloqueioPreco()">Editar Valores</button>
+                </div>
+                
                 <div style="display:flex; flex-direction:column; gap:8px;">
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Comercial (R$):</label>
-                        <input type="number" id="val-comercial" class="input-field" value="150" style="width:100px; padding:6px;" onchange="recalcularFluxo()">
+                        <input type="number" id="val-comercial" class="input-field" value="150" disabled style="width:100px; padding:6px; background-color:#1f2937;">
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Atleta (R$):</label>
-                        <input type="number" id="val-atleta" class="input-field" value="100" style="width:100px; padding:6px;" onchange="recalcularFluxo()">
+                        <input type="number" id="val-atleta" class="input-field" value="200" disabled style="width:100px; padding:6px; background-color:#1f2937;">
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Instrutor (R$):</label>
-                        <input type="number" id="val-instrutor" class="input-field" value="80" style="width:100px; padding:6px;" onchange="recalcularFluxo()">
+                        <input type="number" id="val-instrutor" class="input-field" value="80" disabled style="width:100px; padding:6px; background-color:#1f2937;">
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Atleta Bolsista (R$):</label>
-                        <input type="number" id="val-bolsista" class="input-field" value="0" readonly style="width:100px; padding:6px; background-color:#27272a;">
+                        <input type="number" id="val-bolsista" class="input-field" value="0" disabled style="width:100px; padding:6px; background-color:#111827;">
                     </div>
                 </div>
 
@@ -184,9 +189,7 @@
                 </div>
 
                 <span class="section-title">Alunos Inadimplentes</span>
-                <div id="lista-inadimplentes" class="list-space" style="margin-top:4px; font-size:12px;">
-                    <!-- Preenchido via Javascript -->
-                </div>
+                <div id="lista-inadimplentes" class="list-space" style="margin-top:4px; font-size:12px;"></div>
             </div>
         </main>
 
@@ -196,16 +199,18 @@
     </div>
 
     <script>
-        // Banco de Dados contendo alunos divididos pelos novos perfis financeiros solicitados
-        let db = JSON.parse(localStorage.getItem('ogroteam_db')) || {
-            alunos: [
-                { id: 1, nome: "Carlos Silva", perfil_tipo: "comercial", status: "Em dia", telefone: "5521999999999" },
-                { id: 2, nome: "Rodrigo Souze", perfil_tipo: "atleta", status: "Inadimplente", telefone: "5521988888888" },
-                { id: 3, nome: "Felipe Costa", perfil_tipo: "instrutor", status: "Em dia", telefone: "5521977777777" },
-                { id: 4, nome: "Alan Barbosa", perfil_tipo: "bolsista", status: "Em dia", telefone: "5521966666666" },
-                { id: 5, nome: "Marcos Lima", perfil_tipo: "comercial", status: "Inadimplente", telefone: "5521955555555" }
-            ]
+        // Carrega base real do aparelho ou inicia a lista
+        let db = JSON.parse(localStorage.getItem('ogroteam_db')) || { alunos: [] };
+        
+        // Carrega configurações de mensalidades salvas ou adota o padrão da imagem
+        let configFinanceira = JSON.parse(localStorage.getItem('ogroteam_financeiro_config')) || {
+            comercial: 150,
+            atleta: 200,
+            instrutor: 80
         };
+
+        let currentTab = 'alunos';
+        let precosBloqueados = true;
 
         function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
 
@@ -227,6 +232,9 @@
         }
 
         function navegarPara(destino) {
+            // Sincroniza dados guardados na memória do celular antes de mudar de tela
+            db = JSON.parse(localStorage.getItem('ogroteam_db')) || { alunos: [] };
+            
             document.getElementById('screen-menu-gestores').style.display = 'none';
             document.getElementById('screen-form-cadastro').style.display = 'none';
             document.getElementById('screen-form-ct').style.display = 'none';
@@ -240,6 +248,10 @@
                 document.getElementById('screen-form-ct').style.display = 'flex';
             } else if (destino === 'dashboard') {
                 document.getElementById('screen-dashboard-financeiro').style.display = 'flex';
+                // Restaura inputs de valor gravados
+                document.getElementById('val-comercial').value = configFinanceira.comercial;
+                document.getElementById('val-atleta').value = configFinanceira.atleta;
+                document.getElementById('val-instrutor').value = configFinanceira.instrutor;
                 recalcularFluxo();
             } else if (destino === 'adicionar-admin') {
                 alert("Módulo 'Adicionar Administradores' selecionado. Criaremos esta página em seguida!");
@@ -247,20 +259,55 @@
             }
         }
 
+        function alternarBloqueioPreco() {
+            const inputs = ['val-comercial', 'val-atleta', 'val-instrutor'];
+            const btn = document.getElementById('btn-edit-lock');
+            
+            if (precosBloqueados) {
+                // Modo Edição Liberado
+                inputs.forEach(id => {
+                    document.getElementById(id).disabled = false;
+                    document.getElementById(id).style.backgroundColor = "#111827";
+                });
+                btn.textContent = "Salvar Preços";
+                btn.style.backgroundColor = "#16a34a";
+                btn.style.borderColor = "#22c55e";
+                btn.style.color = "#ffffff";
+                precosBloqueados = false;
+            } else {
+                // Modo Salvar Ativado
+                configFinanceira.comercial = parseFloat(document.getElementById('val-comercial').value) || 0;
+                configFinanceira.atleta = parseFloat(document.getElementById('val-atleta').value) || 0;
+                configFinanceira.instrutor = parseFloat(document.getElementById('val-instrutor').value) || 0;
+                
+                localStorage.setItem('ogroteam_financeiro_config', JSON.stringify(configFinanceira));
+                
+                inputs.forEach(id => {
+                    document.getElementById(id).disabled = true;
+                    document.getElementById(id).style.backgroundColor = "#1f2937";
+                });
+                btn.textContent = "Editar Valores";
+                btn.style.backgroundColor = "#1f2937";
+                btn.style.borderColor = "#dc2626";
+                btn.style.color = "#f87171";
+                precosBloqueados = true;
+                
+                recalcularFluxo();
+                alert("⚙️ Valores de mensalidade atualizados para toda a rede!");
+            }
+        }
+
         function recalcularFluxo() {
-            // Captura valores definidos pelo mestre na tela
-            const precoComercial = parseFloat(document.getElementById('val-comercial').value) || 0;
-            const precoAtleta = parseFloat(document.getElementById('val-atleta').value) || 0;
-            const precoInstrutor = parseFloat(document.getElementById('val-instrutor').value) || 0;
-            const precoBolsista = 0;
+            const pComercial = configFinanceira.comercial;
+            const pAtleta = configFinanceira.atleta;
+            const pInstrutor = configFinanceira.instrutor;
 
-            // Filtros de contagem por modalidade de perfil
-            const comerciais = db.alunos.filter(a => a.perfil_tipo === 'comercial');
-            const atletas = db.alunos.filter(a => a.perfil_tipo === 'atleta');
-            const instrutores = db.alunos.filter(a => a.perfil_tipo === 'instrutor');
-            const bolsistas = db.alunos.filter(a => a.perfil_tipo === 'bolsista');
+            // Filtros de contagem corrigidos para bater 100% com o formulário de cadastro
+            const comerciais = db.alunos.filter(a => a.perfil_tipo === 'aluno-comercial');
+            const atletas = db.alunos.filter(a => a.perfil_tipo === 'aluno-atleta');
+            const instrutores = db.alunos.filter(a => a.perfil_tipo === 'aluno-instrutor');
+            const bolsistas = db.alunos.filter(a => a.perfil_tipo === 'aluno-bolsista');
 
-            // Atualiza os painéis numéricos de contagem pura
             document.getElementById('count-comercial').textContent = comerciais.length;
             document.getElementById('count-atleta').textContent = atletas.length;
             document.getElementById('count-instrutor').textContent = instrutores.length;
@@ -270,23 +317,21 @@
             let totalPendente = 0;
             let htmlInadimplentes = "";
 
-            // Varre todos os cadastros para montar o fluxo financeiro baseado nos perfis
             db.alunos.forEach(aluno => {
                 let valorMensalidade = 0;
-                if (aluno.perfil_tipo === 'comercial') valorMensalidade = precoComercial;
-                else if (aluno.perfil_tipo === 'atleta') valorMensalidade = precoAtleta;
-                else if (aluno.perfil_tipo === 'instrutor') valorMensalidade = precoInstrutor;
+                if (aluno.perfil_tipo === 'aluno-comercial') valorMensalidade = pComercial;
+                else if (aluno.perfil_tipo === 'aluno-atleta') valorMensalidade = pAtleta;
+                else if (aluno.perfil_tipo === 'aluno-instrutor') valorMensalidade = pInstrutor;
 
                 if (aluno.status === 'Em dia') {
                     totalEntrou += valorMensalidade;
                 } else {
                     totalPendente += valorMensalidade;
-                    // Alimenta a lista de inadimplentes com o valor devido personalizado
                     htmlInadimplentes += `
                         <div style="background-color:#111827; padding:10px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid #7f1d1d;">
                             <div>
                                 <p style="font-weight:bold; color:#f3f4f6;">${aluno.nome}</p>
-                                <p style="font-size:10px; color:#a1a1aa;">Perfil: ${aluno.perfil_tipo.toUpperCase()}</p>
+                                <p style="font-size:10px; color:#a1a1aa;">${aluno.perfil_tipo.replace('aluno-', '').toUpperCase()}</p>
                             </div>
                             <span style="color:#f87171; font-weight:bold; font-family:monospace;">- R$ ${valorMensalidade.toFixed(2)}</span>
                         </div>
@@ -298,7 +343,6 @@
                 htmlInadimplentes = "<p style='color:#a1a1aa; text-align:center; font-size:11px; padding:10px;'>🥋 Todos os atletas estão em dia!</p>";
             }
 
-            // Exibe os valores finais formatados na moeda local
             document.getElementById('cash-entrou').textContent = "R$ " + totalEntrou.toFixed(2);
             document.getElementById('cash-pendente').textContent = "R$ " + totalPendente.toFixed(2);
             document.getElementById('cash-total').textContent = "R$ " + (totalEntrou + totalPendente).toFixed(2);
@@ -307,19 +351,25 @@
 
         function salvarNovoCadastro() {
             const nome = document.getElementById('in-nome').value.trim();
-            if(!nome) { alert("Nome é obrigatório!"); return; }
+            if(!nome) { alert("O Nome Completo do Atleta é obrigatório!"); return; }
 
             const novo = {
                 id: Date.now(),
                 nome: nome,
                 perfil_tipo: document.getElementById('in-perfil').value,
-                status: "Em dia",
+                status: "Em dia", // Por padrão entra ativo/em dia
                 presencas: 0,
                 telefone: "55" + document.getElementById('in-tel').value.replace(/\D/g, '')
             };
+            
             db.alunos.push(novo);
             saveDB();
-            alert("🥋 Atleta registrado!");
+            
+            // Limpa o formulário de cadastro
+            document.getElementById('in-nome').value = '';
+            document.getElementById('in-tel').value = '';
+            
+            alert("🥋 Atleta registrado com sucesso na base corporativa!");
             navegarPara('menu');
         }
 
