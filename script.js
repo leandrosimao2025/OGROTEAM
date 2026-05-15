@@ -306,3 +306,182 @@ function gerarRelatorioRapido(tipo) {
     if(tipo === 'ct') alert("Balanço por CT...\nExibindo faturamento e inadimplência cruzados e rateados por filial ativa.");
 }
 
+// INTERFACES ADICIONAIS DE RENDERIZAÇÃO
+function renderizarAdicionarAdmin() {
+    const container = document.getElementById('screen-adicionar-admin');
+    if(!container) return;
+    
+    // Mantém o formulário superior e reconstrói a lista de promoção de alunos abaixo
+    container.innerHTML = `
+        <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
+        <div class="form-cadastro" style="margin-bottom: 16px;">
+            <div class="section-title">Novo Administrador Externo</div>
+            <input type="text" id="new-adm-name" class="input-field" placeholder="Nome do Gestor">
+            <input type="email" id="new-adm-email" class="input-field" placeholder="E-mail de Acesso">
+            <input type="password" id="new-adm-pass" class="input-field" placeholder="Senha Provisória">
+            <select id="new-adm-nivel" class="select-field">
+                <option value="Administrador Integral">Administrador Integral</option>
+                <option value="Apoio Administrativo">Apoio Administrativo</option>
+            </select>
+            <button class="btn-action" onclick="adicionarAdminDireto()">Criar Novo Admin</button>
+        </div>
+        <div class="section-title">Promover Alunos/Instrutores Cadastrados</div>
+        <div id="lista-promocao-alunos"></div>
+    `;
+
+    const listaContainer = document.getElementById('lista-promocao-alunos');
+    if(dbAlunos.length === 0) {
+        listaContainer.innerHTML = '<div class="no-data-msg">Nenhum aluno ativo para promover.</div>';
+        return;
+    }
+
+    dbAlunos.forEach((aluno, index) => {
+        const jaEAdmin = dbAdmins.some(a => a.email === aluno.whatsapp + "@ogroteam.com");
+        if(!jaEAdmin) {
+            listaContainer.innerHTML += `
+                <div class="search-item">
+                    <div>
+                        <div style="font-size:13px; font-weight:bold;">${aluno.nome}</div>
+                        <div style="font-size:10px; color:#9ca3af;">${aluno.perfil}</div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-promo-user" onclick="promoverUsuario(${index}, 'Administrador Integral')">Promover</button>
+                    </div>
+                </div>`;
+        }
+    });
+}
+
+function renderizarPresencasPainel() {
+    const comboAlunos = document.getElementById('presenca-aluno-select');
+    const comboCT = document.getElementById('presenca-ct-select');
+    const mural = document.getElementById('mural-chamada-recente');
+    
+    if(comboAlunos) {
+        comboAlunos.innerHTML = "";
+        dbAlunos.forEach((a, idx) => {
+            comboAlunos.innerHTML += `<option value="${idx}">${a.nome}</option>`;
+        });
+    }
+    if(comboCT) {
+        comboCT.innerHTML = "";
+        dbAcademias.forEach(c => {
+            comboCT.innerHTML += `<option value="${c.nome}">${c.nome}</option>`;
+        });
+    }
+
+    if(mural) {
+        mural.innerHTML = "";
+        let totalChamadas = 0;
+        dbAlunos.forEach(aluno => {
+            if(aluno.presencas && aluno.presencas.length > 0) {
+                aluno.presencas.forEach(p => {
+                    totalChamadas++;
+                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;font-size:18px;"></div>`;
+                    mural.innerHTML += `
+                        <div class="search-item">
+                            <div style="display:flex; align-items:center;">
+                                ${imgTag}
+                                <div>
+                                    <div style="font-size:13px; font-weight:bold;">${aluno.nome}</div>
+                                    <div style="font-size:10px; color:#10b981;">Treino: ${p.horario} | CT: ${p.ct}</div>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+            }
+        });
+        if(totalChamadas === 0) mural.innerHTML = '<div class="no-data-msg">Nenhuma chamada realizada hoje.</div>';
+    }
+}
+
+function renderizarConfiguracoes() {
+    const containerLogs = document.getElementById('container-logs-auditoria');
+    if(containerLogs) {
+        containerLogs.innerHTML = "";
+        if(dbLogs.length === 0) {
+            containerLogs.innerHTML = '<div class="no-data-msg">Nenhuma alteração registrada na auditoria.</div>';
+        } else {
+            dbLogs.forEach(log => {
+                containerLogs.innerHTML += `
+                    <div class="log-line">
+                        <strong>[${log.data}]</strong> - <span>${log.autor}</span><br>
+                        <span style="color:#f87171;">Ação: ${log.acao}</span> | <small>${log.detalhe}</small>
+                    </div>`;
+            });
+        }
+    }
+    
+    if(document.getElementById('val-comercial')) document.getElementById('val-comercial').value = dbPrecos["Aluno Comercial"];
+    if(document.getElementById('val-atleta')) document.getElementById('val-atleta').value = dbPrecos["Aluno Atleta"];
+    if(document.getElementById('val-instrutor')) document.getElementById('val-instrutor').value = dbPrecos["Aluno Instrutor"];
+}
+
+function renderizarRelatoriosAvancados() {
+    const comboCT = document.getElementById('report-ct-filter');
+    if(comboCT) {
+        comboCT.innerHTML = '<option value="Todos">Todas as Unidades (Filtro)</option>';
+        dbAcademias.forEach(c => {
+            comboCT.innerHTML += `<option value="${c.nome}">${c.nome}</option>`;
+        });
+    }
+}
+
+function filtrarRelatorioNaTela() {
+    const cat = document.getElementById('report-category-filter').value;
+    const ct = document.getElementById('report-ct-filter').value;
+    const plano = document.getElementById('report-plano-filter').value;
+    const container = document.getElementById('container-resultado-relatorio');
+    
+    if(!container) return;
+    container.innerHTML = "";
+    let cont = 0;
+
+    dbAlunos.forEach(aluno => {
+        let matchCat = (cat === 'Todos' || cat === aluno.perfil);
+        let matchPlano = (plano === 'Todos' || plano === aluno.plano);
+        
+        // Valida se o aluno tem presença gravada no CT filtrado caso o filtro de CT seja ativado
+        let matchCT = true;
+        if(ct !== 'Todos') {
+            matchCT = aluno.presencas && aluno.presencas.some(p => p.ct === ct);
+        }
+
+        if(matchCat && matchPlano && matchCT) {
+            cont++;
+            container.innerHTML += `<div class="log-line">👤 <strong>${aluno.nome}</strong> | Perfil: ${aluno.perfil} | Plano: ${aluno.plano} | Status: ${aluno.statusFin}</div>`;
+        }
+    });
+
+    if(cont === 0) container.innerHTML = '<div class="no-data-msg">Nenhum registro corresponde aos filtros selecionados.</div>';
+}
+
+function exportarPlanilhaSimulada() {
+    alert("Exportação Concluída!\nPlanilha estruturada gerada com base nos dados filtrados na tela.");
+}
+
+// GATILHOS DA RENDERIZAÇÃO DINÂMICA
+const originalNavegar = navegarPara;
+navegarPara = function(telaId) {
+    originalNavegar(telaId);
+    if(telaId === 'ver-cadastros') renderizarCadastros();
+    if(telaId === 'adicionar-admin') renderizarAdicionarAdmin();
+    if(telaId === 'registrar-presenca') renderizarPresencasPainel();
+    if(telaId === 'configuracoes') renderizarConfiguracoes();
+    if(telaId === 'extrair-relatorios') {
+        renderizarRelatoriosAvancados();
+        filtrarRelatorioNaTela();
+    }
+};
+
+// SIMULAÇÃO DO LINK DO ARQUIVO SCRIPTS COM O INDEX HTML ORIGINAL
+if(sessionStorage.getItem('instrutorLogado') === 'true') {
+    sessionStorage.removeItem('instrutorLogado');
+    currentUser = { nome: "Instrutor Atleta", nivel: "Apoio Administrativo" };
+    document.getElementById('screen-login').style.display = 'none';
+    document.getElementById('screen-menu-gestores').style.display = 'grid';
+    document.getElementById('footer-menu-box').style.display = 'flex';
+    aplicarNiveisAcesso();
+    renderizarPresencasPainel();
+    originalNavegar('registrar-presenca');
+}
