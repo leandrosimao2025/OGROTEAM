@@ -32,7 +32,7 @@
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; letter-spacing: 0.05em; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
-        /* Dashboard Financeiro */
+        /* Estilos do Dashboard */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
         .grid-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
@@ -40,6 +40,11 @@
         .row-financeira span { font-family: monospace; font-weight: 700; }
         .btn-toggle-edit { background-color: #1f2937; border: 1px solid #dc2626; color: #f87171; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; text-transform: uppercase; width: fit-content; margin-bottom: 4px; }
         
+        /* Lista de Usuários Administrativos */
+        .admin-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-promote { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+        .btn-demote { background-color: #374151; color: #9ca3af; border: 1px solid #4b5563; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+
         footer { background-color: #000000; border-top: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 12px; text-align: center; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: #52525b; display: none; }
         footer .marca-vermelha { color: #dc2626; }
     </style>
@@ -58,9 +63,13 @@
             <!-- TELA DE LOGIN -->
             <div id="screen-login">
                 <div class="login-box">
-                    <input type="text" class="input-field" value="Perfil: Administrador / Mestre" readonly style="color: #9ca3af; border-color: #1f2937;">
+                    <select id="login-role" class="input-field" style="color: #9ca3af;" onchange="alternarCamposLogin()">
+                        <option value="mestre">Perfil: Administrador / Mestre</option>
+                        <option value="admin">Perfil: Administrador Vinculado</option>
+                    </select>
+                    <input type="text" id="login-user" class="input-field" placeholder="Nome Completo do Administrador" style="display: none; text-align: center;">
                     <div class="password-container">
-                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha master">
+                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha de acesso">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
                     <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
@@ -106,32 +115,9 @@
                     <option value="aluno-bolsista">Modalidade: Aluno Atleta Bolsista</option>
                 </select>
                 <input type="text" id="in-senha-inicial" class="input-field" placeholder="Definir Senha Provisória" style="text-align: left;">
-                <span class="section-title">Perfil e Mídia</span>
-                <input type="file" id="in-foto" class="input-field" accept="image/*">
                 <span class="section-title">Dados Pessoais</span>
                 <input type="text" id="in-nome" class="input-field" placeholder="Nome Completo" style="text-align: left;">
-                <input type="text" id="in-cpf" class="input-field" placeholder="CPF" style="text-align: left;">
-                <input type="text" id="in-rg" class="input-field" placeholder="RG" style="text-align: left;">
-                <span style="font-size:11px;color:#6b7280;margin-left:4px;">Data de Nascimento:</span>
-                <input type="date" id="in-nasc" class="input-field">
-                <select id="in-sexo" class="input-field" style="text-align: left;">
-                    <option value="Masculino">Sexo: Masculino</option>
-                    <option value="Feminino">Sexo: Feminino</option>
-                </select>
                 <input type="tel" id="in-tel" class="input-field" placeholder="WhatsApp" style="text-align: left;">
-                <input type="email" id="in-email" class="input-field" placeholder="E-mail" style="text-align: left;">
-                <input type="text" id="in-end" class="input-field" placeholder="Endereço" style="text-align: left;">
-                <input type="text" id="in-cep" class="input-field" placeholder="CEP" style="text-align: left;">
-                <span class="section-title">Dados Esportivos</span>
-                <input type="text" id="in-mod" class="input-field" placeholder="Modalidade" style="text-align: left;">
-                <input type="text" id="in-cat" class="input-field" placeholder="Categoria" style="text-align: left;">
-                <input type="text" id="in-grad" class="input-field" placeholder="Graduação / Faixa" style="text-align: left;">
-                <input type="text" id="in-prof" class="input-field" placeholder="Professor" style="text-align: left;">
-                <span style="font-size:11px;color:#6b7280;margin-left:4px;">Data de Entrada:</span>
-                <input type="date" id="in-ent" class="input-field">
-                <input type="text" id="in-obj" class="input-field" placeholder="Objetivo" style="text-align: left;">
-                <input type="text" id="in-peso" class="input-field" placeholder="Peso Atual (Kg)" style="text-align: left;">
-                <input type="text" id="in-alt" class="input-field" placeholder="Altura" style="text-align: left;">
                 <button onclick="salvarNovoCadastro()" class="btn-action">Gravar Matrícula</button>
             </div>
 
@@ -140,20 +126,16 @@
                 <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
                 <span class="section-title">Identificação Comercial</span>
                 <input type="text" id="ct-fantasia" class="input-field" placeholder="Nome Fantasia da Unidade" style="text-align: left;">
-                <input type="text" id="ct-cnpj" class="input-field" placeholder="CNPJ" style="text-align: left;">
-                <input type="text" id="ct-end" class="input-field" placeholder="Endereço Completo" style="text-align: left;">
                 <button onclick="salvarNovoCT()" class="btn-action">Gravar Centro de Treinamento</button>
             </div>
 
-            <!-- SUBPÁGINA 3: DASHBOARD FINANCEIRO CORRIGIDO -->
+            <!-- SUBPÁGINA 3: DASHBOARD FINANCEIRO -->
             <div id="screen-dashboard-financeiro" class="form-cadastro">
                 <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
-                
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <span class="section-title" style="margin-top:0;">Preços das Modalidades</span>
                     <button id="btn-edit-lock" class="btn-toggle-edit" onclick="alternarBloqueioPreco()">Editar Valores</button>
                 </div>
-                
                 <div style="display:flex; flex-direction:column; gap:8px;">
                     <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                         <label style="flex:1;">Comercial (R$):</label>
@@ -167,12 +149,7 @@
                         <label style="flex:1;">Instrutor (R$):</label>
                         <input type="number" id="val-instrutor" class="input-field" value="80" disabled style="width:100px; padding:6px; background-color:#1f2937;">
                     </div>
-                    <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
-                        <label style="flex:1;">Atleta Bolsista (R$):</label>
-                        <input type="number" id="val-bolsista" class="input-field" value="0" disabled style="width:100px; padding:6px; background-color:#111827;">
-                    </div>
                 </div>
-
                 <span class="section-title">Métricas de Alunos por Perfil</span>
                 <div class="grid-metrics">
                     <div class="metric-card"><p style="font-size:10px; color:#a1a1aa;">Comercial</p><span id="count-comercial" class="metric-val">0</span></div>
@@ -180,39 +157,42 @@
                     <div class="metric-card"><p style="font-size:10px; color:#a1a1aa;">Instrutor</p><span id="count-instrutor" class="metric-val">0</span></div>
                     <div class="metric-card"><p style="font-size:10px; color:#a1a1aa;">Bolsista</p><span id="count-bolsista" class="metric-val">0</span></div>
                 </div>
-
                 <span class="section-title">Fluxo de Caixa Mensal</span>
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                    <div class="row-financeira" style="border-color:#16a34a;">💰 Já Entrou (Em Dia):<span id="cash-entrou" style="color:#4ade80;">R$ 0,00</span></div>
-                    <div class="row-financeira" style="border-color:#ea580c;">⚠️ Para Entrar (Atrasado):<span id="cash-pendente" style="color:#f97316;">R$ 0,00</span></div>
-                    <div class="row-financeira" style="border-color:#2563eb;">📊 Total Projetado Bruto:<span id="cash-total" style="color:#60a5fa;">R$ 0,00</span></div>
-                </div>
-
+                <div class="row-financeira" style="border-color:#16a34a; margin-bottom: 6px;">💰 Já Entrou:<span id="cash-entrou" style="color:#4ade80;">R$ 0,00</span></div>
+                <div class="row-financeira" style="border-color:#ea580c; margin-bottom: 6px;">⚠️ Para Entrar:<span id="cash-pendente" style="color:#f97316;">R$ 0,00</span></div>
+                <div class="row-financeira" style="border-color:#2563eb;">📊 Total Projetado:<span id="cash-total" style="color:#60a5fa;">R$ 0,00</span></div>
                 <span class="section-title">Alunos Inadimplentes</span>
-                <div id="lista-inadimplentes" class="list-space" style="margin-top:4px; font-size:12px;"></div>
+                <div id="lista-inadimplentes" class="list-space"></div>
             </div>
-        </main>
 
+            <!-- SUBPÁGINA 4: NOVA GESTÃO DE ADMINISTRADORES -->
+            <div id="screen-gestao-admins" class="form-cadastro">
+                <button class="btn-voltar" onclick="navegarPara('menu')">◀ Voltar ao Painel</button>
+                <span class="section-title">Promover Integrantes a Admin</span>
+                <p style="font-size: 11px; color: #6b7280; margin-bottom: 8px;">Selecione qualquer aluno da base para conceder as chaves de acesso administrativo do sistema.</p>
+                <div id="lista-elegiveis-admin" class="list-space">
+                    <!-- Gerado Dinamicamente -->
+                </div>
+            </div>
+
+        </main>
         <footer id="app-footer">
             Disciplina • <span class="marca-vermelha">Foco</span> • Respeito • <span class="marca-vermelha">Evolução</span>
         </footer>
     </div>
 
     <script>
-        // Carrega base real do aparelho ou inicia a lista
         let db = JSON.parse(localStorage.getItem('ogroteam_db')) || { alunos: [] };
-        
-        // Carrega configurações de mensalidades salvas ou adota o padrão da imagem
-        let configFinanceira = JSON.parse(localStorage.getItem('ogroteam_financeiro_config')) || {
-            comercial: 150,
-            atleta: 200,
-            instrutor: 80
-        };
-
-        let currentTab = 'alunos';
+        let configFinanceira = JSON.parse(localStorage.getItem('ogroteam_financeiro_config')) || { comercial: 120, atleta: 100, instrutor: 700 };
+        let userRole = 'mestre';
         let precosBloqueados = true;
 
         function saveDB() { localStorage.setItem('ogroteam_db', JSON.stringify(db)); }
+
+        function alternarCamposLogin() {
+            const role = document.getElementById('login-role').value;
+            document.getElementById('login-user').style.display = (role === 'admin') ? 'block' : 'none';
+        }
 
         function togglePasswordVisibility(idInput, botao) {
             const campo = document.getElementById(idInput);
@@ -221,8 +201,23 @@
         }
 
         function autenticar() {
+            const role = document.getElementById('login-role').value;
             const pass = document.getElementById('login-pass').value.trim();
-            if (pass !== 'ogro06#') { alert("Senha master do mestre inválida!"); return; }
+            const userNome = document.getElementById('login-user').value.trim();
+
+            if (role === 'mestre') {
+                if (pass !== 'ogro06#') { alert("Senha master incorreta!"); return; }
+                userRole = 'mestre';
+            } else {
+                if(!userNome) { alert("Informe o Nome do Administrador!"); return; }
+                const adminAchado = db.alunos.find(a => a.nome.toLowerCase().trim() === userNome.toLowerCase() && a.is_admin === true);
+                if(!adminAchado || adminAchado.senha_admin !== pass) {
+                    alert("Acesso Administrativo negado ou não autorizado!");
+                    return;
+                }
+                userRole = 'admin';
+            }
+
             document.getElementById('screen-login').style.display = 'none';
             document.getElementById('sub-titulo').style.display = 'none';
             document.getElementById('main-slogan').style.display = 'none';
@@ -232,13 +227,12 @@
         }
 
         function navegarPara(destino) {
-            // Sincroniza dados guardados na memória do celular antes de mudar de tela
             db = JSON.parse(localStorage.getItem('ogroteam_db')) || { alunos: [] };
-            
             document.getElementById('screen-menu-gestores').style.display = 'none';
             document.getElementById('screen-form-cadastro').style.display = 'none';
             document.getElementById('screen-form-ct').style.display = 'none';
             document.getElementById('screen-dashboard-financeiro').style.display = 'none';
+            document.getElementById('screen-gestao-admins').style.display = 'none';
 
             if (destino === 'menu') {
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
@@ -248,52 +242,62 @@
                 document.getElementById('screen-form-ct').style.display = 'flex';
             } else if (destino === 'dashboard') {
                 document.getElementById('screen-dashboard-financeiro').style.display = 'flex';
-                // Restaura inputs de valor gravados
                 document.getElementById('val-comercial').value = configFinanceira.comercial;
                 document.getElementById('val-atleta').value = configFinanceira.atleta;
                 document.getElementById('val-instrutor').value = configFinanceira.instrutor;
                 recalcularFluxo();
             } else if (destino === 'adicionar-admin') {
-                alert("Módulo 'Adicionar Administradores' selecionado. Criaremos esta página em seguida!");
-                document.getElementById('screen-menu-gestores').style.display = 'grid';
+                document.getElementById('screen-gestao-admins').style.display = 'flex';
+                renderizarListaAdmins();
             }
         }
 
         function alternarBloqueioPreco() {
             const inputs = ['val-comercial', 'val-atleta', 'val-instrutor'];
             const btn = document.getElementById('btn-edit-lock');
-            
             if (precosBloqueados) {
-                // Modo Edição Liberado
-                inputs.forEach(id => {
-                    document.getElementById(id).disabled = false;
-                    document.getElementById(id).style.backgroundColor = "#111827";
-                });
-                btn.textContent = "Salvar Preços";
-                btn.style.backgroundColor = "#16a34a";
-                btn.style.borderColor = "#22c55e";
-                btn.style.color = "#ffffff";
-                precosBloqueados = false;
+                inputs.forEach(id => { document.getElementById(id).disabled = false; document.getElementById(id).style.backgroundColor = "#111827"; });
+                btn.textContent = "Salvar Preços"; btn.style.backgroundColor = "#16a34a"; precosBloqueados = false;
             } else {
-                // Modo Salvar Ativado
                 configFinanceira.comercial = parseFloat(document.getElementById('val-comercial').value) || 0;
                 configFinanceira.atleta = parseFloat(document.getElementById('val-atleta').value) || 0;
                 configFinanceira.instrutor = parseFloat(document.getElementById('val-instrutor').value) || 0;
-                
                 localStorage.setItem('ogroteam_financeiro_config', JSON.stringify(configFinanceira));
-                
-                inputs.forEach(id => {
-                    document.getElementById(id).disabled = true;
-                    document.getElementById(id).style.backgroundColor = "#1f2937";
-                });
-                btn.textContent = "Editar Valores";
-                btn.style.backgroundColor = "#1f2937";
-                btn.style.borderColor = "#dc2626";
-                btn.style.color = "#f87171";
-                precosBloqueados = true;
-                
+                inputs.forEach(id => { document.getElementById(id).disabled = true; document.getElementById(id).style.backgroundColor = "#1f2937"; });
+                btn.textContent = "Editar Valores"; btn.style.backgroundColor = "#1f2937"; precosBloqueados = true;
                 recalcularFluxo();
-                alert("⚙️ Valores de mensalidade atualizados para toda a rede!");
+            }
+        }
+
+        function renderizarListaAdmins() {
+            const container = document.getElementById('lista-elegiveis-admin');
+            if(db.alunos.length === 0) {
+                container.innerHTML = "<p style='color:#6b7280; font-size:11px; text-align:center;'>Nenhum integrante cadastrado para promover.</p>";
+                return;
+            }
+
+            container.innerHTML = db.alunos.map(aluno => `
+                <div class="admin-item">
+                    <div>
+                        <p style="font-weight:bold; font-size:13px;">${aluno.nome}</p>
+                        <p style="font-size:10px; color:#dc2626; font-weight:700;">${aluno.is_admin ? 'PERMISSÃO: GESTOR ADMIN' : 'PERMISSÃO: APENAS ALUNO'}</p>
+                    </div>
+                    ${aluno.is_admin ? 
+                        `<button class="btn-demote" onclick="alterarCargoAdmin(${aluno.id}, false)">Remover Admin</button>` : 
+                        `<button class="btn-promote" onclick="alterarCargoAdmin(${aluno.id}, true)">Tornar Admin</button>`
+                    }
+                </div>
+            `).join('');
+        }
+
+        function alterarCargoAdmin(id, statusAdmin) {
+            const aluno = db.alunos.find(a => a.id === id);
+            if(aluno) {
+                aluno.is_admin = statusAdmin;
+                aluno.senha_admin = statusAdmin ? "ogro123" : null; // Define senha corporativa se virar admin
+                saveDB();
+                renderizarListaAdmins();
+                alert(statusAdmin ? `🔒 ${aluno.nome} agora possui acesso master! Senha padrão: ogro123` : `❌ Permissões revogadas para ${aluno.nome}`);
             }
         }
 
@@ -302,7 +306,6 @@
             const pAtleta = configFinanceira.atleta;
             const pInstrutor = configFinanceira.instrutor;
 
-            // Filtros de contagem corrigidos para bater 100% com o formulário de cadastro
             const comerciais = db.alunos.filter(a => a.perfil_tipo === 'aluno-comercial');
             const atletas = db.alunos.filter(a => a.perfil_tipo === 'aluno-atleta');
             const instrutores = db.alunos.filter(a => a.perfil_tipo === 'aluno-instrutor');
@@ -313,72 +316,35 @@
             document.getElementById('count-instrutor').textContent = instrutores.length;
             document.getElementById('count-bolsista').textContent = bolsistas.length;
 
-            let totalEntrou = 0;
-            let totalPendente = 0;
-            let htmlInadimplentes = "";
+            let totalEntrou = 0; let totalPendente = 0; let htmlInadimplentes = "";
 
             db.alunos.forEach(aluno => {
-                let valorMensalidade = 0;
-                if (aluno.perfil_tipo === 'aluno-comercial') valorMensalidade = pComercial;
-                else if (aluno.perfil_tipo === 'aluno-atleta') valorMensalidade = pAtleta;
-                else if (aluno.perfil_tipo === 'aluno-instrutor') valorMensalidade = pInstrutor;
+                let v = 0;
+                if (aluno.perfil_tipo === 'aluno-comercial') v = pComercial;
+                else if (aluno.perfil_tipo === 'aluno-atleta') v = pAtleta;
+                else if (aluno.perfil_tipo === 'aluno-instrutor') v = pInstrutor;
 
-                if (aluno.status === 'Em dia') {
-                    totalEntrou += valorMensalidade;
-                } else {
-                    totalPendente += valorMensalidade;
-                    htmlInadimplentes += `
-                        <div style="background-color:#111827; padding:10px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid #7f1d1d;">
-                            <div>
-                                <p style="font-weight:bold; color:#f3f4f6;">${aluno.nome}</p>
-                                <p style="font-size:10px; color:#a1a1aa;">${aluno.perfil_tipo.replace('aluno-', '').toUpperCase()}</p>
-                            </div>
-                            <span style="color:#f87171; font-weight:bold; font-family:monospace;">- R$ ${valorMensalidade.toFixed(2)}</span>
-                        </div>
-                    `;
+                if (aluno.status === 'Em dia') totalEntrou += v;
+                else {
+                    totalPendente += v;
+                    htmlInadimplentes += `<div style="background-color:#111827; padding:10px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; border:1px solid #7f1d1d;"><div><p style="font-weight:bold;">${aluno.nome}</p></div><span style="color:#f87171; font-weight:bold;">- R$ ${v.toFixed(2)}</span></div>`;
                 }
             });
-
-            if(htmlInadimplentes === "") {
-                htmlInadimplentes = "<p style='color:#a1a1aa; text-align:center; font-size:11px; padding:10px;'>🥋 Todos os atletas estão em dia!</p>";
-            }
-
             document.getElementById('cash-entrou').textContent = "R$ " + totalEntrou.toFixed(2);
             document.getElementById('cash-pendente').textContent = "R$ " + totalPendente.toFixed(2);
             document.getElementById('cash-total').textContent = "R$ " + (totalEntrou + totalPendente).toFixed(2);
-            document.getElementById('lista-inadimplentes').innerHTML = htmlInadimplentes;
+            document.getElementById('lista-inadimplentes').innerHTML = htmlInadimplentes || "<p style='color:#6b7280; font-size:11px; text-align:center;'>Todos em dia! OSS.</p>";
         }
 
         function salvarNovoCadastro() {
             const nome = document.getElementById('in-nome').value.trim();
-            if(!nome) { alert("O Nome Completo do Atleta é obrigatório!"); return; }
-
-            const novo = {
-                id: Date.now(),
-                nome: nome,
-                perfil_tipo: document.getElementById('in-perfil').value,
-                status: "Em dia", // Por padrão entra ativo/em dia
-                presencas: 0,
-                telefone: "55" + document.getElementById('in-tel').value.replace(/\D/g, '')
-            };
-            
-            db.alunos.push(novo);
-            saveDB();
-            
-            // Limpa o formulário de cadastro
-            document.getElementById('in-nome').value = '';
-            document.getElementById('in-tel').value = '';
-            
-            alert("🥋 Atleta registrado com sucesso na base corporativa!");
-            navegarPara('menu');
+            if(!nome) { alert("Nome é obrigatório!"); return; }
+            const novo = { id: Date.now(), nome: nome, perfil_tipo: document.getElementById('in-perfil').value, status: "Em dia", presencas: 0, is_admin: false };
+            db.alunos.push(novo); saveDB();
+            alert("Atleta registrado!"); navegarPara('menu');
         }
 
-        function salvarNovoCT() {
-            const fantasia = document.getElementById('ct-fantasia').value.trim();
-            if(!fantasia) { alert("Nome Fantasia é obrigatório!"); return; }
-            alert("🏛️ CT '" + fantasia + "' gravado!");
-            navegarPara('menu');
-        }
+        function salvarNovoCT() { alert("CT Gravado!"); navegarPara('menu'); }
     </script>
 </body>
 </html>
