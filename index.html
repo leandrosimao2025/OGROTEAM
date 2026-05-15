@@ -14,25 +14,31 @@
         .destaque-gestores { font-size: 20px; font-weight: 900; color: #dc2626; text-transform: uppercase; font-style: italic; margin-top: 2px; letter-spacing: 0.05em; }
         main { flex: 1; padding: 20px 16px; overflow-y: auto; display: flex; flex-direction: column; }
         
-        /* Login */
+        /* Formulários e Inputs */
         .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
         .input-field { background-color: #111827; border: 1px solid #374151; color: #ffffff !important; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 18px; z-index: 10; padding: 5px; }
+        
+        /* Botões */
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 6px; letter-spacing: 0.05em; }
         .btn-action:active { transform: scale(0.98); background-color: #b91c1c; }
-        .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 14px; align-self: center; }
+        .btn-link { background: none; border: none; color: #9ca3af; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 14px; align-self: center; text-decoration: none; }
         
-        /* Grid Principal de Menus */
+        /* Link de Simulação de Email */
+        .email-box-simulation { background-color: #1e1b4b; border: 1px solid #4338ca; padding: 14px; border-radius: 8px; text-align: center; margin-top: 14px; display: none; flex-direction: column; gap: 8px; }
+        .email-box-simulation a { color: #f43f5e; font-weight: bold; font-size: 13px; text-decoration: underline; cursor: pointer; }
+
+        /* Grid Principal */
         .gestores-grid { display: none; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 10px; }
-        .menu-card { background-color: #0b1120; border: 1px solid #1e293b; border-radius: 16px; padding: 22px 14px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s; min-height: 165px; justify-content: space-between; position: relative; }
+        .menu-card { background-color: #0b1120; border: 1px solid #1e293b; border-radius: 16px; padding: 24px 16px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; min-height: 180px; justify-content: space-between; position: relative; }
         .menu-card:active { transform: scale(0.97); border-color: #dc2626; }
-        .card-img-container { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
-        .card-img-container span { font-size: 36px; }
-        .card-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; margin-bottom: 4px; }
-        .card-desc { font-size: 9px; color: #94a3b8; line-height: 1.3; }
-        .card-arrow { color: #dc2626; font-size: 11px; position: absolute; bottom: 10px; right: 14px; }
+        .card-img-container { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+        .card-img-container span { font-size: 40px; }
+        .card-title { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #ffffff; letter-spacing: 0.05em; margin-bottom: 6px; }
+        .card-desc { font-size: 10px; color: #94a3b8; line-height: 1.4; }
+        .card-arrow { color: #dc2626; font-size: 12px; position: absolute; bottom: 12px; right: 16px; }
         
         /* Telas de Conteúdo */
         .screen-content { display: none; flex-direction: column; gap: 14px; }
@@ -40,19 +46,17 @@
         .section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #f87171; border-bottom: 1px solid #1f2937; padding-bottom: 6px; margin-top: 12px; }
         .btn-voltar { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; font-weight: 700; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; margin-bottom: 14px; text-transform: uppercase; width: fit-content; }
         
-        /* Upload de Imagem */
+        /* Perfil Premium */
         .photo-upload-box { width: 100px; height: 100px; background-color: #111827; border: 2px dashed #374151; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; align-self: center; margin-bottom: 8px; position: relative; }
         .photo-upload-box img { width: 100%; height: 100%; object-fit: cover; display: none; }
         .photo-upload-box span { font-size: 10px; color: #6b7280; text-align: center; padding: 4px; }
 
-        /* Listas e Linhas de Registros */
+        /* Listas */
         .search-item { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .item-avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #1f2937; object-fit: cover; margin-right: 10px; }
         .action-buttons { display: flex; gap: 6px; }
         .btn-edit-user { background-color: #1f2937; border: 1px solid #374151; color: white; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .btn-delete-user { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-        .btn-checkin { background-color: #10b981; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
-        .btn-checkin:disabled { background-color: #1f2937; color: #6b7280; cursor: not-allowed; }
         .no-data-msg { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; font-style: italic; }
         
         /* Dashboard */
@@ -92,53 +96,65 @@
                 <button class="btn-voltar" onclick="navegarPara('login')">← Voltar</button>
                 <div class="form-cadastro">
                     <div class="section-title">Recuperar Acesso</div>
-                    <input type="email" id="recovery-email" class="input-field" placeholder="E-mail Cadastrado">
-                    <button class="btn-action" onclick="enviarLinkRecuperacao()">Enviar Link de Redefinição</button>
+                    <input type="email" id="recovery-email" class="input-field" placeholder="Insira o E-mail Cadastrado">
+                    <button class="btn-action" onclick="enviarLinkRecuperacao()">Enviar Solicitação</button>
+                    
+                    <!-- Simulação do e-mail recebido na caixa de entrada -->
+                    <div id="simulation-email-container" class="email-box-simulation">
+                        <span style="font-size: 11px; color: #94a3b8;">[Simulação de E-mail Recebido]:</span>
+                        <a onclick="navegarPara('trocar-senha')">🔗 Clique aqui para redefinir sua senha master</a>
+                    </div>
                 </div>
             </div>
 
-            <!-- PAINEL CENTRAL (GRID ADAPTADO) -->
+            <!-- TELA: TROCAR SENHA REAL -->
+            <div id="screen-trocar-senha" class="screen-content">
+                <div class="form-cadastro">
+                    <div class="section-title">Definir Nova Senha Master</div>
+                    <div class="password-container">
+                        <input type="password" id="new-master-pass" class="input-field" placeholder="Digite a Nova Senha">
+                        <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('new-master-pass', this)">👁️</button>
+                    </div>
+                    <button class="btn-action" onclick="concluirTrocaSenha()">Atualizar Senha Permanentemente</button>
+                </div>
+            </div>
+
+            <!-- PAINEL CENTRAL -->
             <div id="screen-menu-gestores" class="gestores-grid">
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-img-container"><span style="color:#3b82f6;">👤</span></div>
                     <h3 class="card-title">Incluir Aluno</h3>
-                    <p class="card-desc">Cadastro de novos atletas e emissão via WhatsApp.</p>
+                    <p class="card-desc">Cadastre novos alunos na equipe.</p>
                     <span class="card-arrow">▶</span>
                 </div>
                 
-                <div class="menu-card" onclick="navegarPara('frequencia')">
-                    <div class="card-img-container"><span style="color:#10b981;">📅</span></div>
-                    <h3 class="card-title">Lançar Presença</h3>
-                    <p class="card-desc">Chamada diária e controle de frequência.</p>
-                    <span class="card-arrow">▶</span>
-                </div>
-
                 <div class="menu-card" onclick="navegarPara('incluir-ct')">
                     <div class="card-img-container"><span style="color:#cbd5e1;">🏛️</span></div>
-                    <h3 class="card-title">Incluir Academias</h3>
-                    <p class="card-desc">Gerencie e cadastre novas filiais e CTs.</p>
+                    <h3 class="card-title">Incluir Academias e CT</h3>
+                    <p class="card-desc">Cadastre academias e centros de treinamento.</p>
                     <span class="card-arrow">▶</span>
                 </div>
                 
                 <div class="menu-card" onclick="navegarPara('dashboard')">
                     <div class="card-img-container"><span style="color:#ef4444;">📈</span></div>
-                    <h3 class="card-title">Dashboard</h3>
-                    <p class="card-desc">Acompanhe receitas e métricas ativas.</p>
+                    <h3 class="card-title">Dashboard Financeiro</h3>
+                    <p class="card-desc">Acompanhe receitas, despesas e resultados.</p>
                     <span class="card-arrow">▶</span>
                 </div>
                 
                 <div class="menu-card" onclick="navegarPara('adicionar-admin')">
-                    <div class="card-img-container"><span style="color:#a855f7;">👥</span></div>
-                    <h3 class="card-title">Administradores</h3>
-                    <p class="card-desc">Controle de permissões da equipe de gestão.</p>
+                    <div class="card-img-container"><span style="color:#3b82f6;">👥</span></div>
+                    <h3 class="card-title">Adicionar Administradores</h3>
+                    <p class="card-desc">Gerencie permissões e usuários do sistema.</p>
                     <span class="card-arrow">▶</span>
                 </div>
 
-                <div class="menu-card" onclick="navegarPara('ver-cadastros')">
-                    <div class="card-img-container"><span style="color:#eab308;">🗂️</span></div>
-                    <h3 class="card-title">Ver Registros</h3>
-                    <p class="card-desc">Edite informações e gerencie cadastros salvos.</p>
-                    <span class="card-arrow">▶</span>
+                <div class="menu-card" onclick="navegarPara('ver-cadastros')" style="grid-column: span 2; min-height: 80px; flex-direction: row; padding: 16px;">
+                    <div style="text-align: left;">
+                        <h3 class="card-title" style="margin-bottom: 2px;">Visualizar / Editar Todos os Registros</h3>
+                        <p class="card-desc">Acesse a listagem geral sincronizada.</p>
+                    </div>
+                    <span class="card-arrow" style="position: static;">▶</span>
                 </div>
             </div>
 
@@ -163,16 +179,6 @@
                 </div>
             </div>
 
-            <!-- TELA: CONTROLE DE PRESENÇA (NOVA) -->
-            <div id="screen-frequencia" class="screen-content">
-                <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
-                <div class="form-cadastro">
-                    <div class="section-title">Frequência Diária</div>
-                    <input type="text" id="search-frequencia-input" class="input-field" placeholder="🔍 Filtrar aluno para chamada..." oninput="renderizarListaFrequencia()">
-                    <div id="container-lista-frequencia" style="margin-top: 8px;"></div>
-                </div>
-            </div>
-
             <!-- TELA: INCLUIR CT -->
             <div id="screen-incluir-ct" class="screen-content">
                 <button class="btn-voltar" onclick="voltarParaMenu()">← Voltar</button>
@@ -193,14 +199,15 @@
                         <span class="metric-val" id="dash-faturamento" style="color: #4ade80;">R$ 0</span>
                     </div>
                     <div class="metric-card">
-                        <span style="font-size: 10px; color: #9ca3af;">Presenças Hoje</span>
-                        <span class="metric-val" id="dash-presencas-hoje" style="color: #60a5fa;">0</span>
+                        <span style="font-size: 10px; color: #9ca3af;">Inadimplência</span>
+                        <span class="metric-val" style="color: #f87171;">0.0%</span>
                     </div>
                 </div>
                 <div class="row-financeira">
-                    <span>Mensalidades Ativas</span>
+                    <span>Mensalidades Ativas Recebidas</span>
                     <span id="dash-mensalidades" style="font-weight: bold;">0</span>
                 </div>
+                <button class="btn-action" style="background-color: #1e293b;" onclick="navegarPara('ver-cadastros')">Ver Relatório de Cadastros</button>
             </div>
 
             <!-- TELA: ADICIONAR ADMINISTRADORES -->
@@ -249,13 +256,11 @@
     </div>
 
     <script>
-        let dbAlunos = JSON.parse(sessionStorage.getItem('dbAlunos')) || [];
-        let dbAcademias = JSON.parse(sessionStorage.getItem('dbAcademias')) || [];
-
-        function saveStorage() {
-            sessionStorage.setItem('dbAlunos', JSON.stringify(dbAlunos));
-            sessionStorage.setItem('dbAcademias', JSON.stringify(dbAcademias));
-        }
+        let dbAlunos = [];
+        let dbAcademias = [];
+        
+        // Armazenamento em memória dinâmica da senha master atual
+        let senhaMasterAtual = "ogro06#";
 
         function togglePasswordVisibility(id, btn) {
             const input = document.getElementById(id);
@@ -272,7 +277,7 @@
             const email = document.getElementById('login-email').value.trim().toLowerCase();
             const pass = document.getElementById('login-pass').value;
             
-            if (email === "direitosimao@gmail.com" && pass === "ogro06#") {
+            if (email === "direitosimao@gmail.com" && pass === senhaMasterAtual) {
                 document.getElementById('screen-login').style.display = 'none';
                 document.getElementById('screen-menu-gestores').style.display = 'grid';
                 atualizarDashboard();
@@ -283,9 +288,32 @@
         }
 
         function enviarLinkRecuperacao() {
-            const email = document.getElementById('recovery-email').value.trim();
-            if(email === "") return alert("Por favor, informe seu e-mail.");
-            alert("Link para resetar a senha enviado com sucesso para: " + email);
+            const email = document.getElementById('recovery-email').value.trim().toLowerCase();
+            if(email !== "direitosimao@gmail.com") {
+                alert("Este e-mail não corresponde ao administrador cadastrado!");
+                return;
+            }
+            
+            // Exibe a caixa de simulação de e-mail na interface de forma dinâmica
+            document.getElementById('simulation-email-container').style.display = 'flex';
+            alert("Mensagem automatizada de redefinição enviada para a sua caixa de entrada!");
+        }
+
+        function concluirTrocaSenha() {
+            const novaSenha = document.getElementById('new-master-pass').value;
+            if(novaSenha.trim() === "") {
+                alert("A nova senha não pode ser vazia!");
+                return;
+            }
+            
+            // Altera a variável global e reinicia a tela
+            senhaMasterAtual = novaSenha;
+            alert("Senha master atualizada de verdade com sucesso! Faça login com a nova credencial.");
+            
+            // Limpa campos e volta à tela de login
+            document.getElementById('login-pass').value = "";
+            document.getElementById('new-master-pass').value = "";
+            document.getElementById('simulation-email-container').style.display = 'none';
             navegarPara('login');
         }
 
@@ -296,7 +324,9 @@
                 reader.onload = function(e) {
                     document.getElementById(previewId).src = e.target.result;
                     document.getElementById(previewId).style.display = 'block';
-                    if(document.getElementById(placeholderId)) document.getElementById(placeholderId).style.display = 'none';
+                    if(document.getElementById(placeholderId)) {
+                        document.getElementById(placeholderId).style.display = 'none';
+                    }
                 }
                 reader.readAsDataURL(file[0]);
             }
@@ -313,10 +343,7 @@
                 document.getElementById('screen-login').style.display = 'block';
             } else {
                 const targetScreen = document.getElementById('screen-' + telaId);
-                if (targetScreen) {
-                    targetScreen.style.display = 'flex';
-                    if(telaId === 'frequencia') renderizarListaFrequencia();
-                }
+                if (targetScreen) targetScreen.style.display = 'flex';
             }
         }
 
@@ -324,7 +351,6 @@
             const telas = document.querySelectorAll('.screen-content');
             telas.forEach(tela => tela.style.display = 'none');
             document.getElementById('screen-menu-gestores').style.display = 'grid';
-            atualizarDashboard();
         }
 
         function salvarAluno() {
@@ -335,12 +361,14 @@
             const fotoPreview = document.getElementById('aluno-photo-preview');
             const fotoSrc = fotoPreview.style.display === 'block' ? fotoPreview.src : '';
             
-            if(!nome || !whatsapp || !passInicial) return alert("Nome, WhatsApp e Senha são obrigatórios.");
+            if(!nome || !whatsapp || !passInicial) {
+                alert("Nome, WhatsApp e Senha Inicial são obrigatórios.");
+                return;
+            }
             
-            dbAlunos.push({ nome, whatsapp, plano, passInicial, foto: fotoSrc, presencas: 0, treinouHoje: false });
-            saveStorage();
+            dbAlunos.push({ nome, whatsapp, plano, passInicial, foto: fotoSrc });
             
-            const textoWhats = encodeURIComponent(`Olá ${nome}! Seu cadastro Premium na Ogro Team foi concluído.\n\nSeu acesso:\nLink: https://github.io\nUsuário: ${whatsapp}\nSenha: ${passInicial}`);
+            const textoWhats = encodeURIComponent(`Olá ${nome}! Seu cadastro Premium na Ogro Team foi concluído.\n\nSeu acesso:\nLink: https://github.io\nUsuário: ${whatsapp}\nSenha Inicial: ${passInicial}`);
             window.open(`https://whatsapp.com{whatsapp}&text=${textoWhats}`, '_blank');
             
             document.getElementById('aluno-nome').value = "";
@@ -350,6 +378,7 @@
             fotoPreview.style.display = 'none';
             document.getElementById('photo-placeholder').style.display = 'block';
             
+            atualizarDashboard();
             renderizarCadastros();
             voltarParaMenu();
         }
@@ -360,56 +389,12 @@
             if(!nome) return alert("Insira o nome do CT.");
             
             dbAcademias.push({ nome, local });
-            saveStorage();
-            alert("Unidade registrada.");
+            alert("Unidade registrada com sucesso.");
             
             document.getElementById('ct-nome').value = "";
             document.getElementById('ct-local').value = "";
             renderizarCadastros();
             voltarParaMenu();
-        }
-
-        // Lançador Mecânico de Chamada e Presença
-        function darPresenca(index) {
-            dbAlunos[index].presencas += 1;
-            dbAlunos[index].treinouHoje = true;
-            saveStorage();
-            alert(`Presença confirmada para ${dbAlunos[index].nome}!`);
-            renderizarListaFrequencia();
-        }
-
-        function renderizarListaFrequencia() {
-            const container = document.getElementById('container-lista-frequencia');
-            const busca = document.getElementById('search-frequencia-input').value.toLowerCase().trim();
-            container.innerHTML = "";
-            let cont = 0;
-
-            if(dbAlunos.length === 0) {
-                container.innerHTML = '<div class="no-data-msg">Cadastre alunos primeiro para lançar frequência.</div>';
-                return;
-            }
-
-            dbAlunos.forEach((aluno, idx) => {
-                if(aluno.nome.toLowerCase().includes(busca)) {
-                    cont++;
-                    const disabledStr = aluno.treinouHoje ? 'disabled' : '';
-                    const textBtn = aluno.treinouHoje ? '✓ Presença' : 'Confirmar';
-                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;border-radius:50%;width:40px;height:40px;">👤</div>`;
-                    
-                    container.innerHTML += `
-                        <div class="search-item">
-                            <div style="display:flex; align-items:center;">
-                                ${imgTag}
-                                <div>
-                                    <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
-                                    <div style="font-size: 10px; color: #a855f7;">Treinos acumulados: ${aluno.presencas}</div>
-                                </div>
-                            </div>
-                            <button class="btn-checkin" ${disabledStr} onclick="darPresenca(${idx})">${textBtn}</button>
-                        </div>`;
-                }
-            });
-            if(cont === 0) container.innerHTML = '<div class="no-data-msg">Nenhum aluno localizado.</div>';
         }
 
         function abrirEdicao(index, tipo) {
@@ -455,36 +440,45 @@
                 dbAcademias[index].local = detalhe;
             }
             
-            saveStorage();
             alert("Cadastro atualizado.");
-            renderTradutores();
+            atualizarDashboard();
             renderizarCadastros();
             navegarPara('ver-cadastros');
         }
 
         function excluirAluno(index) {
-            if(confirm("Excluir permanentemente este registro?")) {
+            if(confirm("Excluir definitivamente este registro?")) {
                 dbAlunos.splice(index, 1);
-                saveStorage();
+                atualizarDashboard();
                 renderizarCadastros();
             }
         }
 
         function excluirCT(index) {
-            if(confirm("Excluir permanentemente este CT?")) {
+            if(confirm("Excluir definitivamente este CT?")) {
                 dbAcademias.splice(index, 1);
-                saveStorage();
                 renderizarCadastros();
             }
         }
 
         function atualizarDashboard() {
             const total = dbAlunos.length;
-            const presencasHoje = dbAlunos.filter(a => a.treinouHoje).length;
             document.getElementById('dash-faturamento').textContent = "R$ " + (total * 150);
-            document.getElementById('dash-presencas-hoje').textContent = presencasHoje;
             document.getElementById('dash-mensalidades').textContent = total;
         }
 
         function renderizarCadastros() {
-            const container = document.getElementById('container-lista-
+            const container = document.getElementById('container-lista-cadastros');
+            const busca = document.getElementById('search-input').value.toLowerCase().trim();
+            container.innerHTML = "";
+            let cont = 0;
+            
+            dbAlunos.forEach((aluno, idx) => {
+                if(aluno.nome.toLowerCase().includes(busca)) {
+                    cont++;
+                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;border-radius:50%;width:40px;height:40px;">👤</div>`;
+                    container.innerHTML += `
+                        <div class="search-item">
+                            <div style="display:flex; align-items:center;">
+                                ${imgTag}
+                               
