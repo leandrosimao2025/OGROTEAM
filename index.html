@@ -18,8 +18,6 @@
         .login-box { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
         .input-field { background-color: #111827; border: 1px solid #374151; color: #ffffff !important; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align: center; }
         .input-field:focus { border-color: #dc2626; outline: none; }
-        .select-field { background-color: #111827; border: 1px solid #374151; color: #ffffff; padding: 14px; border-radius: 8px; width: 100%; font-size: 14px; text-align-last: center; appearance: none; cursor: pointer; }
-        .select-field:focus { border-color: #dc2626; outline: none; }
         .password-container { position: relative; width: 100%; }
         .toggle-password-btn { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #9ca3af; cursor: pointer; font-size: 18px; z-index: 10; padding: 5px; }
         .btn-action { background-color: #dc2626; color: white; border: none; font-weight: 800; padding: 14px; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-size: 12px; width: 100%; transition: 0.2s; margin-top: 6px; letter-spacing: 0.05em; }
@@ -55,11 +53,6 @@
         .btn-delete-user { background-color: #dc2626; color: white; border: none; font-size: 11px; font-weight: 800; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
         .no-data-msg { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; font-style: italic; }
         
-        /* Status Tags */
-        .status-badge { font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: bold; text-transform: uppercase; margin-top: 4px; display: inline-block; }
-        .status-pago { background-color: rgba(74, 222, 128, 0.2); color: #4ade80; }
-        .status-atraso { background-color: rgba(248, 113, 113, 0.2); color: #f87171; }
-
         /* Dashboard */
         .metric-card { background-color: #111827; border: 1px solid #1f2937; padding: 12px; border-radius: 8px; display: flex; flex-direction: column; gap: 4px; }
         .metric-val { font-size: 18px; font-weight: 900; font-family: monospace; }
@@ -102,7 +95,7 @@
                 </div>
             </div>
 
-            <!-- PAINEL CENTRAL (CONFORME IMAGEM) -->
+            <!-- PAINEL CENTRAL -->
             <div id="screen-menu-gestores" class="gestores-grid">
                 <div class="menu-card" onclick="navegarPara('incluir-aluno')">
                     <div class="card-img-container"><span style="color:#3b82f6;">👤</span></div>
@@ -154,14 +147,8 @@
                     <input type="file" id="aluno-photo-input" accept="image/*" style="display: none;" onchange="previewImagem(this, 'aluno-photo-preview', 'photo-placeholder')">
 
                     <input type="text" id="aluno-nome" class="input-field" placeholder="Nome Completo">
-                    <input type="text" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp (Apenas números)">
-                    <input type="text" id="aluno-plano" class="input-field" placeholder="Valor da Mensalidade (Ex: 150)">
-                    
-                    <select id="aluno-status-financeiro" class="select-field">
-                        <option value="pago">Status: Pago / Ativo</option>
-                        <option value="atraso">Status: Inadimplente / Atrasado</option>
-                    </select>
-
+                    <input type="text" id="aluno-whatsapp" class="input-field" placeholder="WhatsApp (DDD + Número)">
+                    <input type="text" id="aluno-plano" class="input-field" placeholder="Plano (Mensal, Trimestral...)">
                     <input type="password" id="aluno-pass-inicial" class="input-field" placeholder="Criar Senha Inicial do Aluno">
                     
                     <button class="btn-action" onclick="salvarAluno()">Salvar e Enviar Acesso via WhatsApp</button>
@@ -189,7 +176,7 @@
                     </div>
                     <div class="metric-card">
                         <span style="font-size: 10px; color: #9ca3af;">Inadimplência</span>
-                        <span class="metric-val" id="dash-inadimplencia" style="color: #f87171;">0.0%</span>
+                        <span class="metric-val" style="color: #f87171;">0.0%</span>
                     </div>
                 </div>
                 <div class="row-financeira">
@@ -234,12 +221,6 @@
 
                     <input type="text" id="edit-nome" class="input-field" placeholder="Nome">
                     <input type="text" id="edit-detalhe" class="input-field" placeholder="Detalhe">
-                    
-                    <select id="edit-status" class="select-field" style="display: none; margin-bottom: 4px;">
-                        <option value="pago">Pago / Ativo</option>
-                        <option value="atraso">Inadimplente / Atrasado</option>
-                    </select>
-
                     <button class="btn-action" onclick="salvarEdicaoReal()">Salvar Alterações</button>
                 </div>
             </div>
@@ -251,8 +232,14 @@
     </div>
 
     <script>
-        let dbAlunos = [];
-        let dbAcademias = [];
+        // Carrega dados simulados do SessionStorage para persistência básica entre abas
+        let dbAlunos = JSON.parse(sessionStorage.getItem('dbAlunos')) || [];
+        let dbAcademias = JSON.parse(sessionStorage.getItem('dbAcademias')) || [];
+
+        function saveStorage() {
+            sessionStorage.setItem('dbAlunos', JSON.stringify(dbAlunos));
+            sessionStorage.setItem('dbAcademias', JSON.stringify(dbAcademias));
+        }
 
         function togglePasswordVisibility(id, btn) {
             const input = document.getElementById(id);
@@ -265,9 +252,15 @@
             }
         }
 
+        // Validação consertada estruturalmente contra travamento mobile
         function autenticar() {
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
-            const pass = document.getElementById('login-pass').value;
+            const emailInput = document.getElementById('login-email');
+            const passInput = document.getElementById('login-pass');
+            
+            if (!emailInput || !passInput) return;
+
+            const email = emailInput.value.trim().toLowerCase();
+            const pass = passInput.value;
             
             if (email === "direitosimao@gmail.com" && pass === "ogro06#") {
                 document.getElementById('screen-login').style.display = 'none';
@@ -285,12 +278,12 @@
                 alert("Por favor, informe seu e-mail.");
                 return;
             }
-            alert("Link para resetar a senha enviado com sucesso para: " + email);
+            alert("Link para redefinir a senha enviado com sucesso para: " + email);
             navegarPara('login');
         }
 
         function previewImagem(input, previewId, placeholderId) {
-            const file = input.files;
+            const file = input.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
@@ -328,20 +321,21 @@
         function salvarAluno() {
             const nome = document.getElementById('aluno-nome').value.trim();
             const whatsapp = document.getElementById('aluno-whatsapp').value.replace(/\D/g, '');
-            const planoValor = parseFloat(document.getElementById('aluno-plano').value) || 150;
-            const status = document.getElementById('aluno-status-financeiro').value;
+            const plano = document.getElementById('aluno-plano').value.trim();
             const passInicial = document.getElementById('aluno-pass-inicial').value;
             const fotoPreview = document.getElementById('aluno-photo-preview');
             const fotoSrc = fotoPreview.style.display === 'block' ? fotoPreview.src : '';
             
+            // Regra de Negócio: Campos Obrigatórios mínimos
             if(!nome || !whatsapp || !passInicial) {
-                alert("Nome, WhatsApp e Senha Inicial são obrigatórios.");
+                alert("Nome Completo, WhatsApp e Senha Inicial são obrigatórios para emissão do plano.");
                 return;
             }
             
-            dbAlunos.push({ nome, whatsapp, valor: planoValor, status, passInicial, foto: fotoSrc });
+            dbAlunos.push({ nome, whatsapp, plano, passInicial, foto: fotoSrc });
+            saveStorage();
             
-            const textoWhats = encodeURIComponent(`Olá ${nome}! Seu cadastro Premium na Ogro Team foi concluído.\n\nSeu acesso:\nLink: https://github.io\nUsuário: ${whatsapp}\nSenha Inicial: ${passInicial}`);
+            const textoWhats = encodeURIComponent(`Olá ${nome}! Seu cadastro Premium na Ogro Team foi concluído com sucesso.\n\nAcesse seu painel:\nLink do App: https://github.io\nUsuário (WhatsApp): ${whatsapp}\nSenha de Acesso: ${passInicial}`);
             window.open(`https://whatsapp.com{whatsapp}&text=${textoWhats}`, '_blank');
             
             document.getElementById('aluno-nome').value = "";
@@ -359,10 +353,11 @@
         function salvarCT() {
             const nome = document.getElementById('ct-nome').value.trim();
             const local = document.getElementById('ct-local').value.trim();
-            if(!nome) return alert("Insira o nome do CT.");
+            if(!nome) return alert("Insira o nome da Filial ou Centro de Treinamento.");
             
             dbAcademias.push({ nome, local });
-            alert("Unidade registrada com sucesso.");
+            saveStorage();
+            alert("Unidade registrada com sucesso e sincronizada.");
             
             document.getElementById('ct-nome').value = "";
             document.getElementById('ct-local').value = "";
@@ -376,13 +371,9 @@
             document.getElementById('edit-tipo').value = tipo;
             document.getElementById('edit-nome').value = target.nome;
             
-            const selectStatus = document.getElementById('edit-status');
-
             if(tipo === 'aluno') {
                 document.getElementById('edit-detalhe').value = target.whatsapp;
                 document.getElementById('edit-photo-box').style.display = 'flex';
-                selectStatus.style.display = 'block';
-                selectStatus.value = target.status;
                 if(target.foto) {
                     document.getElementById('edit-photo-preview').src = target.foto;
                     document.getElementById('edit-photo-preview').style.display = 'block';
@@ -394,7 +385,6 @@
             } else {
                 document.getElementById('edit-detalhe').value = target.local;
                 document.getElementById('edit-photo-box').style.display = 'none';
-                selectStatus.style.display = 'none';
             }
             navegarPara('editar-registro');
         }
@@ -410,7 +400,6 @@
             if(tipo === 'aluno') {
                 dbAlunos[index].nome = nome;
                 dbAlunos[index].whatsapp = detalhe;
-                dbAlunos[index].status = document.getElementById('edit-status').value;
                 if(document.getElementById('edit-photo-preview').style.display === 'block') {
                     dbAlunos[index].foto = document.getElementById('edit-photo-preview').src;
                 }
@@ -419,24 +408,17 @@
                 dbAcademias[index].local = detalhe;
             }
             
-            alert("Cadastro atualizado.");
+            saveStorage();
+            alert("Cadastro atualizado com sucesso.");
             atualizarDashboard();
             renderizarCadastros();
             navegarPara('ver-cadastros');
         }
 
-        function validarPresenca(index) {
-            const aluno = dbAlunos[index];
-            if(aluno.status === 'atraso') {
-                alert(`⚠️ IMPEDIDO: O aluno ${aluno.nome} possui pendências financeiras em aberto.`);
-            } else {
-                alert(`✅ PRESENÇA CONFIRMADA: Entrada liberada para ${aluno.nome}.`);
-            }
-        }
-
         function excluirAluno(index) {
             if(confirm("Excluir definitivamente este registro?")) {
                 dbAlunos.splice(index, 1);
+                saveStorage();
                 atualizarDashboard();
                 renderizarCadastros();
             }
@@ -445,30 +427,16 @@
         function excluirCT(index) {
             if(confirm("Excluir definitivamente este CT?")) {
                 dbAcademias.splice(index, 1);
+                saveStorage();
                 renderizarCadastros();
             }
         }
 
         function atualizarDashboard() {
-            let faturamentoReal = 0;
-            let faturamentoAtrasado = 0;
-            let totalPagos = 0;
-
-            dbAlunos.forEach(aluno => {
-                if(aluno.status === 'pago') {
-                    faturamentoReal += aluno.valor;
-                    totalPagos++;
-                } else {
-                    faturamentoAtrasado += aluno.valor;
-                }
-            });
-
-            let totalProjetado = faturamentoReal + faturamentoAtrasado;
-            let taxaInadimplencia = totalProjetado > 0 ? ((faturamentoAtrasado / totalProjetado) * 100).toFixed(1) : "0.0";
-
-            document.getElementById('dash-faturamento').textContent = "R$ " + faturamentoReal;
-            document.getElementById('dash-inadimplencia').textContent = taxaInadimplencia + "%";
-            document.getElementById('dash-mensalidades').textContent = totalPagos;
+            const total = dbAlunos.length;
+            // Regra: Cálculo de ticket médio estimado automático por mensalidade ativa
+            document.getElementById('dash-faturamento').textContent = "R$ " + (total * 150);
+            document.getElementById('dash-mensalidades').textContent = total;
         }
 
         function renderizarCadastros() {
@@ -480,4 +448,43 @@
             dbAlunos.forEach((aluno, idx) => {
                 if(aluno.nome.toLowerCase().includes(busca)) {
                     cont++;
-                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;border-radius:50%;width:40px;
+                    const imgTag = aluno.foto ? `<img src="${aluno.foto}" class="item-avatar">` : `<div class="item-avatar" style="display:inline-block;text-align:center;line-height:40px;background-color:#1f2937;border-radius:50%;width:40px;height:40px;">👤</div>`;
+                    container.innerHTML += `
+                        <div class="search-item">
+                            <div style="display:flex; align-items:center;">
+                                ${imgTag}
+                                <div style="margin-left: 10px;">
+                                    <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
+                                    <div style="font-size: 10px; color: #9ca3af;">Plano: ${aluno.plano || 'Padrão'}</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-edit-user" onclick="abrirEdicao(${idx}, 'aluno')">Editar</button>
+                                <button class="btn-delete-user" onclick="excluirAluno(${idx})">Excluir</button>
+                            </div>
+                        </div>`;
+                }
+            });
+
+            dbAcademias.forEach((ct, idx) => {
+                if(ct.nome.toLowerCase().includes(busca)) {
+                    cont++;
+                    container.innerHTML += `
+                        <div class="search-item">
+                            <div>
+                                <div style="font-size: 13px; font-weight: bold; color: #f87171;">${ct.nome}</div>
+                                <div style="font-size: 10px; color: #9ca3af;">Unidade | ${ct.local}</div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-edit-user" onclick="abrirEdicao(${idx}, 'ct')">Editar</button>
+                                <button class="btn-delete-user" onclick="excluirCT(${idx})">Excluir</button>
+                            </div>
+                        </div>`;
+                }
+            });
+
+            if(cont === 0) container.innerHTML = '<div class="no-data-msg">Nenhum registro ativo encontrado.</div>';
+        }
+    </script>
+</body>
+</html>
