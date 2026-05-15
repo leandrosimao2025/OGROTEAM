@@ -62,7 +62,7 @@
                 <div class="login-box">
                     <input type="text" class="input-field" value="Perfil: Administrador / Mestre" readonly style="color: #9ca3af; border-color: #1f2937;">
                     <div class="password-container">
-                        <input type="password" id="login-pass" class="input-field" placeholder="Clique abaixo para entrar diretamente">
+                        <input type="password" id="login-pass" class="input-field" placeholder="Digite a senha master">
                         <button type="button" class="toggle-password-btn" onclick="togglePasswordVisibility('login-pass', this)">👁️</button>
                     </div>
                     <button onclick="autenticar()" class="btn-action">Entrar no Sistema</button>
@@ -170,7 +170,7 @@
     </div>
 
     <script>
-        // BANCO DE DADOS ZERADO CONFORME SOLICITADO
+        // BANCO DE DADOS INICIALMENTE ZERADO
         let dbAlunos = [];
         let dbAcademias = [];
 
@@ -185,12 +185,17 @@
             }
         }
 
-        // FUNÇÃO DE LOGIN CORRIGIDA: LIBERAÇÃO DIRETA SEM VALIDAÇÃO DE SENHA RIGIDA
+        // VALIDAÇÃO EXCLUSIVA COM A SENHA SOLICITADA
         function autenticar() {
-            document.getElementById('screen-login').style.display = 'none';
-            document.getElementById('screen-menu-gestores').style.display = 'grid';
-            atualizarDashboard();
-            renderizarCadastros();
+            const pass = document.getElementById('login-pass').value;
+            if(pass === "ogro06#") {
+                document.getElementById('screen-login').style.display = 'none';
+                document.getElementById('screen-menu-gestores').style.display = 'grid';
+                atualizarDashboard();
+                renderizarCadastros();
+            } else {
+                alert("Senha master incorreta!");
+            }
         }
 
         function navegarPara(telaId) {
@@ -210,7 +215,6 @@
             document.getElementById('screen-menu-gestores').style.display = 'grid';
         }
 
-        // LÓGICA DE CADASTROS DINÂMICOS
         function salvarAluno() {
             const nome = document.getElementById('aluno-nome').value.trim();
             const whatsapp = document.getElementById('aluno-whatsapp').value.trim();
@@ -249,9 +253,8 @@
         }
 
         function atualizarDashboard() {
-            // Simulação de cálculo financeiro baseado nos alunos ativos cadastrados
             const totalAlunos = dbAlunos.length;
-            const valorMensalidade = 150; // valor fictício por aluno
+            const valorMensalidade = 150; 
             const faturamentoCalculado = totalAlunos * valorMensalidade;
             
             document.getElementById('dash-faturamento').textContent = "R$ " + faturamentoCalculado;
@@ -267,7 +270,6 @@
                 return;
             }
             
-            // Renderizar Alunos salvos
             dbAlunos.forEach(aluno => {
                 container.innerHTML += `
                     <div class="search-item">
@@ -275,12 +277,11 @@
                             <div style="font-size: 13px; font-weight: bold;">${aluno.nome}</div>
                             <div style="font-size: 10px; color: #9ca3af;">Aluno | ${aluno.detalhe}</div>
                         </div>
-                        <button class="btn-edit-user" onclick="alert('Modo de edição da versão mobile')">Editar</button>
+                        <button class="btn-edit-user" onclick="alert('Modo de edição')">Editar</button>
                     </div>
                 `;
             });
 
-            // Renderizar Academias salvas
             dbAcademias.forEach(ct => {
                 container.innerHTML += `
                     <div class="search-item">
@@ -288,7 +289,7 @@
                             <div style="font-size: 13px; font-weight: bold; color: #f87171;">${ct.nome}</div>
                             <div style="font-size: 10px; color: #9ca3af;">Academia / CT | ${ct.detalhe}</div>
                         </div>
-                        <button class="btn-edit-user" onclick="alert('Modo de edição da versão mobile')">Editar</button>
+                        <button class="btn-edit-user" onclick="alert('Modo de edição')">Editar</button>
                     </div>
                 `;
             });
